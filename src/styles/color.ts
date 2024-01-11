@@ -1,6 +1,4 @@
-import stylex from '@stylexjs/stylex';
-
-export const color = stylex.defineVars({
+export const color = {
   // main color
   darkGray: '#131313',
 
@@ -18,4 +16,4 @@ export const color = stylex.defineVars({
   // white & black
   white: '#FFFFFF',
   black: '#000000',
-});
+};
