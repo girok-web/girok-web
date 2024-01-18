@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { color } from './color';
 
 export default css`
   @font-face {
@@ -208,7 +209,7 @@ export default css`
   }
 
   body {
-    background-color: #f8f8f8;
+    background-color: ${color.gray0};
     display: flex;
     flex-direction: column;
     justify-content: center;
