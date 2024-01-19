@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { colorPalette } from '../styles/colorPalette';
 import { typographyMap } from '../styles/typography';
+import Text from '../shared/Text';
 
 export default function SignForm({ children, ...props }: PropsWithChildren<FormHTMLAttributes<HTMLFormElement>>) {
   return (
@@ -34,32 +35,13 @@ export default function SignForm({ children, ...props }: PropsWithChildren<FormH
 
 function Title({ name }: { name: string }) {
   return (
-    <h2
-      css={css({
-        fontSize: '32px',
-        fontWeight: '500',
-        letterSpacing: '-0.02em',
-        lineHeight: '1.3em',
-        textAlign: 'center',
-      })}
-    >
-      {name}
-    </h2>
+    <Text as='h2' typography="headline" textAlign="center">{name}</Text>
   );
 }
 
 function Description({ content }: { content: string }) {
   return (
-    <p
-      css={css({
-        fontSize: '16px',
-        fontWeight: '400',
-        letterSpacing: '-0.01em',
-        color: colorPalette.gray3,
-      })}
-    >
-      {content}
-    </p>
+    <Text as='p' typography="body2" color='gray3'>{content}</Text>
   );
 }
 
