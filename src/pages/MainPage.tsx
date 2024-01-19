@@ -1,16 +1,16 @@
 import { css } from '@emotion/react';
 import { Link } from 'react-router-dom';
-import { typography } from '../styles/typography';
-import { color } from '../styles/color';
+import { typographyMap } from '../styles/typography';
+import { colorPalette } from '../styles/colorPalette';
 
 export default function MainPage() {
   return (
     <div>
       <h2
         css={css([
-          typography.headline,
+          typographyMap.headline,
           {
-            color: color.darkGray,
+            color: colorPalette.darkGray,
           },
         ])}
       >
@@ -24,9 +24,9 @@ export default function MainPage() {
       >
         <Link
           css={css([
-            typography.body2,
+            typographyMap.body2,
             {
-              color: color.red,
+              color: colorPalette.red,
             },
           ])}
           to="/login/email"
@@ -35,9 +35,9 @@ export default function MainPage() {
         </Link>
         <Link
           css={css([
-            typography.body2,
+            typographyMap.body2,
             {
-              color: color.red,
+              color: colorPalette.red,
             },
           ])}
           to="/signup/email"
@@ -46,9 +46,9 @@ export default function MainPage() {
         </Link>
         <Link
           css={css([
-            typography.body2,
+            typographyMap.body2,
             {
-              color: color.red,
+              color: colorPalette.red,
             },
           ])}
           to="/reset/email"

@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-export const typography = {
+export const typographyMap = {
   headline: css`
     font-size: 32px;
     font-weight: 500;
@@ -27,4 +27,4 @@ export const typography = {
   `,
 };
 
-export type Typography = keyof typeof typography;
+export type Typography = keyof typeof typographyMap;

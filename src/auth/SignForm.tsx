@@ -7,8 +7,8 @@ import {
   PropsWithChildren,
   forwardRef,
 } from 'react';
-import { color } from '../styles/color';
-import { typography } from '../styles/typography';
+import { colorPalette } from '../styles/colorPalette';
+import { typographyMap } from '../styles/typography';
 
 export default function SignForm({ children, ...props }: PropsWithChildren<FormHTMLAttributes<HTMLFormElement>>) {
   return (
@@ -17,8 +17,8 @@ export default function SignForm({ children, ...props }: PropsWithChildren<FormH
         width: 480,
         height: 560,
         borderRadius: 8,
-        boxShadow: `0px 0px 3px 3px ${color.gray1}`,
-        backgroundColor: color.white,
+        boxShadow: `0px 0px 3px 3px ${colorPalette.gray1}`,
+        backgroundColor: colorPalette.white,
         padding: '128px 56px 0',
 
         display: 'flex',
@@ -55,7 +55,7 @@ function Description({ content }: { content: string }) {
         fontSize: '16px',
         fontWeight: '400',
         letterSpacing: '-0.01em',
-        color: color.gray3,
+        color: colorPalette.gray3,
       })}
     >
       {content}
@@ -85,15 +85,15 @@ const Input = forwardRef(function Input(
           width: '100%',
           height: 56,
           padding: '0px 16px',
-          border: error ? `1px solid ${color.red}` : `1px solid ${color.gray2}`,
+          border: error ? `1px solid ${colorPalette.red}` : `1px solid ${colorPalette.gray2}`,
           borderRadius: '4px',
 
           [':focus']: {
-            border: error ? `1px solid ${color.red}` : `1px solid blue`,
+            border: error ? `1px solid ${colorPalette.red}` : `1px solid blue`,
           },
 
           ['::placeholder']: {
-            color: color.gray3,
+            color: colorPalette.gray3,
           },
         })}
         {...props}
@@ -103,7 +103,7 @@ const Input = forwardRef(function Input(
           css={css({
             width: '100%',
             textAlign: 'left',
-            color: color.red,
+            color: colorPalette.red,
             position: 'absolute',
             bottom: -25,
           })}
@@ -119,12 +119,12 @@ function Button({ children, ...props }: ButtonHTMLAttributes<HTMLButtonElement>)
   return (
     <button
       css={css([
-        typography.body2,
+        typographyMap.body2,
         {
           width: '100%',
           height: 56,
-          backgroundColor: color.black,
-          color: color.white,
+          backgroundColor: colorPalette.black,
+          color: colorPalette.white,
           borderRadius: '4px',
         },
       ])}
@@ -139,7 +139,7 @@ function Addition({ children }: PropsWithChildren) {
   return (
     <span
       css={css({
-        color: color.gray3,
+        color: colorPalette.gray3,
         position: 'absolute',
         bottom: -40,
       })}
