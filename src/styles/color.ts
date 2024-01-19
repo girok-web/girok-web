@@ -18,4 +18,4 @@ export const color = {
   black: '#000000',
 };
 
-export type Colors = keyof typeof color;
+export type Color = keyof typeof color;
