@@ -1,4 +1,3 @@
-import './App.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import SignupPassword from './auth/signup/components/SignupPassword';
