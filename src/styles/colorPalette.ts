@@ -1,4 +1,4 @@
-export const color = {
+export const colorPalette = {
   // main color
   darkGray: '#131313',
 
@@ -17,3 +17,5 @@ export const color = {
   white: '#FFFFFF',
   black: '#000000',
 };
+
+export type Color = keyof typeof colorPalette;

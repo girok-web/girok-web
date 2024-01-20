@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { css } from '@emotion/react';
 import SignForm from '../../SignForm';
-import { typography } from '../../../styles/typography';
-import { color } from '../../../styles/color';
+import { typographyMap } from '../../../styles/typography';
+import { colorPalette } from '../../../styles/colorPalette';
 import { useSignup, useSignupDispatch } from '../../../pages/SignupPage';
 import { Spacing } from '../../../shared/Spacing';
 import { postEmailVerification, postEmailVerificationCheck } from '../remotes/query';
@@ -63,9 +63,9 @@ export default function SignupVerification() {
             postEmailVerification({ email });
           }}
           css={css([
-            typography.smallBody,
+            typographyMap.smallBody,
             {
-              color: color.darkGray,
+              color: colorPalette.darkGray,
             },
           ])}
         >

@@ -1,26 +1,30 @@
-export const typography = {
-  headline: {
-    fontSize: '32px',
-    fontWeight: '500',
-    letterSpacing: '-0.02em',
-    lineHeight: '1.3em',
-  },
+import { css } from '@emotion/react';
 
-  body1: {
-    fontSize: '16px',
-    fontWeight: '500',
-    letterSpacing: '-0.01em',
-  },
+export const typographyMap = {
+  headline: css`
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.3em;
+  `,
 
-  body2: {
-    fontSize: '16px',
-    fontWeight: '400',
-    letterSpacing: '-0.01em',
-  },
+  body1: css`
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  `,
 
-  smallBody: {
-    fontSize: '14px',
-    fontWeight: '400',
-    letterSpacing: '-0.01em',
-  },
+  body2: css`
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  `,
+
+  smallBody: css`
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  `,
 };
+
+export type Typography = keyof typeof typographyMap;

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { color } from '../../../styles/color';
+import { colorPalette } from '../../../styles/colorPalette';
 import { css } from '@emotion/react';
-import { typography } from '../../../styles/typography';
+import { typographyMap } from '../../../styles/typography';
 import { useLogin, useLoginDispatch } from '../../../pages/LoginPage';
 import { postLogin } from '../remotes/query';
 import SignForm from '../../SignForm';
@@ -77,7 +77,7 @@ export default function LoginPassword() {
         <button
           type="button"
           onClick={() => navigate('/reset/email')}
-          css={css([typography.smallBody, { marginTop: 24 }])}
+          css={css([typographyMap.smallBody, { marginTop: 24 }])}
         >
           Did you forget your password?
         </button>
@@ -110,7 +110,7 @@ export default function LoginPassword() {
 
       <SignForm.Addition>
         No account?{' '}
-        <Link to="/signup/email" css={css({ textDecoration: 'none', color: color.darkGray })}>
+        <Link to="/signup/email" css={css({ textDecoration: 'none', color: colorPalette.darkGray })}>
           Create one
         </Link>
       </SignForm.Addition>

@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { css } from '@emotion/react';
-import { typography } from '../../../styles/typography';
+import { typographyMap } from '../../../styles/typography';
 import SignForm from '../../SignForm';
 import { useReset, useResetDispatch } from '../../../pages/ResetPage';
-import { color } from '../../../styles/color';
+import { colorPalette } from '../../../styles/colorPalette';
 import { Spacing } from '../../../shared/Spacing';
 import envelopeBlackIcon from '../../../assets/icons/envelope-black.svg';
 
@@ -39,7 +39,7 @@ export default function ResetVerification() {
         onClick={() => {
           // postEmailVerification({ email });
         }}
-        css={css([typography.smallBody, { color: color.darkGray }])}
+        css={css([typographyMap.smallBody, { color: colorPalette.darkGray }])}
       >
         <img
           src={envelopeBlackIcon}
