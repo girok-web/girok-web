@@ -13,6 +13,7 @@ import SignupVerification from './auth/signup/components/SignupVerification';
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
 import ResetPage from './pages/ResetPage';
+import AuthLayout from './auth/AuthLayout';
 
 const router = createBrowserRouter([
   {
@@ -24,60 +25,65 @@ const router = createBrowserRouter([
         element: <MainPage />,
       },
       {
-        path: 'login',
-        element: <LoginPage />,
+        element: <AuthLayout />,
         children: [
           {
-            path: 'email',
-            element: <LoginEmail />,
+            path: 'login',
+            element: <LoginPage />,
+            children: [
+              {
+                path: 'email',
+                element: <LoginEmail />,
+              },
+              {
+                path: 'password',
+                element: <LoginPassword />,
+              },
+            ],
           },
           {
-            path: 'password',
-            element: <LoginPassword />,
-          },
-        ],
-      },
-      {
-        path: 'signup',
-        element: <SignupPage />,
-        children: [
-          {
-            path: 'email',
-            element: <SingupEmail />,
-          },
-          {
-            path: 'verification',
-            element: <SignupVerification />,
-          },
-          {
-            path: 'password',
-            element: <SignupPassword />,
-          },
-          {
-            path: 'complete',
-            element: <SignupComplete />,
-          },
-        ],
-      },
-      {
-        path: 'reset',
-        element: <ResetPage />,
-        children: [
-          {
-            path: 'email',
-            element: <ResetEmail />,
+            path: 'signup',
+            element: <SignupPage />,
+            children: [
+              {
+                path: 'email',
+                element: <SingupEmail />,
+              },
+              {
+                path: 'verification',
+                element: <SignupVerification />,
+              },
+              {
+                path: 'password',
+                element: <SignupPassword />,
+              },
+              {
+                path: 'complete',
+                element: <SignupComplete />,
+              },
+            ],
           },
           {
-            path: 'verification',
-            element: <ResetVerification />,
-          },
-          {
-            path: 'password',
-            element: <ResetPassword />,
-          },
-          {
-            path: 'complete',
-            element: <ResetComplete />,
+            path: 'reset',
+            element: <ResetPage />,
+            children: [
+              {
+                path: 'email',
+                element: <ResetEmail />,
+              },
+              {
+                path: 'verification',
+                element: <ResetVerification />,
+              },
+              {
+                path: 'password',
+                element: <ResetPassword />,
+              },
+              {
+                path: 'complete',
+                element: <ResetComplete />,
+              },
+            ],
           },
         ],
       },
