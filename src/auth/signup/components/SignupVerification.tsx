@@ -19,13 +19,7 @@ export default function SignupVerification() {
   const navigate = useNavigate();
 
   return (
-    <main
-      css={css({
-        display: 'flex',
-        justifyContent: 'center',
-        position: 'relative',
-      })}
-    >
+    <>
       <SignForm
         onSubmit={(e) => {
           e.preventDefault();
@@ -78,9 +72,12 @@ export default function SignupVerification() {
           Resend authentication number
         </button>
       </SignForm>
+
+      <Spacing size={24} />
+
       <SignForm.Addition>
         Already have an account? <Link to="/login/email">Sign in</Link>
       </SignForm.Addition>
-    </main>
+    </>
   );
 }

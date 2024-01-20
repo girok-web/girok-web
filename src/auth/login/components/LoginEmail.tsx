@@ -19,13 +19,7 @@ export default function LoginEmail() {
   const navigate = useNavigate();
 
   return (
-    <main
-      css={css({
-        display: 'flex',
-        justifyContent: 'center',
-        position: 'relative',
-      })}
-    >
+    <>
       <SignForm
         onSubmit={(e) => {
           e.preventDefault();
@@ -77,9 +71,12 @@ export default function LoginEmail() {
           Keep sign in
         </label>
       </SignForm>
+
+      <Spacing size={24} />
+
       <SignForm.Addition>
         No account? <Link to="/signup/email">Create one</Link>
       </SignForm.Addition>
-    </main>
+    </>
   );
 }

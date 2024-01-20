@@ -24,13 +24,7 @@ export default function LoginPassword() {
   const navigate = useNavigate();
 
   return (
-    <main
-      css={css({
-        display: 'flex',
-        justifyContent: 'center',
-        position: 'relative',
-      })}
-    >
+    <>
       <SignForm
         onSubmit={(e) => {
           e.preventDefault();
@@ -114,6 +108,6 @@ export default function LoginPassword() {
           Create one
         </Link>
       </SignForm.Addition>
-    </main>
+    </>
   );
 }

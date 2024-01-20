@@ -27,13 +27,7 @@ export default function SignupPassword() {
   const match = password === confirmPassword;
 
   return (
-    <main
-      css={css({
-        display: 'flex',
-        justifyContent: 'center',
-        position: 'relative',
-      })}
-    >
+    <>
       <SignForm
         onSubmit={(e) => {
           e.preventDefault();
@@ -104,9 +98,12 @@ export default function SignupPassword() {
         <Spacing size={56} />
         <SignForm.Button type="submit">Sign up</SignForm.Button>
       </SignForm>
+
+      <Spacing size={24} />
+
       <SignForm.Addition>
         Already have an account? <Link to="/login">Sign in</Link>
       </SignForm.Addition>
-    </main>
+    </>
   );
 }

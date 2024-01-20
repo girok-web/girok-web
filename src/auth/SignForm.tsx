@@ -15,6 +15,8 @@ export default function SignForm({ children, ...props }: PropsWithChildren<FormH
   return (
     <form
       css={css({
+        position: 'relative',
+
         width: 480,
         height: 560,
         borderRadius: 8,
@@ -35,13 +37,17 @@ export default function SignForm({ children, ...props }: PropsWithChildren<FormH
 
 function Title({ name }: { name: string }) {
   return (
-    <Text as='h2' typography="headline" textAlign="center">{name}</Text>
+    <Text as="h2" typography="headline" textAlign="center">
+      {name}
+    </Text>
   );
 }
 
 function Description({ content }: { content: string }) {
   return (
-    <Text as='p' typography="body2" color='gray3'>{content}</Text>
+    <Text as="p" typography="body2" color="gray3">
+      {content}
+    </Text>
   );
 }
 
@@ -122,8 +128,6 @@ function Addition({ children }: PropsWithChildren) {
     <span
       css={css({
         color: colorPalette.gray3,
-        position: 'absolute',
-        bottom: -40,
       })}
     >
       {children}
