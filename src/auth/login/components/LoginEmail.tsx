@@ -1,6 +1,5 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import SignForm from '../../SignForm';
-import { useLogin, useLoginDispatch } from '../../../pages/LoginPage';
 import { getEmailVerified } from '../remotes/query';
 import { useState } from 'react';
 import { Spacing } from '../../../shared/Spacing';
@@ -9,15 +8,17 @@ import checkboxOnIcon from '../../../assets/icons/checkbox-on.svg';
 import checkboxOffIcon from '../../../assets/icons/checkbox-off.svg';
 import Addition from '../../Addition';
 
-export default function LoginEmail() {
+interface LoginEmailProps {
+  email: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  nextStep: () => void;
+}
+
+export default function LoginEmail({ email, onChange, nextStep }: LoginEmailProps) {
   const [error, setError] = useState(false);
   const [helperText, setHelperText] = useState('');
 
   const [checked, setChecked] = useState(false);
-
-  const { email } = useLogin();
-  const setLogin = useLoginDispatch();
-  const navigate = useNavigate();
 
   return (
     <>
@@ -27,7 +28,7 @@ export default function LoginEmail() {
 
           getEmailVerified({ email }).then(({ isRegistered }) => {
             if (isRegistered) {
-              navigate('/login/password');
+              nextStep();
             } else {
               setError(true);
               setHelperText('No matching emails found. Please check again.');
@@ -40,10 +41,11 @@ export default function LoginEmail() {
         <SignForm.Description content="Enter your email." />
         <Spacing size={32} />
         <SignForm.Input
+          name="email"
           type="text"
           placeholder="Email"
           value={email}
-          onChange={({ currentTarget }) => setLogin((l) => ({ ...l, email: currentTarget.value }))}
+          onChange={onChange}
           error={error}
           helperText={helperText}
         />

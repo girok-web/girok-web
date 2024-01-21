@@ -29,7 +29,7 @@ export default function MainPage() {
               color: colorPalette.red,
             },
           ])}
-          to="/login/email"
+          to="/login"
         >
           로그인
         </Link>

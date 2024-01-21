@@ -3,8 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { colorPalette } from '../../../styles/colorPalette';
 import { css } from '@emotion/react';
 import { typographyMap } from '../../../styles/typography';
-import { useLogin, useLoginDispatch } from '../../../pages/LoginPage';
-import { postLogin } from '../remotes/query';
 import SignForm from '../../SignForm';
 import { Spacing } from '../../../shared/Spacing';
 import eyeOnIcon from '../../../assets/icons/eye-on.svg';
@@ -13,15 +11,19 @@ import checkboxOnIcon from '../../../assets/icons/checkbox-on.svg';
 import checkboxOffIcon from '../../../assets/icons/checkbox-off.svg';
 import Addition from '../../Addition';
 
-export default function LoginPassword() {
+interface LoginPasswordProps {
+  password: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  login: () => Promise<void>;
+}
+
+export default function LoginPassword({ password, onChange, login }: LoginPasswordProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(false);
   const [helperText, setHelperText] = useState('');
 
   const [checked, setChecked] = useState(false);
 
-  const { email, password } = useLogin();
-  const setLogin = useLoginDispatch();
   const navigate = useNavigate();
 
   return (
@@ -30,18 +32,14 @@ export default function LoginPassword() {
         onSubmit={(e) => {
           e.preventDefault();
 
-          postLogin({ email, password })
-            .then((data) => {
-              alert(JSON.stringify(data.userInfo));
-              navigate('/');
-            })
-            .catch(() => {
-              setError(true);
-              setHelperText('The password is invalid. Please check again.');
-            });
+          login().catch(() => {
+            setError(true);
+            setHelperText('The password is invalid. Please check again.');
+          });
         }}
       >
         <SignForm.Title name="Sign in" />
+        <Spacing size={8} />
         <SignForm.Description content="Enter your password." />
         <Spacing size={32} />
         <div css={{ width: '100%', position: 'relative' }}>
@@ -49,7 +47,7 @@ export default function LoginPassword() {
             type={showPassword ? 'text' : 'password'}
             placeholder="Password"
             value={password}
-            onChange={({ currentTarget }) => setLogin((l) => ({ ...l, password: currentTarget.value }))}
+            onChange={onChange}
             error={error}
             helperText={helperText}
           />

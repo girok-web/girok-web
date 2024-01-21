@@ -2,8 +2,6 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import SignupPassword from './auth/signup/components/SignupPassword';
 import SignupComplete from './auth/signup/components/SignupComplete';
-import LoginEmail from './auth/login/components/LoginEmail';
-import LoginPassword from './auth/login/components/LoginPassword';
 import ResetComplete from './auth/reset/components/ResetComplete';
 import ResetEmail from './auth/reset/components/ResetEmail';
 import ResetVerification from './auth/reset/components/ResetVerification';
@@ -30,16 +28,6 @@ const router = createBrowserRouter([
           {
             path: 'login',
             element: <LoginPage />,
-            children: [
-              {
-                path: 'email',
-                element: <LoginEmail />,
-              },
-              {
-                path: 'password',
-                element: <LoginPassword />,
-              },
-            ],
           },
           {
             path: 'signup',
