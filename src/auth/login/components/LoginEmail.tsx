@@ -7,6 +7,7 @@ import { Spacing } from '../../../shared/Spacing';
 import { css } from '@emotion/react';
 import checkboxOnIcon from '../../../assets/icons/checkbox-on.svg';
 import checkboxOffIcon from '../../../assets/icons/checkbox-off.svg';
+import Addition from '../../Addition';
 
 export default function LoginEmail() {
   const [error, setError] = useState(false);
@@ -74,9 +75,9 @@ export default function LoginEmail() {
 
       <Spacing size={24} />
 
-      <SignForm.Addition>
+      <Addition>
         No account? <Link to="/signup/email">Create one</Link>
-      </SignForm.Addition>
+      </Addition>
     </>
   );
 }

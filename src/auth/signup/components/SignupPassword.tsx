@@ -7,6 +7,7 @@ import { Spacing } from '../../../shared/Spacing';
 import { postSignup } from '../remotes/query';
 import eyeOnIcon from '../../../assets/icons/eye-on.svg';
 import eyeOffIcon from '../../../assets/icons/eye-off.svg';
+import Addition from '../../Addition';
 
 export default function SignupPassword() {
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -101,9 +102,9 @@ export default function SignupPassword() {
 
       <Spacing size={24} />
 
-      <SignForm.Addition>
+      <Addition>
         Already have an account? <Link to="/login">Sign in</Link>
-      </SignForm.Addition>
+      </Addition>
     </>
   );
 }

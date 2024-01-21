@@ -8,6 +8,7 @@ import { useSignup, useSignupDispatch } from '../../../pages/SignupPage';
 import { Spacing } from '../../../shared/Spacing';
 import { postEmailVerification, postEmailVerificationCheck } from '../remotes/query';
 import envelopeBlackIcon from '../../../assets/icons/envelope-black.svg';
+import Addition from '../../Addition';
 
 export default function SignupVerification() {
   const [error, setError] = useState(false);
@@ -75,9 +76,9 @@ export default function SignupVerification() {
 
       <Spacing size={24} />
 
-      <SignForm.Addition>
+      <Addition>
         Already have an account? <Link to="/login/email">Sign in</Link>
-      </SignForm.Addition>
+      </Addition>
     </>
   );
 }

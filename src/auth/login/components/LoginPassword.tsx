@@ -11,6 +11,7 @@ import eyeOnIcon from '../../../assets/icons/eye-on.svg';
 import eyeOffIcon from '../../../assets/icons/eye-off.svg';
 import checkboxOnIcon from '../../../assets/icons/checkbox-on.svg';
 import checkboxOffIcon from '../../../assets/icons/checkbox-off.svg';
+import Addition from '../../Addition';
 
 export default function LoginPassword() {
   const [showPassword, setShowPassword] = useState(false);
@@ -102,12 +103,12 @@ export default function LoginPassword() {
 
       <Spacing size={24} />
 
-      <SignForm.Addition>
+      <Addition>
         No account?{' '}
         <Link to="/signup/email" css={css({ textDecoration: 'none', color: colorPalette.darkGray })}>
           Create one
         </Link>
-      </SignForm.Addition>
+      </Addition>
     </>
   );
 }

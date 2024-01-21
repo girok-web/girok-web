@@ -123,20 +123,7 @@ function Button({ children, ...props }: ButtonHTMLAttributes<HTMLButtonElement>)
   );
 }
 
-function Addition({ children }: PropsWithChildren) {
-  return (
-    <span
-      css={css({
-        color: colorPalette.gray3,
-      })}
-    >
-      {children}
-    </span>
-  );
-}
-
 SignForm.Title = Title;
 SignForm.Description = Description;
 SignForm.Input = Input;
 SignForm.Button = Button;
-SignForm.Addition = Addition;
