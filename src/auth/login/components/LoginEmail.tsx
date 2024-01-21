@@ -39,7 +39,6 @@ export default function LoginEmail({ email, onChange, nextStep }: LoginEmailProp
         <Spacing size={32} />
         <SignForm.Input
           name="email"
-          type="text"
           placeholder="Email"
           value={email}
           onChange={onChange}
