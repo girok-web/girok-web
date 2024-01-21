@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import SignForm from '../../SignForm';
 import { getEmailVerified } from '../remotes/query';
 import { useState } from 'react';
@@ -6,7 +5,7 @@ import { Spacing } from '../../../shared/Spacing';
 import { css } from '@emotion/react';
 import checkboxOnIcon from '../../../assets/icons/checkbox-on.svg';
 import checkboxOffIcon from '../../../assets/icons/checkbox-off.svg';
-import Addition from '../../Addition';
+import AuthPromptLink from '../../AuthPromptLink';
 
 interface LoginEmailProps {
   email: string;
@@ -20,22 +19,22 @@ export default function LoginEmail({ email, onChange, nextStep }: LoginEmailProp
 
   const [checked, setChecked] = useState(false);
 
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    getEmailVerified({ email }).then(({ isRegistered }) => {
+      if (isRegistered) {
+        nextStep();
+      } else {
+        setError(true);
+        setHelperText('No matching emails found. Please check again.');
+      }
+    });
+  };
+
   return (
     <>
-      <SignForm
-        onSubmit={(e) => {
-          e.preventDefault();
-
-          getEmailVerified({ email }).then(({ isRegistered }) => {
-            if (isRegistered) {
-              nextStep();
-            } else {
-              setError(true);
-              setHelperText('No matching emails found. Please check again.');
-            }
-          });
-        }}
-      >
+      <SignForm onSubmit={onSubmit}>
         <SignForm.Title name="Sign in" />
         <Spacing size={8} />
         <SignForm.Description content="Enter your email." />
@@ -77,9 +76,7 @@ export default function LoginEmail({ email, onChange, nextStep }: LoginEmailProp
 
       <Spacing size={24} />
 
-      <Addition>
-        No account? <Link to="/signup/email">Create one</Link>
-      </Addition>
+      <AuthPromptLink message="No account?" linkText="Create one" to="/signup/email" />
     </>
   );
 }

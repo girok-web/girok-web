@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { colorPalette } from '../../../styles/colorPalette';
+import { useNavigate } from 'react-router-dom';
 import { css } from '@emotion/react';
 import { typographyMap } from '../../../styles/typography';
 import SignForm from '../../SignForm';
@@ -9,7 +8,7 @@ import eyeOnIcon from '../../../assets/icons/eye-on.svg';
 import eyeOffIcon from '../../../assets/icons/eye-off.svg';
 import checkboxOnIcon from '../../../assets/icons/checkbox-on.svg';
 import checkboxOffIcon from '../../../assets/icons/checkbox-off.svg';
-import Addition from '../../Addition';
+import AuthPromptLink from '../../AuthPromptLink';
 
 interface LoginPasswordProps {
   password: string;
@@ -26,18 +25,18 @@ export default function LoginPassword({ password, onChange, login }: LoginPasswo
 
   const navigate = useNavigate();
 
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    login().catch(() => {
+      setError(true);
+      setHelperText('The password is invalid. Please check again.');
+    });
+  };
+
   return (
     <>
-      <SignForm
-        onSubmit={(e) => {
-          e.preventDefault();
-
-          login().catch(() => {
-            setError(true);
-            setHelperText('The password is invalid. Please check again.');
-          });
-        }}
-      >
+      <SignForm onSubmit={onSubmit}>
         <SignForm.Title name="Sign in" />
         <Spacing size={8} />
         <SignForm.Description content="Enter your password." />
@@ -102,12 +101,7 @@ export default function LoginPassword({ password, onChange, login }: LoginPasswo
 
       <Spacing size={24} />
 
-      <Addition>
-        No account?{' '}
-        <Link to="/signup/email" css={css({ textDecoration: 'none', color: colorPalette.darkGray })}>
-          Create one
-        </Link>
-      </Addition>
+      <AuthPromptLink message="No account?" linkText="Create one" to="/signup/email" />
     </>
   );
 }
