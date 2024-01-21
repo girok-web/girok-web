@@ -18,7 +18,6 @@ interface LoginPasswordProps {
 
 export default function LoginPassword({ password, onChange, login }: LoginPasswordProps) {
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState(false);
   const [helperText, setHelperText] = useState('');
 
   const [checked, setChecked] = useState(false);
@@ -29,7 +28,6 @@ export default function LoginPassword({ password, onChange, login }: LoginPasswo
     e.preventDefault();
 
     login().catch(() => {
-      setError(true);
       setHelperText('The password is invalid. Please check again.');
     });
   };
@@ -48,7 +46,7 @@ export default function LoginPassword({ password, onChange, login }: LoginPasswo
             placeholder="Password"
             value={password}
             onChange={onChange}
-            error={error}
+            error={Boolean(helperText)}
             helperText={helperText}
           />
           {password.length > 0 && (

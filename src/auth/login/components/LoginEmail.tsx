@@ -14,7 +14,6 @@ interface LoginEmailProps {
 }
 
 export default function LoginEmail({ email, onChange, nextStep }: LoginEmailProps) {
-  const [error, setError] = useState(false);
   const [helperText, setHelperText] = useState('');
 
   const [checked, setChecked] = useState(false);
@@ -26,7 +25,6 @@ export default function LoginEmail({ email, onChange, nextStep }: LoginEmailProp
       if (isRegistered) {
         nextStep();
       } else {
-        setError(true);
         setHelperText('No matching emails found. Please check again.');
       }
     });
@@ -45,7 +43,7 @@ export default function LoginEmail({ email, onChange, nextStep }: LoginEmailProp
           placeholder="Email"
           value={email}
           onChange={onChange}
-          error={error}
+          error={Boolean(helperText)}
           helperText={helperText}
         />
         <Spacing size={56} />
