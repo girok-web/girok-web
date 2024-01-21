@@ -6,10 +6,13 @@ import {
   InputHTMLAttributes,
   PropsWithChildren,
   forwardRef,
+  useState,
 } from 'react';
 import { colorPalette } from '../styles/colorPalette';
 import { typographyMap } from '../styles/typography';
 import Text from '../shared/Text';
+import eyeOnIcon from '../assets/icons/eye-on.svg';
+import eyeOffIcon from '../assets/icons/eye-off.svg';
 
 export default function SignForm({ children, ...props }: PropsWithChildren<FormHTMLAttributes<HTMLFormElement>>) {
   return (
@@ -54,12 +57,17 @@ function Description({ content }: { content: string }) {
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;
   helperText?: string;
+  type?: InputHTMLAttributes<HTMLInputElement>['type'];
+  value: string;
 }
 
 const Input = forwardRef(function Input(
-  { error, helperText, ...props }: InputProps,
+  { error, helperText, type, value, ...props }: InputProps,
   ref: ForwardedRef<HTMLInputElement>,
 ) {
+  const [isVisible, setIsVisible] = useState(type === 'password' ? false : true);
+  const inputType = isVisible ? (type === 'password' ? 'text' : type) : 'password';
+
   return (
     <div
       css={css({
@@ -69,6 +77,8 @@ const Input = forwardRef(function Input(
     >
       <input
         ref={ref}
+        type={inputType}
+        value={value}
         css={css({
           width: '100%',
           height: 56,
@@ -98,6 +108,19 @@ const Input = forwardRef(function Input(
         >
           {helperText}
         </div>
+      )}
+      {type === 'password' && value.length > 0 && (
+        <button
+          type="button"
+          onClick={() => setIsVisible((s) => !s)}
+          css={css({
+            position: 'absolute',
+            right: 0,
+            top: '25%',
+          })}
+        >
+          {isVisible ? <img src={eyeOnIcon} /> : <img src={eyeOffIcon} />}
+        </button>
       )}
     </div>
   );
