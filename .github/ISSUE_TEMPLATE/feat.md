@@ -1,10 +1,7 @@
 ---
 name: Feat
 about: 기능 추가 템플릿
-title: ''
 labels: Feat
-assignees: cruelladevil
-
 ---
 
 ## 🤷 구현할 기능
