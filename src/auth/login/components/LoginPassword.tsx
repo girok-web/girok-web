@@ -44,6 +44,7 @@ export default function LoginPassword({ password, onChange, login }: LoginPasswo
         <Spacing size={32} />
         <div css={{ width: '100%', position: 'relative' }}>
           <SignForm.Input
+            name="password"
             type={showPassword ? 'text' : 'password'}
             placeholder="Password"
             value={password}

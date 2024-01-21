@@ -33,7 +33,7 @@ export default function LoginPage() {
       </Funnel.Step>
 
       <Funnel.Step name="password">
-        <LoginPassword password={loginFormData.email} onChange={handleChangeInput} login={login} />
+        <LoginPassword password={loginFormData.password} onChange={handleChangeInput} login={login} />
       </Funnel.Step>
     </Funnel>
   );
