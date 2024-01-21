@@ -15,7 +15,10 @@ function AuthPromptLink({ message, linkText, to }: AuthPromptLinkProps) {
         color: colorPalette.gray3,
       })}
     >
-      {message} <Link to={to}>{linkText}</Link>
+      {message}{' '}
+      <Link to={to} css={{ color: colorPalette.black }}>
+        {linkText}
+      </Link>
     </span>
   );
 }
