@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import LoginEmail from '../auth/login/components/LoginEmail';
 import LoginPassword from '../auth/login/components/LoginPassword';
 import { useFunnel } from '../hooks/use-funnel/useFunnel';
-import { postLogin } from '../auth/login/remotes/query';
+import useLogin from '../auth/login/hooks/useLogin';
 
 export default function LoginPage() {
   const [Funnel, setStep] = useFunnel(['email', 'password'] as const, {
     initialStep: 'email',
     stepQueryKey: 'step',
   });
+  const { verifyEmail, login } = useLogin();
   const [loginFormData, setLoginFormData] = useState({ email: '', password: '' });
 
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,20 +21,19 @@ export default function LoginPage() {
     });
   };
 
-  const login = () => {
-    return postLogin({ email: loginFormData.email, password: loginFormData.password }).then((data) => {
-      alert(JSON.stringify(data.userInfo));
-    });
-  };
-
   return (
     <Funnel>
       <Funnel.Step name="email">
-        <LoginEmail email={loginFormData.email} onChange={handleChangeInput} nextStep={() => setStep('password')} />
+        <LoginEmail
+          email={loginFormData.email}
+          onChange={handleChangeInput}
+          verifyEmail={verifyEmail}
+          nextStep={() => setStep('password')}
+        />
       </Funnel.Step>
 
       <Funnel.Step name="password">
-        <LoginPassword password={loginFormData.password} onChange={handleChangeInput} login={login} />
+        <LoginPassword loginFormData={loginFormData} onChange={handleChangeInput} login={login} />
       </Funnel.Step>
     </Funnel>
   );

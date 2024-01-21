@@ -6,23 +6,30 @@ import checkboxOnIcon from '../../../assets/icons/checkbox-on.svg';
 import checkboxOffIcon from '../../../assets/icons/checkbox-off.svg';
 import AuthPromptLink from '../../AuthPromptLink';
 import MoveToReset from './MoveToReset';
+import { PostLoginRequest } from '../remotes/query';
+import { UseMutateFunction } from '@tanstack/react-query';
 
 interface LoginPasswordProps {
-  password: string;
+  loginFormData: { email: string; password: string };
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  login: () => Promise<void>;
+  login: UseMutateFunction<{ accessToken: string; refreshToken: string }, Error, PostLoginRequest, unknown>;
 }
 
-export default function LoginPassword({ password, onChange, login }: LoginPasswordProps) {
+export default function LoginPassword({ loginFormData, onChange, login }: LoginPasswordProps) {
   const [helperText, setHelperText] = useState('');
 
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(false); // 이해가 안됨
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    login().catch(() => {
-      setHelperText('The password is invalid. Please check again.');
+    login(loginFormData, {
+      onSuccess: () => {
+        alert('성공');
+      },
+      onError: () => {
+        setHelperText('The password is invalid. Please check again.');
+      },
     });
   };
 
@@ -37,7 +44,7 @@ export default function LoginPassword({ password, onChange, login }: LoginPasswo
           name="password"
           type="password"
           placeholder="Password"
-          value={password}
+          value={loginFormData.password}
           onChange={onChange}
           error={Boolean(helperText)}
           helperText={helperText}

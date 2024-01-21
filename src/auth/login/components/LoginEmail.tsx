@@ -1,33 +1,39 @@
 import SignForm from '../../SignForm';
-import { getEmailVerified } from '../remotes/query';
 import { useState } from 'react';
 import { Spacing } from '../../../shared/Spacing';
 import { css } from '@emotion/react';
 import checkboxOnIcon from '../../../assets/icons/checkbox-on.svg';
 import checkboxOffIcon from '../../../assets/icons/checkbox-off.svg';
 import AuthPromptLink from '../../AuthPromptLink';
+import { UseMutateFunction } from '@tanstack/react-query';
 
 interface LoginEmailProps {
   email: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  verifyEmail: UseMutateFunction<{ isRegistered: boolean }, Error, { email: string }, unknown>;
   nextStep: () => void;
 }
 
-export default function LoginEmail({ email, onChange, nextStep }: LoginEmailProps) {
+export default function LoginEmail({ email, onChange, verifyEmail, nextStep }: LoginEmailProps) {
   const [helperText, setHelperText] = useState('');
 
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(false); // 이해가 안됨
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    getEmailVerified({ email }).then(({ isRegistered }) => {
-      if (isRegistered) {
-        nextStep();
-      } else {
-        setHelperText('No matching emails found. Please check again.');
-      }
-    });
+    verifyEmail(
+      { email },
+      {
+        onSettled: (data) => {
+          if (data?.isRegistered) {
+            nextStep();
+          } else {
+            setHelperText('No matching emails found. Please check again.');
+          }
+        },
+      },
+    );
   };
 
   return (
