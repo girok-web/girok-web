@@ -7,6 +7,7 @@ import { Spacing } from '../../../shared/Spacing';
 import { postSignup } from '../remotes/query';
 import eyeOnIcon from '../../../assets/icons/eye-on.svg';
 import eyeOffIcon from '../../../assets/icons/eye-off.svg';
+import Addition from '../../Addition';
 
 export default function SignupPassword() {
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -27,13 +28,7 @@ export default function SignupPassword() {
   const match = password === confirmPassword;
 
   return (
-    <main
-      css={css({
-        display: 'flex',
-        justifyContent: 'center',
-        position: 'relative',
-      })}
-    >
+    <>
       <SignForm
         onSubmit={(e) => {
           e.preventDefault();
@@ -104,9 +99,12 @@ export default function SignupPassword() {
         <Spacing size={56} />
         <SignForm.Button type="submit">Sign up</SignForm.Button>
       </SignForm>
-      <SignForm.Addition>
+
+      <Spacing size={24} />
+
+      <Addition>
         Already have an account? <Link to="/login">Sign in</Link>
-      </SignForm.Addition>
-    </main>
+      </Addition>
+    </>
   );
 }

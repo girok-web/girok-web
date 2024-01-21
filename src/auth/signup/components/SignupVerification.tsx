@@ -8,6 +8,7 @@ import { useSignup, useSignupDispatch } from '../../../pages/SignupPage';
 import { Spacing } from '../../../shared/Spacing';
 import { postEmailVerification, postEmailVerificationCheck } from '../remotes/query';
 import envelopeBlackIcon from '../../../assets/icons/envelope-black.svg';
+import Addition from '../../Addition';
 
 export default function SignupVerification() {
   const [error, setError] = useState(false);
@@ -19,13 +20,7 @@ export default function SignupVerification() {
   const navigate = useNavigate();
 
   return (
-    <main
-      css={css({
-        display: 'flex',
-        justifyContent: 'center',
-        position: 'relative',
-      })}
-    >
+    <>
       <SignForm
         onSubmit={(e) => {
           e.preventDefault();
@@ -78,9 +73,12 @@ export default function SignupVerification() {
           Resend authentication number
         </button>
       </SignForm>
-      <SignForm.Addition>
+
+      <Spacing size={24} />
+
+      <Addition>
         Already have an account? <Link to="/login/email">Sign in</Link>
-      </SignForm.Addition>
-    </main>
+      </Addition>
+    </>
   );
 }

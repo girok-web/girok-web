@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { color } from './color';
+import { colorPalette } from './colorPalette';
 
 export default css`
   @font-face {
@@ -209,12 +209,7 @@ export default css`
   }
 
   body {
-    background-color: ${color.gray0};
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    background-color: ${colorPalette.gray0};
   }
 
   *,

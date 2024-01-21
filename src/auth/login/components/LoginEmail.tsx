@@ -7,6 +7,7 @@ import { Spacing } from '../../../shared/Spacing';
 import { css } from '@emotion/react';
 import checkboxOnIcon from '../../../assets/icons/checkbox-on.svg';
 import checkboxOffIcon from '../../../assets/icons/checkbox-off.svg';
+import Addition from '../../Addition';
 
 export default function LoginEmail() {
   const [error, setError] = useState(false);
@@ -19,13 +20,7 @@ export default function LoginEmail() {
   const navigate = useNavigate();
 
   return (
-    <main
-      css={css({
-        display: 'flex',
-        justifyContent: 'center',
-        position: 'relative',
-      })}
-    >
+    <>
       <SignForm
         onSubmit={(e) => {
           e.preventDefault();
@@ -77,9 +72,12 @@ export default function LoginEmail() {
           Keep sign in
         </label>
       </SignForm>
-      <SignForm.Addition>
+
+      <Spacing size={24} />
+
+      <Addition>
         No account? <Link to="/signup/email">Create one</Link>
-      </SignForm.Addition>
-    </main>
+      </Addition>
+    </>
   );
 }
