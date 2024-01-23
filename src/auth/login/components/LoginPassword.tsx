@@ -8,6 +8,7 @@ import AuthPromptLink from '../../AuthPromptLink';
 import MoveToReset from './MoveToReset';
 import { PostLoginRequest } from '../remotes/query';
 import { UseMutateFunction } from '@tanstack/react-query';
+import InputField from '../../../shared/InputField';
 
 interface LoginPasswordProps {
   loginFormData: { email: string; password: string };
@@ -18,7 +19,7 @@ interface LoginPasswordProps {
 export default function LoginPassword({ loginFormData, onChange, login }: LoginPasswordProps) {
   const [helperText, setHelperText] = useState('');
 
-  const [checked, setChecked] = useState(false); // 이해가 안됨
+  const [checked, setChecked] = useState(false);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,15 +41,16 @@ export default function LoginPassword({ loginFormData, onChange, login }: LoginP
         <Spacing size={8} />
         <SignForm.Description content="Enter your password." />
         <Spacing size={32} />
-        <SignForm.Input
-          name="password"
-          type="password"
-          placeholder="Password"
-          value={loginFormData.password}
-          onChange={onChange}
-          error={Boolean(helperText)}
-          helperText={helperText}
-        />
+        <InputField type="password" bottomText={helperText}>
+          <SignForm.Input
+            name="password"
+            type="password"
+            placeholder="Password"
+            value={loginFormData.password}
+            onChange={onChange}
+            hasError={Boolean(helperText)}
+          />
+        </InputField>
         <Spacing size={56} />
         <SignForm.Button type="submit">Next</SignForm.Button>
         <Spacing size={24} />

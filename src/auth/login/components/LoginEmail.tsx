@@ -6,6 +6,7 @@ import checkboxOnIcon from '../../../assets/icons/checkbox-on.svg';
 import checkboxOffIcon from '../../../assets/icons/checkbox-off.svg';
 import AuthPromptLink from '../../AuthPromptLink';
 import { UseMutateFunction } from '@tanstack/react-query';
+import InputField from '../../../shared/InputField';
 
 interface LoginEmailProps {
   email: string;
@@ -17,7 +18,7 @@ interface LoginEmailProps {
 export default function LoginEmail({ email, onChange, verifyEmail, nextStep }: LoginEmailProps) {
   const [helperText, setHelperText] = useState('');
 
-  const [checked, setChecked] = useState(false); // 이해가 안됨
+  const [checked, setChecked] = useState(false);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,14 +44,15 @@ export default function LoginEmail({ email, onChange, verifyEmail, nextStep }: L
         <Spacing size={8} />
         <SignForm.Description content="Enter your email." />
         <Spacing size={32} />
-        <SignForm.Input
-          name="email"
-          placeholder="Email"
-          value={email}
-          onChange={onChange}
-          error={Boolean(helperText)}
-          helperText={helperText}
-        />
+        <InputField type="text" bottomText={helperText}>
+          <SignForm.Input
+            name="email"
+            placeholder="Email"
+            value={email}
+            onChange={onChange}
+            hasError={Boolean(helperText)}
+          />
+        </InputField>
         <Spacing size={56} />
         <SignForm.Button type="submit">Next</SignForm.Button>
         <label
