@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Funnel, FunnelProps, Step } from './Funnel';
-import { NonEmptyArray } from '../../models/utils/NoneEmptyArray';
+import { NonEmptyArray } from '../../models/utils/NonEmptyArray';
 import assert from '../../utils/assert';
 
 type RouteFunnelProps<Steps extends NonEmptyArray<string>> = Omit<FunnelProps<Steps>, 'steps' | 'step'>;
