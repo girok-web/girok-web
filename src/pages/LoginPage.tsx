@@ -3,13 +3,16 @@ import LoginEmail from '../auth/login/components/LoginEmail';
 import LoginPassword from '../auth/login/components/LoginPassword';
 import { useFunnel } from '../hooks/use-funnel/useFunnel';
 import useLogin from '../auth/login/hooks/useLogin';
+import useEmailVerified from '../auth/login/hooks/useEmailVerified';
 
 export default function LoginPage() {
   const [Funnel, setStep] = useFunnel(['email', 'password'] as const, {
     initialStep: 'email',
     stepQueryKey: 'step',
   });
-  const { verifyEmail, login } = useLogin();
+  const { verifyEmail } = useEmailVerified();
+  const { login } = useLogin();
+
   const [loginFormData, setLoginFormData] = useState({ email: '', password: '' });
 
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
