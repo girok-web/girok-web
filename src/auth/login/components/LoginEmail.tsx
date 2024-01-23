@@ -5,17 +5,17 @@ import { css } from '@emotion/react';
 import checkboxOnIcon from '../../../assets/icons/checkbox-on.svg';
 import checkboxOffIcon from '../../../assets/icons/checkbox-off.svg';
 import AuthPromptLink from '../../AuthPromptLink';
-import { UseMutateFunction } from '@tanstack/react-query';
 import InputField from '../../../shared/InputField';
+import useEmailVerified from '../hooks/useEmailVerified';
 
 interface LoginEmailProps {
   email: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  verifyEmail: UseMutateFunction<{ isRegistered: boolean }, Error, { email: string }, unknown>;
   nextStep: () => void;
 }
 
-export default function LoginEmail({ email, onChange, verifyEmail, nextStep }: LoginEmailProps) {
+export default function LoginEmail({ email, onChange, nextStep }: LoginEmailProps) {
+  const { verifyEmail } = useEmailVerified();
   const [helperText, setHelperText] = useState('');
 
   const [checked, setChecked] = useState(false);
