@@ -1,18 +1,9 @@
 import { css } from '@emotion/react';
-import {
-  ButtonHTMLAttributes,
-  FormHTMLAttributes,
-  ForwardedRef,
-  InputHTMLAttributes,
-  PropsWithChildren,
-  forwardRef,
-  useState,
-} from 'react';
+import { ButtonHTMLAttributes, FormHTMLAttributes, PropsWithChildren } from 'react';
 import { colorPalette } from '../styles/colorPalette';
 import { typographyMap } from '../styles/typography';
 import Text from '../shared/Text';
-import eyeOnIcon from '../assets/icons/eye-on.svg';
-import eyeOffIcon from '../assets/icons/eye-off.svg';
+import styled from '@emotion/styled';
 
 export default function SignForm({ children, ...props }: PropsWithChildren<FormHTMLAttributes<HTMLFormElement>>) {
   return (
@@ -54,77 +45,21 @@ function Description({ content }: { content: string }) {
   );
 }
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  error?: boolean;
-  helperText?: string;
-  type?: InputHTMLAttributes<HTMLInputElement>['type'];
-  value: string;
-}
+const Input = styled.input<{ hasError?: boolean }>`
+  width: 100%;
+  height: 56px;
+  padding: 0px 16px;
+  border: ${({ hasError }) => (hasError ? `1px solid ${colorPalette.red}` : `1px solid ${colorPalette.gray2}`)};
+  border-radius: 4px;
 
-const Input = forwardRef(function Input(
-  { error, helperText, type, value, ...props }: InputProps,
-  ref: ForwardedRef<HTMLInputElement>,
-) {
-  const [isVisible, setIsVisible] = useState(type === 'password' ? false : true);
-  const inputType = isVisible ? (type === 'password' ? 'text' : type) : 'password';
+  & :focus {
+    ${({ hasError }) => (hasError ? `1px solid ${colorPalette.red}` : `1px solid blue`)};
+  }
 
-  return (
-    <div
-      css={css({
-        width: '100%',
-        position: 'relative',
-      })}
-    >
-      <input
-        ref={ref}
-        type={inputType}
-        value={value}
-        css={css({
-          width: '100%',
-          height: 56,
-          padding: '0px 16px',
-          border: error ? `1px solid ${colorPalette.red}` : `1px solid ${colorPalette.gray2}`,
-          borderRadius: '4px',
-
-          [':focus']: {
-            border: error ? `1px solid ${colorPalette.red}` : `1px solid blue`,
-          },
-
-          ['::placeholder']: {
-            color: colorPalette.gray3,
-          },
-        })}
-        {...props}
-      />
-      {error && helperText && (
-        <div
-          css={css({
-            width: '100%',
-            textAlign: 'left',
-            color: colorPalette.red,
-            position: 'absolute',
-            bottom: -25,
-          })}
-        >
-          {helperText}
-        </div>
-      )}
-      {type === 'password' && value.length > 0 && (
-        <button
-          type="button"
-          onClick={() => setIsVisible((s) => !s)}
-          css={css({
-            position: 'absolute',
-            right: 0,
-            top: '25%',
-          })}
-        >
-          {isVisible ? <img src={eyeOnIcon} /> : <img src={eyeOffIcon} />}
-        </button>
-      )}
-    </div>
-  );
-});
+  & ::placeholder {
+    color: ${colorPalette.gray3};
+  }
+`;
 
 function Button({ children, ...props }: ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
