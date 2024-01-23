@@ -1,6 +1,5 @@
-import { css } from '@emotion/react';
-import { typographyMap } from '../../../styles/typography';
 import { Link } from 'react-router-dom';
+import Text from '../../../shared/Text';
 
 interface MoveToResetProps {
   linkText: string;
@@ -8,8 +7,8 @@ interface MoveToResetProps {
 
 function MoveToReset({ linkText }: MoveToResetProps) {
   return (
-    <Link to="/reset/email" css={css([typographyMap.smallBody])}>
-      {linkText}
+    <Link to="/reset/email">
+      <Text typography="smallBody">{linkText}</Text>
     </Link>
   );
 }
