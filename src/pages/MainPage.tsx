@@ -40,7 +40,7 @@ export default function MainPage() {
               color: colorPalette.red,
             },
           ])}
-          to="/signup/email"
+          to="/signup"
         >
           회원가입
         </Link>
