@@ -1,101 +1,66 @@
-import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { css } from '@emotion/react';
 import SignForm from '../../SignForm';
-import { useSignup, useSignupDispatch } from '../../../pages/SignupPage';
 import { Spacing } from '../../../shared/Spacing';
-import { postSignup } from '../remotes/query';
-import eyeOnIcon from '../../../assets/icons/eye-on.svg';
-import eyeOffIcon from '../../../assets/icons/eye-off.svg';
 import Addition from '../../Addition';
+import InputField from '../../../shared/InputField';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useSignup } from '../../../pages/SignupPage';
+import { postSignup } from '../remotes/query';
+
+interface FormFields {
+  password: string;
+  confirmPassword: string;
+}
 
 export default function SignupPassword() {
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormFields>();
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const [error, setError] = useState(false);
-  const [helperText, setHelperText] = useState('');
-
-  const confirmPasswordRef = useRef<HTMLInputElement>(null);
-
-  const { email, password, verificationCode } = useSignup();
-  const setSignup = useSignupDispatch();
-
+  const { email, verificationCode } = useSignup();
   const navigate = useNavigate();
 
-  const match = password === confirmPassword;
+  const onSubmit: SubmitHandler<FormFields> = async ({ password }) => {
+    postSignup({ email, password, verificationCode }).then(() => {
+      navigate('/signup/complete');
+    });
+  };
 
   return (
     <>
-      <SignForm
-        onSubmit={(e) => {
-          e.preventDefault();
-
-          if (password.length > 0 && match) {
-            postSignup({ email, password, verificationCode }).then(() => {
-              navigate('/signup/complete');
-            });
-          } else {
-            if (confirmPasswordRef.current) {
-              confirmPasswordRef.current.focus();
-              setError(true);
-              setHelperText('The password does not match. Please check again.');
-            }
-          }
-        }}
-      >
+      <SignForm onSubmit={handleSubmit(onSubmit)}>
         <SignForm.Title name="Sign up" />
         <Spacing size={8} />
         <SignForm.Description content="Set your password." />
         <Spacing size={32} />
-        <div css={{ width: '100%', position: 'relative' }}>
+        <InputField type="password">
           <SignForm.Input
-            type={showPassword ? 'text' : 'password'}
+            {...register('password', {
+              required: true,
+            })}
             placeholder="Password"
-            value={password}
-            onChange={({ currentTarget }) => setSignup((s) => ({ ...s, password: currentTarget.value }))}
+            hasError={!!errors.password}
           />
-          {password.length > 0 && (
-            <button
-              type="button"
-              onClick={() => setShowPassword((s) => !s)}
-              css={css({
-                position: 'absolute',
-                right: 0,
-                top: '25%',
-              })}
-            >
-              {showPassword ? <img src={eyeOnIcon} /> : <img src={eyeOffIcon} />}
-            </button>
-          )}
-        </div>
-        <Spacing size={12} />
-        <div css={{ width: '100%', position: 'relative' }}>
+        </InputField>
+        <Spacing size={16} />
+
+        <InputField type="password" bottomText={errors.confirmPassword?.message}>
           <SignForm.Input
-            ref={confirmPasswordRef}
-            type={showConfirmPassword ? 'text' : 'password'}
+            {...register('confirmPassword', {
+              validate: (confirmPassword, formValues) => {
+                if (confirmPassword !== formValues.password) {
+                  return 'The password does not match. Please check again.';
+                }
+                return true;
+              },
+            })}
             placeholder="Confirm password"
-            value={confirmPassword}
-            onChange={({ currentTarget }) => setConfirmPassword(currentTarget.value)}
-            error={error}
-            helperText={helperText}
+            hasError={!!errors.confirmPassword}
           />
-          {confirmPassword.length > 0 && (
-            <button
-              type="button"
-              onClick={() => setShowConfirmPassword((s) => !s)}
-              css={css({
-                position: 'absolute',
-                right: 0,
-                top: '25%',
-              })}
-            >
-              {showConfirmPassword ? <img src={eyeOnIcon} /> : <img src={eyeOffIcon} />}
-            </button>
-          )}
-        </div>
+        </InputField>
+
         <Spacing size={56} />
         <SignForm.Button type="submit">Sign up</SignForm.Button>
       </SignForm>

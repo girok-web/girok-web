@@ -1,81 +1,60 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { colorPalette } from '../../../styles/colorPalette';
 import { css } from '@emotion/react';
-import { typographyMap } from '../../../styles/typography';
-import { useLogin, useLoginDispatch } from '../../../pages/LoginPage';
-import { postLogin } from '../remotes/query';
 import SignForm from '../../SignForm';
 import { Spacing } from '../../../shared/Spacing';
-import eyeOnIcon from '../../../assets/icons/eye-on.svg';
-import eyeOffIcon from '../../../assets/icons/eye-off.svg';
 import checkboxOnIcon from '../../../assets/icons/checkbox-on.svg';
 import checkboxOffIcon from '../../../assets/icons/checkbox-off.svg';
-import Addition from '../../Addition';
+import AuthPromptLink from '../../AuthPromptLink';
+import MoveToReset from './MoveToReset';
+import { PostLoginRequest } from '../remotes/query';
+import { UseMutateFunction } from '@tanstack/react-query';
+import InputField from '../../../shared/InputField';
 
-export default function LoginPassword() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState(false);
+interface LoginPasswordProps {
+  loginFormData: { email: string; password: string };
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  login: UseMutateFunction<{ accessToken: string; refreshToken: string }, Error, PostLoginRequest, unknown>;
+}
+
+export default function LoginPassword({ loginFormData, onChange, login }: LoginPasswordProps) {
   const [helperText, setHelperText] = useState('');
 
   const [checked, setChecked] = useState(false);
 
-  const { email, password } = useLogin();
-  const setLogin = useLoginDispatch();
-  const navigate = useNavigate();
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    login(loginFormData, {
+      onSuccess: () => {
+        alert('성공');
+      },
+      onError: () => {
+        setHelperText('The password is invalid. Please check again.');
+      },
+    });
+  };
 
   return (
     <>
-      <SignForm
-        onSubmit={(e) => {
-          e.preventDefault();
-
-          postLogin({ email, password })
-            .then((data) => {
-              alert(JSON.stringify(data.userInfo));
-              navigate('/');
-            })
-            .catch(() => {
-              setError(true);
-              setHelperText('The password is invalid. Please check again.');
-            });
-        }}
-      >
+      <SignForm onSubmit={onSubmit}>
         <SignForm.Title name="Sign in" />
+        <Spacing size={8} />
         <SignForm.Description content="Enter your password." />
         <Spacing size={32} />
-        <div css={{ width: '100%', position: 'relative' }}>
+        <InputField type="password" bottomText={helperText}>
           <SignForm.Input
-            type={showPassword ? 'text' : 'password'}
+            name="password"
+            type="password"
             placeholder="Password"
-            value={password}
-            onChange={({ currentTarget }) => setLogin((l) => ({ ...l, password: currentTarget.value }))}
-            error={error}
-            helperText={helperText}
+            value={loginFormData.password}
+            onChange={onChange}
+            hasError={Boolean(helperText)}
           />
-          {password.length > 0 && (
-            <button
-              type="button"
-              onClick={() => setShowPassword((s) => !s)}
-              css={css({
-                position: 'absolute',
-                right: 0,
-                top: '25%',
-              })}
-            >
-              {showPassword ? <img src={eyeOnIcon} /> : <img src={eyeOffIcon} />}
-            </button>
-          )}
-        </div>
+        </InputField>
         <Spacing size={56} />
         <SignForm.Button type="submit">Next</SignForm.Button>
-        <button
-          type="button"
-          onClick={() => navigate('/reset/email')}
-          css={css([typographyMap.smallBody, { marginTop: 24 }])}
-        >
-          Did you forget your password?
-        </button>
+        <Spacing size={24} />
+        <MoveToReset linkText="Did you forget your password?" />
         <Spacing size={62} />
         <label
           css={css({
@@ -103,12 +82,7 @@ export default function LoginPassword() {
 
       <Spacing size={24} />
 
-      <Addition>
-        No account?{' '}
-        <Link to="/signup/email" css={css({ textDecoration: 'none', color: colorPalette.darkGray })}>
-          Create one
-        </Link>
-      </Addition>
+      <AuthPromptLink message="No account?" linkText="Create one" to="/signup/email" />
     </>
   );
 }

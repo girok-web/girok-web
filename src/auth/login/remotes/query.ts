@@ -10,12 +10,12 @@ export const getEmailVerified = ({ email }: { email: string }) => {
     .then(({ is_registered }) => ({ isRegistered: is_registered }));
 };
 
-interface PostLoginRequest {
+export interface PostLoginRequest {
   email: string;
   password: string;
 }
 
-interface PostLoginResponse {
+export interface PostLoginResponse {
   access_token: string;
   refresh_token: string;
 }

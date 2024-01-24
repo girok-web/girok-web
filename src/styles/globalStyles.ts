@@ -208,19 +208,32 @@ export default css`
     border-spacing: 0;
   }
 
-  body {
-    background-color: ${colorPalette.gray0};
-  }
-
   *,
   *::after,
   *::before {
     box-sizing: border-box;
   }
 
+  /* a-style reset */
+  a {
+    color: inherit;
+    text-decoration: none;
+    outline: none;
+  }
+  a:hover,
+  a:active {
+    text-decoration: none;
+    color: inherit;
+    background-color: inherit;
+  }
+
   button {
     background-color: transparent;
     border: none;
     cursor: pointer;
+  }
+
+  body {
+    background-color: ${colorPalette.gray0};
   }
 `;

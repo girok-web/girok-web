@@ -1,52 +1,58 @@
-import { Link, useNavigate } from 'react-router-dom';
 import SignForm from '../../SignForm';
-import { useLogin, useLoginDispatch } from '../../../pages/LoginPage';
-import { getEmailVerified } from '../remotes/query';
 import { useState } from 'react';
 import { Spacing } from '../../../shared/Spacing';
 import { css } from '@emotion/react';
 import checkboxOnIcon from '../../../assets/icons/checkbox-on.svg';
 import checkboxOffIcon from '../../../assets/icons/checkbox-off.svg';
-import Addition from '../../Addition';
+import AuthPromptLink from '../../AuthPromptLink';
+import InputField from '../../../shared/InputField';
+import useEmailVerified from '../hooks/useEmailVerified';
 
-export default function LoginEmail() {
-  const [error, setError] = useState(false);
+interface LoginEmailProps {
+  email: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  nextStep: () => void;
+}
+
+export default function LoginEmail({ email, onChange, nextStep }: LoginEmailProps) {
+  const { mutate: verifyEmail } = useEmailVerified();
   const [helperText, setHelperText] = useState('');
 
   const [checked, setChecked] = useState(false);
 
-  const { email } = useLogin();
-  const setLogin = useLoginDispatch();
-  const navigate = useNavigate();
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    verifyEmail(
+      { email },
+      {
+        onSettled: (data) => {
+          if (data?.isRegistered) {
+            nextStep();
+          } else {
+            setHelperText('No matching emails found. Please check again.');
+          }
+        },
+      },
+    );
+  };
 
   return (
     <>
-      <SignForm
-        onSubmit={(e) => {
-          e.preventDefault();
-
-          getEmailVerified({ email }).then(({ isRegistered }) => {
-            if (isRegistered) {
-              navigate('/login/password');
-            } else {
-              setError(true);
-              setHelperText('No matching emails found. Please check again.');
-            }
-          });
-        }}
-      >
+      <SignForm onSubmit={onSubmit}>
         <SignForm.Title name="Sign in" />
         <Spacing size={8} />
         <SignForm.Description content="Enter your email." />
         <Spacing size={32} />
-        <SignForm.Input
-          type="text"
-          placeholder="Email"
-          value={email}
-          onChange={({ currentTarget }) => setLogin((l) => ({ ...l, email: currentTarget.value }))}
-          error={error}
-          helperText={helperText}
-        />
+        <InputField type="text" bottomText={helperText}>
+          <SignForm.Input
+            name="email"
+            placeholder="Email"
+            value={email}
+            onChange={onChange}
+            hasError={Boolean(helperText)}
+          />
+        </InputField>
         <Spacing size={56} />
         <SignForm.Button type="submit">Next</SignForm.Button>
         <label
@@ -75,9 +81,7 @@ export default function LoginEmail() {
 
       <Spacing size={24} />
 
-      <Addition>
-        No account? <Link to="/signup/email">Create one</Link>
-      </Addition>
+      <AuthPromptLink message="No account?" linkText="Create one" to="/signup/email" />
     </>
   );
 }

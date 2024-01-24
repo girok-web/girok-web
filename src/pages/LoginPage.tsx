@@ -1,42 +1,36 @@
-import { Dispatch, SetStateAction, createContext, useContext, useState } from 'react';
-import { Outlet } from 'react-router-dom';
-
-type LoginInfo = {
-  email: string;
-  password: string;
-};
-
-const LoginContext = createContext<LoginInfo | null>(null);
-const LoginDispatchContext = createContext<Dispatch<SetStateAction<LoginInfo>> | null>(null);
-
-export const useLogin = () => {
-  const login = useContext(LoginContext);
-
-  if (login === null) {
-    throw new Error('LoginContext를 Provider로 감싸지 않았습니다.');
-  }
-
-  return login;
-};
-
-export const useLoginDispatch = () => {
-  const loginDispatch = useContext(LoginDispatchContext);
-
-  if (loginDispatch === null) {
-    throw new Error('LoginDispatchContext Provider로 감싸지 않았습니다.');
-  }
-
-  return loginDispatch;
-};
+import React, { useState } from 'react';
+import LoginEmail from '../auth/login/components/LoginEmail';
+import LoginPassword from '../auth/login/components/LoginPassword';
+import { useFunnel } from '../hooks/use-funnel/useFunnel';
+import useLogin from '../auth/login/hooks/useLogin';
 
 export default function LoginPage() {
-  const [login, setLogin] = useState<LoginInfo>({ email: '', password: '' });
+  const [Funnel, setStep] = useFunnel(['email', 'password'] as const, {
+    initialStep: 'email',
+    stepQueryKey: 'step',
+  });
+  const { mutate: login } = useLogin();
+
+  const [loginFormData, setLoginFormData] = useState({ email: '', password: '' });
+
+  const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setLoginFormData({
+      ...loginFormData,
+      [name]: value,
+    });
+  };
 
   return (
-    <LoginContext.Provider value={login}>
-      <LoginDispatchContext.Provider value={setLogin}>
-        <Outlet />
-      </LoginDispatchContext.Provider>
-    </LoginContext.Provider>
+    <Funnel>
+      <Funnel.Step name="email">
+        <LoginEmail email={loginFormData.email} onChange={handleChangeInput} nextStep={() => setStep('password')} />
+      </Funnel.Step>
+
+      <Funnel.Step name="password">
+        <LoginPassword loginFormData={loginFormData} onChange={handleChangeInput} login={login} />
+      </Funnel.Step>
+    </Funnel>
   );
 }
