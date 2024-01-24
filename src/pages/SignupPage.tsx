@@ -1,43 +1,51 @@
-import { Dispatch, SetStateAction, createContext, useContext, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { useState } from 'react';
+import { useFunnel } from '../hooks/use-funnel/useFunnel';
+import SignupEmail from '../auth/signup/components/SignupEmail';
+import SignupVerification from '../auth/signup/components/SignupVerification';
+import SignupPassword from '../auth/signup/components/SignupPassword';
+import SignupComplete from '../auth/signup/components/SignupComplete';
 
-type SignupInfo = {
+export interface SignupData {
   email: string;
   verificationCode: string;
-  password: string;
-};
-
-const SignupContext = createContext<SignupInfo | null>(null);
-const SignupDispatchContext = createContext<Dispatch<SetStateAction<SignupInfo>> | null>(null);
-
-export const useSignup = () => {
-  const signup = useContext(SignupContext);
-
-  if (signup === null) {
-    throw new Error('SignupContext를 Provider로 감싸지 않았습니다.');
-  }
-
-  return signup;
-};
-
-export const useSignupDispatch = () => {
-  const loginDispatch = useContext(SignupDispatchContext);
-
-  if (loginDispatch === null) {
-    throw new Error('SignupDispatchContext를 Provider로 감싸지 않았습니다.');
-  }
-
-  return loginDispatch;
-};
+}
 
 export default function SignupPage() {
-  const [signup, setLogin] = useState<SignupInfo>({ email: '', password: '', verificationCode: '' });
+  const [Funnel, setStep] = useFunnel(['email', 'verification', 'password', 'complete'] as const, {
+    initialStep: 'email',
+    stepQueryKey: 'step',
+  });
+
+  const [signupData, _setSignupData] = useState<SignupData>({
+    email: '',
+    verificationCode: '',
+  });
+
+  const setSignupData = (key: keyof SignupData, value: SignupData[keyof SignupData]) => {
+    _setSignupData((prev) => ({ ...prev, [key]: value }));
+  };
 
   return (
-    <SignupContext.Provider value={signup}>
-      <SignupDispatchContext.Provider value={setLogin}>
-        <Outlet />
-      </SignupDispatchContext.Provider>
-    </SignupContext.Provider>
+    <Funnel>
+      <Funnel.Step name="email">
+        <SignupEmail setSignupData={setSignupData} nextStep={() => setStep('verification')} />
+      </Funnel.Step>
+
+      <Funnel.Step name="verification">
+        <SignupVerification
+          signupData={signupData}
+          setSignupData={setSignupData}
+          nextStep={() => setStep('password')}
+        />
+      </Funnel.Step>
+
+      <Funnel.Step name="password">
+        <SignupPassword signupData={signupData} nextStep={() => setStep('complete')} />
+      </Funnel.Step>
+
+      <Funnel.Step name="complete">
+        <SignupComplete />
+      </Funnel.Step>
+    </Funnel>
   );
 }
