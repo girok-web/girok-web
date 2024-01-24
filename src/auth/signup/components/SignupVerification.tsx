@@ -1,35 +1,39 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { css } from '@emotion/react';
 import SignForm from '../../SignForm';
 import { typographyMap } from '../../../styles/typography';
 import { colorPalette } from '../../../styles/colorPalette';
-import { useSignup, useSignupDispatch } from '../../../pages/SignupPage';
 import { Spacing } from '../../../shared/Spacing';
 import { postEmailVerification, postEmailVerificationCheck } from '../remotes/query';
 import envelopeBlackIcon from '../../../assets/icons/envelope-black.svg';
 import Addition from '../../Addition';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import InputField from '../../../shared/InputField';
+import { SignupData } from '../../../pages/SignupPage';
 
 interface FormFields {
   verificationCode: string;
 }
 
-export default function SignupVerification() {
+interface SignupVerificationProps {
+  signupData: SignupData;
+  setSignupData: (key: keyof SignupData, value: SignupData[keyof SignupData]) => void;
+  nextStep: () => void;
+}
+
+export default function SignupVerification({ signupData, setSignupData, nextStep }: SignupVerificationProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormFields>();
 
-  const { email } = useSignup();
-  const setSignup = useSignupDispatch();
-  const navigate = useNavigate();
+  const { email } = signupData;
 
   const submitVerificationCode: SubmitHandler<FormFields> = ({ verificationCode }) => {
     postEmailVerificationCheck({ email, verificationCode }).then(() => {
-      setSignup((s) => ({ ...s, verificationCode }));
-      navigate('/signup/password');
+      setSignupData('verificationCode', verificationCode);
+      nextStep();
     });
   };
 
