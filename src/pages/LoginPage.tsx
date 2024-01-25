@@ -9,7 +9,7 @@ export default function LoginPage() {
     initialStep: 'email',
     stepQueryKey: 'step',
   });
-  const { login } = useLogin();
+  const { mutate: login } = useLogin();
 
   const [loginFormData, setLoginFormData] = useState({ email: '', password: '' });
 

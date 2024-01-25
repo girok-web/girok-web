@@ -15,7 +15,7 @@ interface LoginEmailProps {
 }
 
 export default function LoginEmail({ email, onChange, nextStep }: LoginEmailProps) {
-  const { verifyEmail } = useEmailVerified();
+  const { mutate: verifyEmail } = useEmailVerified();
   const [helperText, setHelperText] = useState('');
 
   const [checked, setChecked] = useState(false);
