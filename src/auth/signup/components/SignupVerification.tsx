@@ -37,13 +37,6 @@ export default function SignupVerification({ signupData, setSignupData, nextStep
     });
   };
 
-  const submitVerificationCode: SubmitHandler<FormFields> = ({ verificationCode }) => {
-    postEmailVerificationCheck({ email, verificationCode }).then(() => {
-      setSignup((s) => ({ ...s, verificationCode }));
-      navigate('/signup/password');
-    });
-  };
-
   return (
     <>
       <SignForm onSubmit={handleSubmit(submitVerificationCode)}>
