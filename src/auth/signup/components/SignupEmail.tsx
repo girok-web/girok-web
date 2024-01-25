@@ -1,6 +1,5 @@
-import { useNavigate } from 'react-router-dom';
 import SignForm from '../../SignForm';
-import { useSignupDispatch } from '../../../pages/SignupPage';
+import { SignupData } from '../../../pages/SignupPage';
 import { Spacing } from '../../../shared/Spacing';
 import { postEmailVerification } from '../remotes/query';
 import envelopeWhiteIcon from '../../../assets/icons/envelope-white.svg';
@@ -13,21 +12,23 @@ interface FormFields {
   email: string;
 }
 
-export default function SignupEmail() {
+interface SignupEmailProps {
+  setSignupData: (key: keyof SignupData, value: SignupData[keyof SignupData]) => void;
+  nextStep: () => void;
+}
+
+export default function SignupEmail({ setSignupData, nextStep }: SignupEmailProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormFields>();
 
-  const setSignup = useSignupDispatch();
-  const navigate = useNavigate();
-
   const submitEmail: SubmitHandler<FormFields> = ({ email }) => {
     postEmailVerification({ email })
       .then(() => {
-        setSignup((s) => ({ ...s, email }));
-        navigate('/signup/verification');
+        setSignupData('email', email);
+        nextStep();
       })
       .catch((error: AxiosError<{ error_code: string; detail: string }>) => {
         alert(error);

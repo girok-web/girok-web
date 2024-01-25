@@ -1,10 +1,10 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import SignForm from '../../SignForm';
 import { Spacing } from '../../../shared/Spacing';
 import Addition from '../../Addition';
 import InputField from '../../../shared/InputField';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useSignup } from '../../../pages/SignupPage';
+import { SignupData } from '../../../pages/SignupPage';
 import { postSignup } from '../remotes/query';
 
 interface FormFields {
@@ -12,19 +12,23 @@ interface FormFields {
   confirmPassword: string;
 }
 
-export default function SignupPassword() {
+interface SignupPasswordProps {
+  signupData: SignupData;
+  nextStep: () => void;
+}
+
+export default function SignupPassword({ signupData, nextStep }: SignupPasswordProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormFields>();
 
-  const { email, verificationCode } = useSignup();
-  const navigate = useNavigate();
+  const { email, verificationCode } = signupData;
 
   const onSubmit: SubmitHandler<FormFields> = async ({ password }) => {
     postSignup({ email, password, verificationCode }).then(() => {
-      navigate('/signup/complete');
+      nextStep();
     });
   };
 
