@@ -23,5 +23,5 @@ export const postSignup = ({
   password: string;
   verificationCode: string;
 }) => {
-  return http.post('/users', { email, password, verification_code: verificationCode });
+  return http.post('/sign-up', { email, password, verification_code: verificationCode });
 };
