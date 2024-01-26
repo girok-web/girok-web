@@ -11,7 +11,7 @@ export const postEmailVerificationCheck = ({
   email: string;
   verificationCode: string;
 }) => {
-  return http.post('/auth/verification-code/check', { email, verification_code: verificationCode });
+  return http.post('/auth/verification-code/check', { email, verificationCode });
 };
 
 export const postSignup = ({
