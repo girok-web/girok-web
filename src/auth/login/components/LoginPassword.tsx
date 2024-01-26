@@ -82,7 +82,7 @@ export default function LoginPassword({ loginFormData, onChange, login }: LoginP
 
       <Spacing size={24} />
 
-      <AuthPromptLink message="No account?" linkText="Create one" to="/signup/email" />
+      <AuthPromptLink message="No account?" linkText="Create one" to="/signup" />
     </>
   );
 }

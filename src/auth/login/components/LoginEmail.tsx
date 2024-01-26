@@ -81,7 +81,7 @@ export default function LoginEmail({ email, onChange, nextStep }: LoginEmailProp
 
       <Spacing size={24} />
 
-      <AuthPromptLink message="No account?" linkText="Create one" to="/signup/email" />
+      <AuthPromptLink message="No account?" linkText="Create one" to="/signup" />
     </>
   );
 }
