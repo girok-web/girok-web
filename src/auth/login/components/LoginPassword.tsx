@@ -44,7 +44,6 @@ export default function LoginPassword({ loginFormData, onChange, login }: LoginP
         <InputField type="password" bottomText={helperText}>
           <SignForm.Input
             name="password"
-            type="password"
             placeholder="Password"
             value={loginFormData.password}
             onChange={onChange}
