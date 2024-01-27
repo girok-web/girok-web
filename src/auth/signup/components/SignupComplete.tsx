@@ -11,7 +11,7 @@ export default function SignupComplete() {
       <Spacing size={8} />
       <SignForm.Description content="Welcome." />
       <Spacing size={216} />
-      <SignForm.Button role="link" type="button" onClick={() => navigate('/login/email')}>
+      <SignForm.Button role="link" type="button" onClick={() => navigate('/login')}>
         Sign in
       </SignForm.Button>
     </SignForm>
