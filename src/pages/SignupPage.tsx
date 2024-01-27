@@ -1,13 +1,16 @@
-import { useState } from 'react';
 import { useFunnel } from '../hooks/use-funnel/useFunnel';
 import SignupEmail from '../auth/signup/components/SignupEmail';
 import SignupVerification from '../auth/signup/components/SignupVerification';
 import SignupPassword from '../auth/signup/components/SignupPassword';
 import SignupComplete from '../auth/signup/components/SignupComplete';
+import { FormProvider, useForm } from 'react-hook-form';
+import { SignupRequest, postSignup } from '../auth/signup/remotes/query';
 
-export interface SignupData {
+export interface SignupFields {
   email: string;
   verificationCode: string;
+  password: string;
+  confirmPassword: string;
 }
 
 export default function SignupPage() {
@@ -16,36 +19,31 @@ export default function SignupPage() {
     stepQueryKey: 'step',
   });
 
-  const [signupData, _setSignupData] = useState<SignupData>({
-    email: '',
-    verificationCode: '',
-  });
+  const methods = useForm<SignupFields>();
 
-  const setSignupData = (key: keyof SignupData, value: SignupData[keyof SignupData]) => {
-    _setSignupData((prev) => ({ ...prev, [key]: value }));
+  const signup = (data: SignupRequest) => {
+    return postSignup(data);
   };
 
   return (
-    <Funnel>
-      <Funnel.Step name="email">
-        <SignupEmail setSignupData={setSignupData} nextStep={() => setStep('verification')} />
-      </Funnel.Step>
+    <FormProvider {...methods}>
+      <Funnel>
+        <Funnel.Step name="email">
+          <SignupEmail nextStep={() => setStep('verification')} />
+        </Funnel.Step>
 
-      <Funnel.Step name="verification">
-        <SignupVerification
-          signupData={signupData}
-          setSignupData={setSignupData}
-          nextStep={() => setStep('password')}
-        />
-      </Funnel.Step>
+        <Funnel.Step name="verification">
+          <SignupVerification nextStep={() => setStep('password')} />
+        </Funnel.Step>
 
-      <Funnel.Step name="password">
-        <SignupPassword signupData={signupData} nextStep={() => setStep('complete')} />
-      </Funnel.Step>
+        <Funnel.Step name="password">
+          <SignupPassword signup={signup} nextStep={() => setStep('complete')} />
+        </Funnel.Step>
 
-      <Funnel.Step name="complete">
-        <SignupComplete />
-      </Funnel.Step>
-    </Funnel>
+        <Funnel.Step name="complete">
+          <SignupComplete />
+        </Funnel.Step>
+      </Funnel>
+    </FormProvider>
   );
 }

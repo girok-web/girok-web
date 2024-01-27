@@ -3,31 +3,24 @@ import SignForm from '../../SignForm';
 import { Spacing } from '../../../shared/Spacing';
 import Addition from '../../Addition';
 import InputField from '../../../shared/InputField';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { SignupData } from '../../../pages/SignupPage';
-import { postSignup } from '../remotes/query';
-
-interface FormFields {
-  password: string;
-  confirmPassword: string;
-}
+import { SubmitHandler, useFormContext } from 'react-hook-form';
+import { SignupRequest } from '../remotes/query';
+import { SignupFields } from '../../../pages/SignupPage';
 
 interface SignupPasswordProps {
-  signupData: SignupData;
+  signup: (data: SignupRequest) => Promise<unknown>;
   nextStep: () => void;
 }
 
-export default function SignupPassword({ signupData, nextStep }: SignupPasswordProps) {
+export default function SignupPassword({ signup, nextStep }: SignupPasswordProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormFields>();
+  } = useFormContext<SignupFields>();
 
-  const { email, verificationCode } = signupData;
-
-  const onSubmit: SubmitHandler<FormFields> = async ({ password }) => {
-    postSignup({ email, password, verificationCode }).then(() => {
+  const onSubmit: SubmitHandler<SignupFields> = ({ email, password, verificationCode }) => {
+    signup({ email, password, verificationCode }).then(() => {
       nextStep();
     });
   };
