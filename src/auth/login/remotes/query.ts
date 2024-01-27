@@ -18,6 +18,6 @@ export interface PostLoginResponse {
   refreshToken: string;
 }
 
-export const postLogin = ({ email, password }: PostLoginRequest) => {
-  return http.post<PostLoginResponse, PostLoginRequest>('/auth/login', { email, password });
+export const postLogin = (requestBody: PostLoginRequest) => {
+  return http.post<PostLoginResponse, PostLoginRequest>('/auth/login', requestBody);
 };
