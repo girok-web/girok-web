@@ -7,10 +7,9 @@ import { Spacing } from '../../../shared/Spacing';
 import { postEmailVerification, postEmailVerificationCheck } from '../remotes/query';
 import envelopeBlackIcon from '../../../assets/icons/envelope-black.svg';
 import Addition from '../../Addition';
-import { useFormContext } from 'react-hook-form';
+import { SubmitHandler, useFormContext } from 'react-hook-form';
 import InputField from '../../../shared/InputField';
 import { SignupFields } from '../../../pages/SignupPage';
-import { FormEvent } from 'react';
 
 interface SignupVerificationProps {
   nextStep: () => void;
@@ -20,16 +19,13 @@ export default function SignupVerification({ nextStep }: SignupVerificationProps
   const {
     register,
     watch,
-    getValues,
+    handleSubmit,
     formState: { errors },
   } = useFormContext<SignupFields>();
 
   const email = watch('email');
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const { email, verificationCode } = getValues();
-
+  const onSubmit: SubmitHandler<SignupFields> = ({ email, verificationCode }) => {
     postEmailVerificationCheck({ email, verificationCode }).then(() => {
       nextStep();
     });
@@ -37,7 +33,7 @@ export default function SignupVerification({ nextStep }: SignupVerificationProps
 
   return (
     <>
-      <SignForm onSubmit={onSubmit}>
+      <SignForm onSubmit={handleSubmit(onSubmit)}>
         <SignForm.Title name="Sign up" />
         <Spacing size={8} />
         <SignForm.Description content="Check your mailbox." />

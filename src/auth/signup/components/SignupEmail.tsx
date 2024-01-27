@@ -5,9 +5,8 @@ import { postEmailVerification } from '../remotes/query';
 import envelopeWhiteIcon from '../../../assets/icons/envelope-white.svg';
 import { css } from '@emotion/react';
 import InputField from '../../../shared/InputField';
-import { useFormContext } from 'react-hook-form';
+import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { AxiosError } from 'axios';
-import { FormEvent } from 'react';
 
 interface SignupEmailProps {
   nextStep: () => void;
@@ -16,14 +15,11 @@ interface SignupEmailProps {
 export default function SignupEmail({ nextStep }: SignupEmailProps) {
   const {
     register,
-    getValues,
+    handleSubmit,
     formState: { errors },
   } = useFormContext<SignupFields>();
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const { email } = getValues();
-
+  const onSubmit: SubmitHandler<SignupFields> = ({ email }) => {
     postEmailVerification({ email })
       .then(() => {
         nextStep();
@@ -34,7 +30,7 @@ export default function SignupEmail({ nextStep }: SignupEmailProps) {
   };
 
   return (
-    <SignForm onSubmit={onSubmit}>
+    <SignForm onSubmit={handleSubmit(onSubmit)}>
       <SignForm.Title name="Sign up" />
       <Spacing size={8} />
       <SignForm.Description content="Enter your Email. We will send you verification code." />
@@ -42,7 +38,10 @@ export default function SignupEmail({ nextStep }: SignupEmailProps) {
       <InputField type="text" bottomText={errors.email?.message}>
         <SignForm.Input
           {...register('email', {
-            required: true,
+            required: {
+              value: true,
+              message: 'Please enter your email.',
+            },
           })}
           placeholder="Email"
           hasError={!!errors.email}
