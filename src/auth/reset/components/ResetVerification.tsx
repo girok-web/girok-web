@@ -1,43 +1,62 @@
-import { useNavigate } from 'react-router-dom';
 import { css } from '@emotion/react';
 import { typographyMap } from '../../../styles/typography';
 import SignForm from '../../SignForm';
-import { useReset, useResetDispatch } from '../../../pages/ResetPage';
 import { colorPalette } from '../../../styles/colorPalette';
 import { Spacing } from '../../../shared/Spacing';
 import envelopeBlackIcon from '../../../assets/icons/envelope-black.svg';
+import { ResetData } from '../../../pages/ResetPage';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import InputField from '../../../shared/InputField';
+import { postResetVerification, postResetVerificationCheck } from '../remotes/query';
 
-export default function ResetVerification() {
-  const { verificationCode } = useReset();
-  const setReset = useResetDispatch();
+interface FormFields {
+  verificationCode: string;
+}
 
-  const navigate = useNavigate();
+interface ResetVerificationProps {
+  resetData: ResetData;
+  setResetData: (key: keyof ResetData, value: ResetData[keyof ResetData]) => void;
+  nextStep: () => void;
+}
+
+export default function ResetVerification({ resetData, setResetData, nextStep }: ResetVerificationProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormFields>();
+
+  const { email } = resetData;
+
+  const submitVerificationCode: SubmitHandler<FormFields> = ({ verificationCode }) => {
+    postResetVerificationCheck({ email, verificationCode }).then(() => {
+      setResetData('verificationCode', verificationCode);
+      nextStep();
+    });
+  };
 
   return (
-    <SignForm
-      onSubmit={(e) => {
-        e.preventDefault();
-
-        navigate('/reset/password');
-      }}
-    >
+    <SignForm onSubmit={handleSubmit(submitVerificationCode)}>
       <SignForm.Title name="Reset password" />
       <Spacing size={8} />
       <SignForm.Description content="Check your mailbox." />
       <Spacing size={32} />
-      <SignForm.Input
-        type="text"
-        placeholder="Verification code"
-        value={verificationCode}
-        onChange={({ currentTarget }) => setReset((r) => ({ ...r, verificationCode: currentTarget.value }))}
-      />
+      <InputField type="text" bottomText={errors.verificationCode?.message}>
+        <SignForm.Input
+          {...register('verificationCode', {
+            required: true,
+          })}
+          placeholder="Verification code"
+          hasError={!!errors.verificationCode}
+        />
+      </InputField>
       <Spacing size={56} />
       <SignForm.Button type="submit">Next</SignForm.Button>
       <Spacing size={24} />
       <button
         type="button"
         onClick={() => {
-          // postEmailVerification({ email });
+          postResetVerification({ email });
         }}
         css={css([typographyMap.smallBody, { color: colorPalette.darkGray }])}
       >
