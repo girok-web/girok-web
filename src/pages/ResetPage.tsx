@@ -1,43 +1,47 @@
-import { Dispatch, SetStateAction, createContext, useContext, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { useState } from 'react';
+import { useFunnel } from '../hooks/use-funnel/useFunnel';
+import ResetEmail from '../auth/reset/components/ResetEmail';
+import ResetVerification from '../auth/reset/components/ResetVerification';
+import ResetPassword from '../auth/reset/components/ResetPassword';
+import ResetComplete from '../auth/reset/components/ResetComplete';
 
-type ResetInfo = {
+export interface ResetData {
   email: string;
   verificationCode: string;
-  password: string;
-};
-
-const ResetContext = createContext<ResetInfo | null>(null);
-const ResetDispatchContext = createContext<Dispatch<SetStateAction<ResetInfo>> | null>(null);
-
-export const useReset = () => {
-  const reset = useContext(ResetContext);
-
-  if (reset === null) {
-    throw new Error('ResetContext를 Provider로 감싸지 않았습니다.');
-  }
-
-  return reset;
-};
-
-export const useResetDispatch = () => {
-  const resetDispatch = useContext(ResetDispatchContext);
-
-  if (resetDispatch === null) {
-    throw new Error('ResetDispatchContext를 Provider로 감싸지 않았습니다.');
-  }
-
-  return resetDispatch;
-};
+}
 
 export default function ResetPage() {
-  const [reset, setReset] = useState<ResetInfo>({ email: '', password: '', verificationCode: '' });
+  const [Funnel, setStep] = useFunnel(['email', 'verification', 'password', 'complete'] as const, {
+    initialStep: 'email',
+    stepQueryKey: 'step',
+  });
+
+  const [resetData, _setResetData] = useState<ResetData>({
+    email: '',
+    verificationCode: '',
+  });
+
+  const setResetData = (key: keyof ResetData, value: ResetData[keyof ResetData]) => {
+    _setResetData((prev) => ({ ...prev, [key]: value }));
+  };
 
   return (
-    <ResetContext.Provider value={reset}>
-      <ResetDispatchContext.Provider value={setReset}>
-        <Outlet />
-      </ResetDispatchContext.Provider>
-    </ResetContext.Provider>
+    <Funnel>
+      <Funnel.Step name="email">
+        <ResetEmail setResetData={setResetData} nextStep={() => setStep('verification')} />
+      </Funnel.Step>
+
+      <Funnel.Step name="verification">
+        <ResetVerification resetData={resetData} setResetData={setResetData} nextStep={() => setStep('password')} />
+      </Funnel.Step>
+
+      <Funnel.Step name="password">
+        <ResetPassword resetData={resetData} nextStep={() => setStep('complete')} />
+      </Funnel.Step>
+
+      <Funnel.Step name="complete">
+        <ResetComplete />
+      </Funnel.Step>
+    </Funnel>
   );
 }
