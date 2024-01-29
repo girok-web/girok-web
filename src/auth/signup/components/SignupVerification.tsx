@@ -9,7 +9,7 @@ import envelopeBlackIcon from '../../../assets/icons/envelope-black.svg';
 import Addition from '../../Addition';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import InputField from '../../../shared/InputField';
-import { SignupStepFields } from '../../../pages/SignupPage';
+import { SignupFields } from '../../../pages/SignupPage';
 
 interface SignupVerificationProps {
   nextStep: () => void;
@@ -21,14 +21,11 @@ export default function SignupVerification({ nextStep }: SignupVerificationProps
     watch,
     handleSubmit,
     formState: { errors },
-  } = useFormContext<SignupStepFields>();
+  } = useFormContext<SignupFields>();
 
-  const email = watch('emailStep.email');
+  const email = watch('email');
 
-  const onSubmit: SubmitHandler<SignupStepFields> = ({
-    emailStep: { email },
-    verificationStep: { verificationCode },
-  }) => {
+  const onSubmit: SubmitHandler<SignupFields> = ({ email, verificationCode }) => {
     postEmailVerificationCheck({ email, verificationCode }).then(() => {
       nextStep();
     });
@@ -41,13 +38,13 @@ export default function SignupVerification({ nextStep }: SignupVerificationProps
         <Spacing size={8} />
         <SignForm.Description content="Check your mailbox." />
         <Spacing size={32} />
-        <InputField type="text" bottomText={errors.verificationStep?.verificationCode?.message}>
+        <InputField type="text" bottomText={errors.verificationCode?.message}>
           <SignForm.Input
-            {...register('verificationStep.verificationCode', {
+            {...register('verificationCode', {
               required: true,
             })}
             placeholder="Verification code"
-            hasError={!!errors.verificationStep?.verificationCode}
+            hasError={!!errors.verificationCode}
           />
         </InputField>
         <Spacing size={56} />
