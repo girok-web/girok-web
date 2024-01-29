@@ -19,5 +19,5 @@ export interface PostLoginResponse {
 }
 
 export const postLogin = (requestBody: PostLoginRequest) => {
-  return http.post<PostLoginResponse, PostLoginRequest>('/auth/login', requestBody);
+  return http.post<PostLoginResponse, PostLoginRequest>('/login', requestBody);
 };
