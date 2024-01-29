@@ -6,11 +6,17 @@ import SignupComplete from '../auth/signup/components/SignupComplete';
 import { FormProvider, useForm } from 'react-hook-form';
 import { SignupRequest, postSignup } from '../auth/signup/remotes/query';
 
-export interface SignupFields {
-  email: string;
-  verificationCode: string;
-  password: string;
-  confirmPassword: string;
+export interface SignupStepFields {
+  emailStep: {
+    email: string;
+  };
+  verificationStep: {
+    verificationCode: string;
+  };
+  passwordStep: {
+    password: string;
+    confirmPassword: string;
+  };
 }
 
 export default function SignupPage() {
@@ -19,7 +25,7 @@ export default function SignupPage() {
     stepQueryKey: 'step',
   });
 
-  const methods = useForm<SignupFields>();
+  const methods = useForm<SignupStepFields>();
 
   const signup = (data: SignupRequest) => {
     return postSignup(data);

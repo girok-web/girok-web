@@ -5,7 +5,7 @@ import Addition from '../../Addition';
 import InputField from '../../../shared/InputField';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { SignupRequest } from '../remotes/query';
-import { SignupFields } from '../../../pages/SignupPage';
+import { SignupStepFields } from '../../../pages/SignupPage';
 
 interface SignupPasswordProps {
   signup: (data: SignupRequest) => Promise<unknown>;
@@ -17,9 +17,13 @@ export default function SignupPassword({ signup, nextStep }: SignupPasswordProps
     register,
     handleSubmit,
     formState: { errors },
-  } = useFormContext<SignupFields>();
+  } = useFormContext<SignupStepFields>();
 
-  const onSubmit: SubmitHandler<SignupFields> = ({ email, password, verificationCode }) => {
+  const onSubmit: SubmitHandler<SignupStepFields> = ({
+    emailStep: { email },
+    passwordStep: { password },
+    verificationStep: { verificationCode },
+  }) => {
     signup({ email, password, verificationCode }).then(() => {
       nextStep();
     });
@@ -34,27 +38,27 @@ export default function SignupPassword({ signup, nextStep }: SignupPasswordProps
         <Spacing size={32} />
         <InputField type="password">
           <SignForm.Input
-            {...register('password', {
+            {...register('passwordStep.password', {
               required: true,
             })}
             placeholder="Password"
-            hasError={!!errors.password}
+            hasError={!!errors.passwordStep?.password}
           />
         </InputField>
         <Spacing size={16} />
 
-        <InputField type="password" bottomText={errors.confirmPassword?.message}>
+        <InputField type="password" bottomText={errors.passwordStep?.confirmPassword?.message}>
           <SignForm.Input
-            {...register('confirmPassword', {
+            {...register('passwordStep.confirmPassword', {
               validate: (confirmPassword, formValues) => {
-                if (confirmPassword !== formValues.password) {
+                if (confirmPassword !== formValues.passwordStep?.password) {
                   return 'The password does not match. Please check again.';
                 }
                 return true;
               },
             })}
             placeholder="Confirm password"
-            hasError={!!errors.confirmPassword}
+            hasError={!!errors.passwordStep?.confirmPassword}
           />
         </InputField>
 

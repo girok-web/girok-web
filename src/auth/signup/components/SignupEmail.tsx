@@ -1,5 +1,5 @@
 import SignForm from '../../SignForm';
-import { SignupFields } from '../../../pages/SignupPage';
+import { SignupStepFields } from '../../../pages/SignupPage';
 import { Spacing } from '../../../shared/Spacing';
 import { postEmailVerification } from '../remotes/query';
 import envelopeWhiteIcon from '../../../assets/icons/envelope-white.svg';
@@ -17,9 +17,9 @@ export default function SignupEmail({ nextStep }: SignupEmailProps) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useFormContext<SignupFields>();
+  } = useFormContext<SignupStepFields>();
 
-  const onSubmit: SubmitHandler<SignupFields> = ({ email }) => {
+  const onSubmit: SubmitHandler<SignupStepFields> = ({ emailStep: { email } }) => {
     postEmailVerification({ email })
       .then(() => {
         nextStep();
@@ -35,16 +35,16 @@ export default function SignupEmail({ nextStep }: SignupEmailProps) {
       <Spacing size={8} />
       <SignForm.Description content="Enter your Email. We will send you verification code." />
       <Spacing size={32} />
-      <InputField type="text" bottomText={errors.email?.message}>
+      <InputField type="text" bottomText={errors.emailStep?.email?.message}>
         <SignForm.Input
-          {...register('email', {
+          {...register('emailStep.email', {
             required: {
               value: true,
               message: 'Please enter your email.',
             },
           })}
           placeholder="Email"
-          hasError={!!errors.email}
+          hasError={!!errors.emailStep?.email}
         />
       </InputField>
       <Spacing size={56} />
