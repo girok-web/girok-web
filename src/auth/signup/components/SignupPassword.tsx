@@ -3,31 +3,24 @@ import SignForm from '../../SignForm';
 import { Spacing } from '../../../shared/Spacing';
 import Addition from '../../Addition';
 import InputField from '../../../shared/InputField';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { SignupData } from '../../../pages/SignupPage';
-import { postSignup } from '../remotes/query';
-
-interface FormFields {
-  password: string;
-  confirmPassword: string;
-}
+import { SubmitHandler, useFormContext } from 'react-hook-form';
+import { SignupRequest } from '../remotes/query';
+import { SignupFields } from '../../../pages/SignupPage';
 
 interface SignupPasswordProps {
-  signupData: SignupData;
+  signup: (data: SignupRequest) => Promise<unknown>;
   nextStep: () => void;
 }
 
-export default function SignupPassword({ signupData, nextStep }: SignupPasswordProps) {
+export default function SignupPassword({ signup, nextStep }: SignupPasswordProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormFields>();
+  } = useFormContext<SignupFields>();
 
-  const { email, verificationCode } = signupData;
-
-  const onSubmit: SubmitHandler<FormFields> = async ({ password }) => {
-    postSignup({ email, password, verificationCode }).then(() => {
+  const onSubmit: SubmitHandler<SignupFields> = ({ email, verificationCode, password: { password } }) => {
+    signup({ email, password, verificationCode }).then(() => {
       nextStep();
     });
   };
@@ -41,27 +34,27 @@ export default function SignupPassword({ signupData, nextStep }: SignupPasswordP
         <Spacing size={32} />
         <InputField type="password">
           <SignForm.Input
-            {...register('password', {
+            {...register('password.password', {
               required: true,
             })}
             placeholder="Password"
-            hasError={!!errors.password}
+            hasError={!!errors.password?.password?.message}
           />
         </InputField>
         <Spacing size={16} />
 
-        <InputField type="password" bottomText={errors.confirmPassword?.message}>
+        <InputField type="password" bottomText={errors.password?.confirmPassword?.message}>
           <SignForm.Input
-            {...register('confirmPassword', {
+            {...register('password.confirmPassword', {
               validate: (confirmPassword, formValues) => {
-                if (confirmPassword !== formValues.password) {
+                if (confirmPassword !== formValues.password?.password) {
                   return 'The password does not match. Please check again.';
                 }
                 return true;
               },
             })}
             placeholder="Confirm password"
-            hasError={!!errors.confirmPassword}
+            hasError={!!errors.password?.confirmPassword}
           />
         </InputField>
 

@@ -1,13 +1,19 @@
 import { http } from '../../../utils/http';
 
-export const postEmailVerification = (requestBody: { email: string }) => {
+export interface SignupRequest {
+  email: string;
+  password: string;
+  verificationCode: string;
+}
+
+export const postEmailVerification = (requestBody: Pick<SignupRequest, 'email'>) => {
   return http.post('/auth/verification-code', requestBody);
 };
 
-export const postEmailVerificationCheck = (requestBody: { email: string; verificationCode: string }) => {
+export const postEmailVerificationCheck = (requestBody: Pick<SignupRequest, 'email' | 'verificationCode'>) => {
   return http.post('/auth/verification-code/check', requestBody);
 };
 
-export const postSignup = (requestBody: { email: string; password: string; verificationCode: string }) => {
+export const postSignup = (requestBody: SignupRequest) => {
   return http.post('/sign-up', requestBody);
 };
