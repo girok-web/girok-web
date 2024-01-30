@@ -6,9 +6,10 @@ import InputField from '../../../shared/InputField';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { SignupRequest } from '../remotes/query';
 import { SignupFields } from '../../../pages/SignupPage';
+import { UseMutateFunction } from '@tanstack/react-query';
 
 interface SignupPasswordProps {
-  signup: (data: SignupRequest) => Promise<unknown>;
+  signup: UseMutateFunction<unknown, Error, SignupRequest, unknown>;
   nextStep: () => void;
 }
 
@@ -20,9 +21,12 @@ export default function SignupPassword({ signup, nextStep }: SignupPasswordProps
   } = useFormContext<SignupFields>();
 
   const onSubmit: SubmitHandler<SignupFields> = ({ email, verificationCode, password: { password } }) => {
-    signup({ email, password, verificationCode }).then(() => {
-      nextStep();
-    });
+    signup(
+      { email, password, verificationCode },
+      {
+        onSuccess: () => nextStep(),
+      },
+    );
   };
 
   return (

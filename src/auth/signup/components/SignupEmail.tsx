@@ -1,12 +1,11 @@
 import SignForm from '../../SignForm';
 import { SignupFields } from '../../../pages/SignupPage';
 import { Spacing } from '../../../shared/Spacing';
-import { postEmailVerification } from '../remotes/query';
 import envelopeWhiteIcon from '../../../assets/icons/envelope-white.svg';
 import { css } from '@emotion/react';
 import InputField from '../../../shared/InputField';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
-import { AxiosError } from 'axios';
+import usePostEmailVerification from '../remotes/hooks/usePostEmailVerification';
 
 interface SignupEmailProps {
   nextStep: () => void;
@@ -19,14 +18,16 @@ export default function SignupEmail({ nextStep }: SignupEmailProps) {
     formState: { errors },
   } = useFormContext<SignupFields>();
 
+  const { mutate: postEmailVerification } = usePostEmailVerification();
+
   const onSubmit: SubmitHandler<SignupFields> = ({ email }) => {
-    postEmailVerification({ email })
-      .then(() => {
-        nextStep();
-      })
-      .catch((error: AxiosError<{ error_code: string; detail: string }>) => {
-        alert(error);
-      });
+    postEmailVerification(
+      { email },
+      {
+        onSuccess: () => nextStep(),
+        onError: (error) => alert(error),
+      },
+    );
   };
 
   return (

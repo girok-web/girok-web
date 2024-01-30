@@ -4,12 +4,13 @@ import SignForm from '../../SignForm';
 import { typographyMap } from '../../../styles/typography';
 import { colorPalette } from '../../../styles/colorPalette';
 import { Spacing } from '../../../shared/Spacing';
-import { postEmailVerification, postEmailVerificationCheck } from '../remotes/query';
 import envelopeBlackIcon from '../../../assets/icons/envelope-black.svg';
 import Addition from '../../Addition';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import InputField from '../../../shared/InputField';
 import { SignupFields } from '../../../pages/SignupPage';
+import usePostEmailVerification from '../remotes/hooks/usePostEmailVerification';
+import usePostEmailVerificationCheck from '../remotes/hooks/usePostEmailVerificationCheck';
 
 interface SignupVerificationProps {
   nextStep: () => void;
@@ -23,12 +24,18 @@ export default function SignupVerification({ nextStep }: SignupVerificationProps
     formState: { errors },
   } = useFormContext<SignupFields>();
 
+  const { mutate: postEmailVerification } = usePostEmailVerification();
+  const { mutate: postEmailVerificationCheck } = usePostEmailVerificationCheck();
+
   const email = watch('email');
 
   const onSubmit: SubmitHandler<SignupFields> = ({ email, verificationCode }) => {
-    postEmailVerificationCheck({ email, verificationCode }).then(() => {
-      nextStep();
-    });
+    postEmailVerificationCheck(
+      { email, verificationCode },
+      {
+        onSuccess: () => nextStep(),
+      },
+    );
   };
 
   return (
