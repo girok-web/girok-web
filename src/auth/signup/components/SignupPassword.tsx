@@ -7,6 +7,7 @@ import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { SignupRequest } from '../remotes/query';
 import { SignupFields } from '../../../pages/SignupPage';
 import { UseMutateFunction } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
 interface SignupPasswordProps {
   signup: UseMutateFunction<unknown, Error, SignupRequest, unknown>;
@@ -17,6 +18,7 @@ export default function SignupPassword({ signup, nextStep }: SignupPasswordProps
   const {
     register,
     handleSubmit,
+    setFocus,
     formState: { errors },
   } = useFormContext<SignupFields>();
 
@@ -28,6 +30,10 @@ export default function SignupPassword({ signup, nextStep }: SignupPasswordProps
       },
     );
   };
+
+  useEffect(() => {
+    setFocus('password.password');
+  }, [setFocus]);
 
   return (
     <>

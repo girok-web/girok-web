@@ -6,6 +6,7 @@ import { css } from '@emotion/react';
 import InputField from '../../../shared/InputField';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import usePostEmailVerification from '../remotes/hooks/usePostEmailVerification';
+import { useEffect } from 'react';
 
 interface SignupEmailProps {
   nextStep: () => void;
@@ -15,6 +16,7 @@ export default function SignupEmail({ nextStep }: SignupEmailProps) {
   const {
     register,
     handleSubmit,
+    setFocus,
     formState: { errors },
   } = useFormContext<SignupFields>();
 
@@ -29,6 +31,10 @@ export default function SignupEmail({ nextStep }: SignupEmailProps) {
       },
     );
   };
+
+  useEffect(() => {
+    setFocus('email');
+  }, [setFocus]);
 
   return (
     <SignForm onSubmit={handleSubmit(onSubmit)}>

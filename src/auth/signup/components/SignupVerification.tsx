@@ -11,6 +11,7 @@ import InputField from '../../../shared/InputField';
 import { SignupFields } from '../../../pages/SignupPage';
 import usePostEmailVerification from '../remotes/hooks/usePostEmailVerification';
 import usePostEmailVerificationCheck from '../remotes/hooks/usePostEmailVerificationCheck';
+import { useEffect } from 'react';
 
 interface SignupVerificationProps {
   nextStep: () => void;
@@ -21,6 +22,7 @@ export default function SignupVerification({ nextStep }: SignupVerificationProps
     register,
     watch,
     handleSubmit,
+    setFocus,
     formState: { errors },
   } = useFormContext<SignupFields>();
 
@@ -37,6 +39,10 @@ export default function SignupVerification({ nextStep }: SignupVerificationProps
       },
     );
   };
+
+  useEffect(() => {
+    setFocus('verificationCode');
+  }, [setFocus]);
 
   return (
     <>
