@@ -16,7 +16,9 @@ export default function LoginPage() {
   });
   const { mutate: login } = useLogin();
 
-  const methods = useForm<LoginFields>();
+  const methods = useForm<LoginFields>({
+    reValidateMode: 'onSubmit',
+  });
 
   return (
     <FormProvider {...methods}>

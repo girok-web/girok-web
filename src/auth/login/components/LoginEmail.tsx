@@ -56,6 +56,10 @@ export default function LoginEmail({ nextStep }: LoginEmailProps) {
           <SignForm.Input
             {...register('email', {
               required: true,
+              pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: 'Not a valid email format. Please check again.',
+              },
             })}
             placeholder="Email"
             hasError={Boolean(errors.email?.message)}
