@@ -1,5 +1,5 @@
 import SignForm from '../../SignForm';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Spacing } from '../../../shared/Spacing';
 import { css } from '@emotion/react';
 import checkboxOnIcon from '../../../assets/icons/checkbox-on.svg';
@@ -7,22 +7,26 @@ import checkboxOffIcon from '../../../assets/icons/checkbox-off.svg';
 import AuthPromptLink from '../../AuthPromptLink';
 import InputField from '../../../shared/InputField';
 import useEmailVerified from '../hooks/useEmailVerified';
+import { LoginFields } from '../../../pages/LoginPage';
+import { SubmitHandler, useFormContext } from 'react-hook-form';
 
 interface LoginEmailProps {
-  email: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   nextStep: () => void;
 }
 
-export default function LoginEmail({ email, onChange, nextStep }: LoginEmailProps) {
+export default function LoginEmail({ nextStep }: LoginEmailProps) {
+  const {
+    register,
+    handleSubmit,
+    setError,
+    setFocus,
+    formState: { errors },
+  } = useFormContext<LoginFields>();
   const { mutate: verifyEmail } = useEmailVerified();
-  const [helperText, setHelperText] = useState('');
 
   const [checked, setChecked] = useState(false);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const onSubmit: SubmitHandler<LoginFields> = ({ email }) => {
     verifyEmail(
       { email },
       {
@@ -30,27 +34,31 @@ export default function LoginEmail({ email, onChange, nextStep }: LoginEmailProp
           if (data?.isRegistered) {
             nextStep();
           } else {
-            setHelperText('No matching emails found. Please check again.');
+            setError('email', { message: 'No matching emails found. Please check again.' });
           }
         },
       },
     );
   };
 
+  useEffect(() => {
+    setFocus('email');
+  }, [setFocus]);
+
   return (
     <>
-      <SignForm onSubmit={onSubmit}>
+      <SignForm onSubmit={handleSubmit(onSubmit)}>
         <SignForm.Title name="Sign in" />
         <Spacing size={8} />
         <SignForm.Description content="Enter your email." />
         <Spacing size={32} />
-        <InputField type="text" bottomText={helperText}>
+        <InputField type="text" bottomText={errors.email?.message}>
           <SignForm.Input
-            name="email"
+            {...register('email', {
+              required: true,
+            })}
             placeholder="Email"
-            value={email}
-            onChange={onChange}
-            hasError={Boolean(helperText)}
+            hasError={Boolean(errors.email?.message)}
           />
         </InputField>
         <Spacing size={56} />

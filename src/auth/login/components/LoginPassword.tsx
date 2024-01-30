@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import SignForm from '../../SignForm';
 import { Spacing } from '../../../shared/Spacing';
@@ -9,45 +9,56 @@ import MoveToReset from './MoveToReset';
 import { PostLoginRequest } from '../remotes/query';
 import { UseMutateFunction } from '@tanstack/react-query';
 import InputField from '../../../shared/InputField';
+import { SubmitHandler, useFormContext } from 'react-hook-form';
+import { LoginFields } from '../../../pages/LoginPage';
 
 interface LoginPasswordProps {
-  loginFormData: { email: string; password: string };
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   login: UseMutateFunction<{ accessToken: string; refreshToken: string }, Error, PostLoginRequest, unknown>;
 }
 
-export default function LoginPassword({ loginFormData, onChange, login }: LoginPasswordProps) {
-  const [helperText, setHelperText] = useState('');
+export default function LoginPassword({ login }: LoginPasswordProps) {
+  const {
+    register,
+    handleSubmit,
+    setError,
+    setFocus,
+    formState: { errors },
+  } = useFormContext<LoginFields>();
 
   const [checked, setChecked] = useState(false);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    login(loginFormData, {
-      onSuccess: () => {
-        alert('성공');
+  const onSubmit: SubmitHandler<LoginFields> = ({ email, password }) => {
+    login(
+      { email, password },
+      {
+        onSuccess: () => {
+          alert('성공');
+        },
+        onError: () => {
+          setError('password', { message: 'The password is invalid. Please check again.' });
+        },
       },
-      onError: () => {
-        setHelperText('The password is invalid. Please check again.');
-      },
-    });
+    );
   };
+
+  useEffect(() => {
+    setFocus('password');
+  }, [setFocus]);
 
   return (
     <>
-      <SignForm onSubmit={onSubmit}>
+      <SignForm onSubmit={handleSubmit(onSubmit)}>
         <SignForm.Title name="Sign in" />
         <Spacing size={8} />
         <SignForm.Description content="Enter your password." />
         <Spacing size={32} />
-        <InputField type="password" bottomText={helperText}>
+        <InputField type="password" bottomText={errors.password?.message}>
           <SignForm.Input
-            name="password"
+            {...register('password', {
+              required: true,
+            })}
             placeholder="Password"
-            value={loginFormData.password}
-            onChange={onChange}
-            hasError={Boolean(helperText)}
+            hasError={Boolean(errors.password?.message)}
           />
         </InputField>
         <Spacing size={56} />
