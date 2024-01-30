@@ -21,7 +21,9 @@ export default function SignupPage() {
     stepQueryKey: 'step',
   });
 
-  const methods = useForm<SignupFields>();
+  const methods = useForm<SignupFields>({
+    reValidateMode: 'onSubmit',
+  });
 
   const { mutate: signup } = useSignup();
 

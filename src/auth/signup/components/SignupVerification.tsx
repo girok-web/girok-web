@@ -23,6 +23,7 @@ export default function SignupVerification({ nextStep }: SignupVerificationProps
     watch,
     handleSubmit,
     setFocus,
+    setError,
     formState: { errors },
   } = useFormContext<SignupFields>();
 
@@ -36,6 +37,9 @@ export default function SignupVerification({ nextStep }: SignupVerificationProps
       { email, verificationCode },
       {
         onSuccess: () => nextStep(),
+        onError: () => {
+          setError('verificationCode', { message: 'Verification code does not match. Please check again.' });
+        },
       },
     );
   };
@@ -54,7 +58,10 @@ export default function SignupVerification({ nextStep }: SignupVerificationProps
         <InputField type="text" bottomText={errors.verificationCode?.message}>
           <SignForm.Input
             {...register('verificationCode', {
-              required: true,
+              required: {
+                value: true,
+                message: 'Enter certification code.',
+              },
             })}
             placeholder="Verification code"
             hasError={!!errors.verificationCode}

@@ -47,7 +47,11 @@ export default function SignupEmail({ nextStep }: SignupEmailProps) {
           {...register('email', {
             required: {
               value: true,
-              message: 'Please enter your email.',
+              message: 'Enter an email.',
+            },
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: 'Not a valid email format. Please check again.',
             },
           })}
           placeholder="Email"
