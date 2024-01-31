@@ -51,7 +51,7 @@ export default function MainPage() {
               color: colorPalette.red,
             },
           ])}
-          to="/reset/email"
+          to="/reset"
         >
           비밀번호 초기화
         </Link>

@@ -1,34 +1,49 @@
-import { useNavigate } from 'react-router-dom';
 import SignForm from '../../SignForm';
 import { Spacing } from '../../../shared/Spacing';
-import { useReset, useResetDispatch } from '../../../pages/ResetPage';
 import { css } from '@emotion/react';
 import envelopeWhiteIcon from '../../../assets/icons/envelope-white.svg';
+import { SubmitHandler, useFormContext } from 'react-hook-form';
+import InputField from '../../../shared/InputField';
+import { AxiosError } from 'axios';
+import { postResetVerification } from '../remotes/query';
+import { ResetFields } from '../../../pages/ResetPage';
 
-export default function ResetEmail() {
-  const { email } = useReset();
-  const setReset = useResetDispatch();
+interface ResetEmailProps {
+  nextStep: () => void;
+}
 
-  const navigate = useNavigate();
+export default function ResetEmail({ nextStep }: ResetEmailProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useFormContext<ResetFields>();
+
+  const submitEmail: SubmitHandler<ResetFields> = ({ email }) => {
+    postResetVerification({ email })
+      .then(() => {
+        nextStep();
+      })
+      .catch((error: AxiosError<{ errorCode: string; detail: string }>) => {
+        alert(`${error}, ${error.response?.data.errorCode}`);
+      });
+  };
 
   return (
-    <SignForm
-      onSubmit={(e) => {
-        e.preventDefault();
-
-        navigate('/reset/verification');
-      }}
-    >
+    <SignForm onSubmit={handleSubmit(submitEmail)}>
       <SignForm.Title name="Reset password" />
       <Spacing size={8} />
       <SignForm.Description content="Enter your Email. We will send you verification code." />
       <Spacing size={32} />
-      <SignForm.Input
-        type="text"
-        placeholder="Email"
-        value={email}
-        onChange={({ currentTarget }) => setReset((r) => ({ ...r, email: currentTarget.value }))}
-      />
+      <InputField type="text">
+        <SignForm.Input
+          {...register('email', {
+            required: true,
+          })}
+          placeholder="Email"
+          hasError={!!errors.email}
+        />
+      </InputField>
       <Spacing size={56} />
       <SignForm.Button
         type="submit"
