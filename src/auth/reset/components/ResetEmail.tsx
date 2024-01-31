@@ -1,33 +1,27 @@
 import SignForm from '../../SignForm';
 import { Spacing } from '../../../shared/Spacing';
-import { ResetData } from '../../../pages/ResetPage';
 import { css } from '@emotion/react';
 import envelopeWhiteIcon from '../../../assets/icons/envelope-white.svg';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useFormContext } from 'react-hook-form';
 import InputField from '../../../shared/InputField';
 import { AxiosError } from 'axios';
 import { postResetVerification } from '../remotes/query';
-
-interface FormFields {
-  email: string;
-}
+import { ResetFields } from '../../../pages/ResetPage';
 
 interface ResetEmailProps {
-  setResetData: (key: keyof ResetData, value: ResetData[keyof ResetData]) => void;
   nextStep: () => void;
 }
 
-export default function ResetEmail({ setResetData, nextStep }: ResetEmailProps) {
+export default function ResetEmail({ nextStep }: ResetEmailProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormFields>();
+  } = useFormContext<ResetFields>();
 
-  const submitEmail: SubmitHandler<FormFields> = ({ email }) => {
+  const submitEmail: SubmitHandler<ResetFields> = ({ email }) => {
     postResetVerification({ email })
       .then(() => {
-        setResetData('email', email);
         nextStep();
       })
       .catch((error: AxiosError<{ errorCode: string; detail: string }>) => {

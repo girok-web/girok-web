@@ -1,13 +1,18 @@
-import { useState } from 'react';
 import { useFunnel } from '../hooks/use-funnel/useFunnel';
 import ResetEmail from '../auth/reset/components/ResetEmail';
 import ResetVerification from '../auth/reset/components/ResetVerification';
 import ResetPassword from '../auth/reset/components/ResetPassword';
 import ResetComplete from '../auth/reset/components/ResetComplete';
+import { FormProvider, useForm } from 'react-hook-form';
+import { ResetPasswordRequest, postResetPassword } from '../auth/reset/remotes/query';
 
-export interface ResetData {
+export interface ResetFields {
   email: string;
   verificationCode: string;
+  password: {
+    password: string;
+    confirmPassword: string;
+  };
 }
 
 export default function ResetPage() {
@@ -16,32 +21,31 @@ export default function ResetPage() {
     stepQueryKey: 'step',
   });
 
-  const [resetData, _setResetData] = useState<ResetData>({
-    email: '',
-    verificationCode: '',
-  });
+  const methods = useForm<ResetFields>();
 
-  const setResetData = (key: keyof ResetData, value: ResetData[keyof ResetData]) => {
-    _setResetData((prev) => ({ ...prev, [key]: value }));
+  const resetPassword = (data: ResetPasswordRequest) => {
+    return postResetPassword(data);
   };
 
   return (
-    <Funnel>
-      <Funnel.Step name="email">
-        <ResetEmail setResetData={setResetData} nextStep={() => setStep('verification')} />
-      </Funnel.Step>
+    <FormProvider {...methods}>
+      <Funnel>
+        <Funnel.Step name="email">
+          <ResetEmail nextStep={() => setStep('verification')} />
+        </Funnel.Step>
 
-      <Funnel.Step name="verification">
-        <ResetVerification resetData={resetData} setResetData={setResetData} nextStep={() => setStep('password')} />
-      </Funnel.Step>
+        <Funnel.Step name="verification">
+          <ResetVerification nextStep={() => setStep('password')} />
+        </Funnel.Step>
 
-      <Funnel.Step name="password">
-        <ResetPassword resetData={resetData} nextStep={() => setStep('complete')} />
-      </Funnel.Step>
+        <Funnel.Step name="password">
+          <ResetPassword resetPassword={resetPassword} nextStep={() => setStep('complete')} />
+        </Funnel.Step>
 
-      <Funnel.Step name="complete">
-        <ResetComplete />
-      </Funnel.Step>
-    </Funnel>
+        <Funnel.Step name="complete">
+          <ResetComplete />
+        </Funnel.Step>
+      </Funnel>
+    </FormProvider>
   );
 }

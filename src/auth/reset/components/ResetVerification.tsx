@@ -4,33 +4,27 @@ import SignForm from '../../SignForm';
 import { colorPalette } from '../../../styles/colorPalette';
 import { Spacing } from '../../../shared/Spacing';
 import envelopeBlackIcon from '../../../assets/icons/envelope-black.svg';
-import { ResetData } from '../../../pages/ResetPage';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useFormContext } from 'react-hook-form';
 import InputField from '../../../shared/InputField';
 import { postResetVerification, postResetVerificationCheck } from '../remotes/query';
-
-interface FormFields {
-  verificationCode: string;
-}
+import { ResetFields } from '../../../pages/ResetPage';
 
 interface ResetVerificationProps {
-  resetData: ResetData;
-  setResetData: (key: keyof ResetData, value: ResetData[keyof ResetData]) => void;
   nextStep: () => void;
 }
 
-export default function ResetVerification({ resetData, setResetData, nextStep }: ResetVerificationProps) {
+export default function ResetVerification({ nextStep }: ResetVerificationProps) {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
-  } = useForm<FormFields>();
+  } = useFormContext<ResetFields>();
 
-  const { email } = resetData;
+  const email = watch('email');
 
-  const submitVerificationCode: SubmitHandler<FormFields> = ({ verificationCode }) => {
+  const submitVerificationCode: SubmitHandler<ResetFields> = ({ email, verificationCode }) => {
     postResetVerificationCheck({ email, verificationCode }).then(() => {
-      setResetData('verificationCode', verificationCode);
       nextStep();
     });
   };
