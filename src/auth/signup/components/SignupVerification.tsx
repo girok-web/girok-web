@@ -7,39 +7,33 @@ import { Spacing } from '../../../shared/Spacing';
 import { postEmailVerification, postEmailVerificationCheck } from '../remotes/query';
 import envelopeBlackIcon from '../../../assets/icons/envelope-black.svg';
 import Addition from '../../Addition';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useFormContext } from 'react-hook-form';
 import InputField from '../../../shared/InputField';
-import { SignupData } from '../../../pages/SignupPage';
-
-interface FormFields {
-  verificationCode: string;
-}
+import { SignupFields } from '../../../pages/SignupPage';
 
 interface SignupVerificationProps {
-  signupData: SignupData;
-  setSignupData: (key: keyof SignupData, value: SignupData[keyof SignupData]) => void;
   nextStep: () => void;
 }
 
-export default function SignupVerification({ signupData, setSignupData, nextStep }: SignupVerificationProps) {
+export default function SignupVerification({ nextStep }: SignupVerificationProps) {
   const {
     register,
+    watch,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormFields>();
+  } = useFormContext<SignupFields>();
 
-  const { email } = signupData;
+  const email = watch('email');
 
-  const submitVerificationCode: SubmitHandler<FormFields> = ({ verificationCode }) => {
+  const onSubmit: SubmitHandler<SignupFields> = ({ email, verificationCode }) => {
     postEmailVerificationCheck({ email, verificationCode }).then(() => {
-      setSignupData('verificationCode', verificationCode);
       nextStep();
     });
   };
 
   return (
     <>
-      <SignForm onSubmit={handleSubmit(submitVerificationCode)}>
+      <SignForm onSubmit={handleSubmit(onSubmit)}>
         <SignForm.Title name="Sign up" />
         <Spacing size={8} />
         <SignForm.Description content="Check your mailbox." />

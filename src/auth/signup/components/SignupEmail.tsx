@@ -1,33 +1,27 @@
 import SignForm from '../../SignForm';
-import { SignupData } from '../../../pages/SignupPage';
+import { SignupFields } from '../../../pages/SignupPage';
 import { Spacing } from '../../../shared/Spacing';
 import { postEmailVerification } from '../remotes/query';
 import envelopeWhiteIcon from '../../../assets/icons/envelope-white.svg';
 import { css } from '@emotion/react';
 import InputField from '../../../shared/InputField';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { AxiosError } from 'axios';
 
-interface FormFields {
-  email: string;
-}
-
 interface SignupEmailProps {
-  setSignupData: (key: keyof SignupData, value: SignupData[keyof SignupData]) => void;
   nextStep: () => void;
 }
 
-export default function SignupEmail({ setSignupData, nextStep }: SignupEmailProps) {
+export default function SignupEmail({ nextStep }: SignupEmailProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormFields>();
+  } = useFormContext<SignupFields>();
 
-  const submitEmail: SubmitHandler<FormFields> = ({ email }) => {
+  const onSubmit: SubmitHandler<SignupFields> = ({ email }) => {
     postEmailVerification({ email })
       .then(() => {
-        setSignupData('email', email);
         nextStep();
       })
       .catch((error: AxiosError<{ error_code: string; detail: string }>) => {
@@ -36,7 +30,7 @@ export default function SignupEmail({ setSignupData, nextStep }: SignupEmailProp
   };
 
   return (
-    <SignForm onSubmit={handleSubmit(submitEmail)}>
+    <SignForm onSubmit={handleSubmit(onSubmit)}>
       <SignForm.Title name="Sign up" />
       <Spacing size={8} />
       <SignForm.Description content="Enter your Email. We will send you verification code." />
@@ -44,7 +38,10 @@ export default function SignupEmail({ setSignupData, nextStep }: SignupEmailProp
       <InputField type="text" bottomText={errors.email?.message}>
         <SignForm.Input
           {...register('email', {
-            required: true,
+            required: {
+              value: true,
+              message: 'Please enter your email.',
+            },
           })}
           placeholder="Email"
           hasError={!!errors.email}
