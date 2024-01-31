@@ -19,7 +19,7 @@ function Toast({ message, width, isOpening, isClosing, close }: ToastProps) {
       <Text typography="smallBody" color="white">
         {message}
       </Text>
-      <button style={{ color: 'white' }} onClick={close}>
+      <button onClick={close}>
         <img src={closeIcon} alt="close" />
       </button>
     </ToastContainer>
