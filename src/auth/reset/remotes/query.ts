@@ -1,27 +1,22 @@
 import { http } from '../../../utils/http';
 
-export const postResetVerification = ({ email }: { email: string }) => {
-  return http.post('/password-reset/code', { email });
+export interface ResetPasswordRequest {
+  email: string;
+  password: string;
+  verificationCode: string;
+}
+
+export const postResetVerification = ({ email }: Pick<ResetPasswordRequest, 'email'>) => {
+  return http.post('/auth/password-reset/code', { email });
 };
 
 export const postResetVerificationCheck = ({
   email,
   verificationCode,
-}: {
-  email: string;
-  verificationCode: string;
-}) => {
+}: Pick<ResetPasswordRequest, 'email' | 'verificationCode'>) => {
   return http.post('/auth/password-reset/verify-code', { email, verificationCode });
 };
 
-export const postResetPassword = ({
-  email,
-  password,
-  verificationCode,
-}: {
-  email: string;
-  password: string;
-  verificationCode: string;
-}) => {
-  return http.post('/reset-password', { email, password, verificationCode });
+export const postResetPassword = ({ email, password, verificationCode }: ResetPasswordRequest) => {
+  return http.post('/auth/reset-password', { email, password, verificationCode });
 };
