@@ -5,9 +5,10 @@ import InputField from '../../../shared/InputField';
 import { ResetFields } from '../../../pages/ResetPage';
 import { ResetPasswordRequest } from '../remotes/query';
 import { useEffect } from 'react';
+import { UseMutateFunction } from '@tanstack/react-query';
 
 interface ResetPasswordProps {
-  resetPassword: (data: ResetPasswordRequest) => Promise<unknown>;
+  resetPassword: UseMutateFunction<unknown, Error, ResetPasswordRequest, unknown>;
   nextStep: () => void;
 }
 
@@ -24,9 +25,12 @@ export default function ResetPassword({ resetPassword, nextStep }: ResetPassword
     verificationCode,
     password: { newPassword },
   }) => {
-    resetPassword({ email, newPassword, verificationCode }).then(() => {
-      nextStep();
-    });
+    resetPassword(
+      { email, newPassword, verificationCode },
+      {
+        onSuccess: () => nextStep(),
+      },
+    );
   };
 
   useEffect(() => {

@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query';
 import { http } from '../../../utils/http';
 
 export interface ResetPasswordRequest {
@@ -19,4 +20,11 @@ export const postResetVerificationCheck = ({
 
 export const patchResetPassword = ({ email, newPassword, verificationCode }: ResetPasswordRequest) => {
   return http.patch('/auth/reset-password', { email, newPassword, verificationCode });
+};
+
+export const usePatchResetPassword = () => {
+  return useMutation({
+    mutationKey: ['patchResetPassword'],
+    mutationFn: (data: ResetPasswordRequest) => patchResetPassword(data),
+  });
 };

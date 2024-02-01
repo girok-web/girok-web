@@ -4,7 +4,7 @@ import ResetVerification from '../auth/reset/components/ResetVerification';
 import ResetPassword from '../auth/reset/components/ResetPassword';
 import ResetComplete from '../auth/reset/components/ResetComplete';
 import { FormProvider, useForm } from 'react-hook-form';
-import { ResetPasswordRequest, patchResetPassword } from '../auth/reset/remotes/query';
+import { usePatchResetPassword } from '../auth/reset/remotes/query';
 
 export interface ResetFields {
   email: string;
@@ -23,9 +23,7 @@ export default function ResetPage() {
 
   const methods = useForm<ResetFields>();
 
-  const resetPassword = (data: ResetPasswordRequest) => {
-    return patchResetPassword(data);
-  };
+  const { mutate: resetPassword } = usePatchResetPassword();
 
   return (
     <FormProvider {...methods}>
