@@ -7,6 +7,8 @@ import { FormProvider, useForm } from 'react-hook-form';
 export interface LoginFields {
   email: string;
   password: string;
+
+  keepLogin: boolean;
 }
 
 export default function LoginPage() {

@@ -1,14 +1,12 @@
 import SignForm from '../../SignForm';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Spacing } from '../../../shared/Spacing';
-import { css } from '@emotion/react';
-import checkboxOnIcon from '../../../assets/icons/checkbox-on.svg';
-import checkboxOffIcon from '../../../assets/icons/checkbox-off.svg';
 import AuthPromptLink from '../../AuthPromptLink';
 import InputField from '../../../shared/InputField';
 import useEmailVerified from '../hooks/useEmailVerified';
-import { LoginFields } from '../../../pages/LoginPage';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
+import { LoginFields } from '../../../pages/LoginPage';
+import KeepLoginCheckBox from './KeepLoginCheckBox';
 
 interface LoginEmailProps {
   nextStep: () => void;
@@ -23,8 +21,6 @@ export default function LoginEmail({ nextStep }: LoginEmailProps) {
     formState: { errors },
   } = useFormContext<LoginFields>();
   const { mutate: verifyEmail } = useEmailVerified();
-
-  const [checked, setChecked] = useState(false);
 
   const onSubmit: SubmitHandler<LoginFields> = ({ email }) => {
     verifyEmail(
@@ -67,28 +63,8 @@ export default function LoginEmail({ nextStep }: LoginEmailProps) {
         </InputField>
         <Spacing size={56} />
         <SignForm.Button type="submit">Next</SignForm.Button>
-        <label
-          css={css({
-            display: 'flex',
-            alignItems: 'center',
-            height: 18,
-            position: 'absolute',
-            bottom: 48,
-            paddingLeft: 20,
-            cursor: 'pointer',
-            background: checked ? `url(${checkboxOnIcon}) no-repeat` : `url(${checkboxOffIcon}) no-repeat`,
-          })}
-        >
-          <input
-            type="checkbox"
-            css={css({
-              display: 'none',
-            })}
-            checked={checked}
-            onChange={() => setChecked((c) => !c)}
-          />
-          Keep sign in
-        </label>
+        <Spacing size={102} />
+        <KeepLoginCheckBox />
       </SignForm>
 
       <Spacing size={24} />

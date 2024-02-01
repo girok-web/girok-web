@@ -1,9 +1,6 @@
-import { useEffect, useState } from 'react';
-import { css } from '@emotion/react';
+import { useEffect } from 'react';
 import SignForm from '../../SignForm';
 import { Spacing } from '../../../shared/Spacing';
-import checkboxOnIcon from '../../../assets/icons/checkbox-on.svg';
-import checkboxOffIcon from '../../../assets/icons/checkbox-off.svg';
 import AuthPromptLink from '../../AuthPromptLink';
 import MoveToReset from './MoveToReset';
 import { PostLoginRequest } from '../remotes/query';
@@ -11,6 +8,7 @@ import { UseMutateFunction } from '@tanstack/react-query';
 import InputField from '../../../shared/InputField';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { LoginFields } from '../../../pages/LoginPage';
+import KeepLoginCheckBox from './KeepLoginCheckBox';
 
 interface LoginPasswordProps {
   login: UseMutateFunction<{ accessToken: string; refreshToken: string }, Error, PostLoginRequest, unknown>;
@@ -24,8 +22,6 @@ export default function LoginPassword({ login }: LoginPasswordProps) {
     setFocus,
     formState: { errors },
   } = useFormContext<LoginFields>();
-
-  const [checked, setChecked] = useState(false);
 
   const onSubmit: SubmitHandler<LoginFields> = ({ email, password }) => {
     login(
@@ -65,29 +61,8 @@ export default function LoginPassword({ login }: LoginPasswordProps) {
         <SignForm.Button type="submit">Next</SignForm.Button>
         <Spacing size={24} />
         <MoveToReset linkText="Did you forget your password?" />
-        <Spacing size={62} />
-        <label
-          css={css({
-            display: 'flex',
-            alignItems: 'center',
-            height: 18,
-            position: 'absolute',
-            bottom: 48,
-            paddingLeft: 20,
-            cursor: 'pointer',
-            background: checked ? `url(${checkboxOnIcon}) no-repeat` : `url(${checkboxOffIcon}) no-repeat`,
-          })}
-        >
-          <input
-            type="checkbox"
-            css={css({
-              display: 'none',
-            })}
-            checked={checked}
-            onChange={() => setChecked((c) => !c)}
-          />
-          Keep sign in
-        </label>
+        <Spacing size={61} />
+        <KeepLoginCheckBox />
       </SignForm>
 
       <Spacing size={24} />
