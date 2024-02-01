@@ -16,7 +16,7 @@ const Text = styled.span<TextProps>(
     color: colorPalette[color],
     display,
     textAlign,
-  })
+  }),
 );
 
 export default Text;
