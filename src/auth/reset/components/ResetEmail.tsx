@@ -7,6 +7,7 @@ import InputField from '../../../shared/InputField';
 import { AxiosError } from 'axios';
 import { postResetVerification } from '../remotes/query';
 import { ResetFields } from '../../../pages/ResetPage';
+import { useEffect } from 'react';
 
 interface ResetEmailProps {
   nextStep: () => void;
@@ -16,6 +17,7 @@ export default function ResetEmail({ nextStep }: ResetEmailProps) {
   const {
     register,
     handleSubmit,
+    setFocus,
     formState: { errors },
   } = useFormContext<ResetFields>();
 
@@ -28,6 +30,10 @@ export default function ResetEmail({ nextStep }: ResetEmailProps) {
         alert(`${error}, ${error.response?.data.errorCode}`);
       });
   };
+
+  useEffect(() => {
+    setFocus('email');
+  }, [setFocus]);
 
   return (
     <SignForm onSubmit={handleSubmit(submitEmail)}>

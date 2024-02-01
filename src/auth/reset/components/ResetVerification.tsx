@@ -8,6 +8,7 @@ import { SubmitHandler, useFormContext } from 'react-hook-form';
 import InputField from '../../../shared/InputField';
 import { postResetVerification, postResetVerificationCheck } from '../remotes/query';
 import { ResetFields } from '../../../pages/ResetPage';
+import { useEffect } from 'react';
 
 interface ResetVerificationProps {
   nextStep: () => void;
@@ -16,8 +17,9 @@ interface ResetVerificationProps {
 export default function ResetVerification({ nextStep }: ResetVerificationProps) {
   const {
     register,
-    handleSubmit,
     watch,
+    handleSubmit,
+    setFocus,
     formState: { errors },
   } = useFormContext<ResetFields>();
 
@@ -28,6 +30,10 @@ export default function ResetVerification({ nextStep }: ResetVerificationProps) 
       nextStep();
     });
   };
+
+  useEffect(() => {
+    setFocus('verificationCode');
+  }, [setFocus]);
 
   return (
     <SignForm onSubmit={handleSubmit(submitVerificationCode)}>

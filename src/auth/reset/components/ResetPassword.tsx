@@ -4,6 +4,7 @@ import { SubmitHandler, useFormContext } from 'react-hook-form';
 import InputField from '../../../shared/InputField';
 import { ResetFields } from '../../../pages/ResetPage';
 import { ResetPasswordRequest } from '../remotes/query';
+import { useEffect } from 'react';
 
 interface ResetPasswordProps {
   resetPassword: (data: ResetPasswordRequest) => Promise<unknown>;
@@ -14,6 +15,7 @@ export default function ResetPassword({ resetPassword, nextStep }: ResetPassword
   const {
     register,
     handleSubmit,
+    setFocus,
     formState: { errors },
   } = useFormContext<ResetFields>();
 
@@ -26,6 +28,10 @@ export default function ResetPassword({ resetPassword, nextStep }: ResetPassword
       nextStep();
     });
   };
+
+  useEffect(() => {
+    setFocus('password.password');
+  }, [setFocus]);
 
   return (
     <SignForm onSubmit={handleSubmit(submitResetPassword)}>
