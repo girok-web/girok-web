@@ -5,7 +5,9 @@ interface GetEmailVerifiedResponse {
 }
 
 export const getEmailVerified = ({ email }: { email: string }) => {
-  return http.get<GetEmailVerifiedResponse>(`/auth/email/registered?email=${email}`);
+  return http.get<GetEmailVerifiedResponse>('/auth/email/registered', {
+    params: { email },
+  });
 };
 
 export interface PostLoginRequest {
@@ -19,5 +21,5 @@ export interface PostLoginResponse {
 }
 
 export const postLogin = (requestBody: PostLoginRequest) => {
-  return http.post<PostLoginResponse, PostLoginRequest>('/login', requestBody);
+  return http.post<PostLoginRequest, PostLoginResponse>('/login', requestBody);
 };
