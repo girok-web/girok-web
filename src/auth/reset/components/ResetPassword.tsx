@@ -22,15 +22,15 @@ export default function ResetPassword({ resetPassword, nextStep }: ResetPassword
   const submitResetPassword: SubmitHandler<ResetFields> = async ({
     email,
     verificationCode,
-    password: { password },
+    password: { newPassword },
   }) => {
-    resetPassword({ email, password, verificationCode }).then(() => {
+    resetPassword({ email, newPassword, verificationCode }).then(() => {
       nextStep();
     });
   };
 
   useEffect(() => {
-    setFocus('password.password');
+    setFocus('password.newPassword');
   }, [setFocus]);
 
   return (
@@ -41,11 +41,11 @@ export default function ResetPassword({ resetPassword, nextStep }: ResetPassword
       <Spacing size={32} />
       <InputField type="password">
         <SignForm.Input
-          {...register('password.password', {
+          {...register('password.newPassword', {
             required: true,
           })}
           placeholder="Password"
-          hasError={!!errors.password?.password}
+          hasError={!!errors.password?.newPassword}
         />
       </InputField>
       <Spacing size={12} />
@@ -53,7 +53,7 @@ export default function ResetPassword({ resetPassword, nextStep }: ResetPassword
         <SignForm.Input
           {...register('password.confirmPassword', {
             validate: (confirmPassword, formValues) => {
-              if (confirmPassword !== formValues.password.password) {
+              if (confirmPassword !== formValues.password.newPassword) {
                 return 'The password does not match. Please check again.';
               }
               return true;

@@ -2,7 +2,7 @@ import { http } from '../../../utils/http';
 
 export interface ResetPasswordRequest {
   email: string;
-  password: string;
+  newPassword: string;
   verificationCode: string;
 }
 
@@ -17,6 +17,6 @@ export const postResetVerificationCheck = ({
   return http.post('/auth/password-reset/verify-code', { email, verificationCode });
 };
 
-export const postResetPassword = ({ email, password, verificationCode }: ResetPasswordRequest) => {
-  return http.post('/auth/reset-password', { email, password, verificationCode });
+export const patchResetPassword = ({ email, newPassword, verificationCode }: ResetPasswordRequest) => {
+  return http.patch('/auth/reset-password', { email, newPassword, verificationCode });
 };
