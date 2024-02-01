@@ -11,11 +11,25 @@ export const postResetVerification = ({ email }: Pick<ResetPasswordRequest, 'ema
   return http.post('/auth/password-reset/code', { email });
 };
 
+export const usePostResetVerification = () => {
+  return useMutation({
+    mutationKey: ['postResetVerification'],
+    mutationFn: (data: Pick<ResetPasswordRequest, 'email'>) => postResetVerification(data),
+  });
+};
+
 export const postResetVerificationCheck = ({
   email,
   verificationCode,
 }: Pick<ResetPasswordRequest, 'email' | 'verificationCode'>) => {
   return http.post('/auth/password-reset/verify-code', { email, verificationCode });
+};
+
+export const usePostResetVerificationCheck = () => {
+  return useMutation({
+    mutationKey: ['postResetVerificationCheck'],
+    mutationFn: (data: Pick<ResetPasswordRequest, 'email' | 'verificationCode'>) => postResetVerificationCheck(data),
+  });
 };
 
 export const patchResetPassword = ({ email, newPassword, verificationCode }: ResetPasswordRequest) => {

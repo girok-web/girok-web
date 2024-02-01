@@ -6,7 +6,7 @@ import { Spacing } from '../../../shared/Spacing';
 import envelopeBlackIcon from '../../../assets/icons/envelope-black.svg';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import InputField from '../../../shared/InputField';
-import { postResetVerification, postResetVerificationCheck } from '../remotes/query';
+import { usePostResetVerification, usePostResetVerificationCheck } from '../remotes/query';
 import { ResetFields } from '../../../pages/ResetPage';
 import { useEffect } from 'react';
 
@@ -25,10 +25,17 @@ export default function ResetVerification({ nextStep }: ResetVerificationProps) 
 
   const email = watch('email');
 
+  const { mutate: postResetVerification } = usePostResetVerification();
+  const { mutate: postResetVerificationCheck } = usePostResetVerificationCheck();
+
   const submitVerificationCode: SubmitHandler<ResetFields> = ({ email, verificationCode }) => {
-    postResetVerificationCheck({ email, verificationCode }).then(() => {
-      nextStep();
-    });
+    postResetVerificationCheck(
+      { email, verificationCode },
+      {
+        onSuccess: () => nextStep(),
+        onError: (error) => alert(error),
+      },
+    );
   };
 
   useEffect(() => {

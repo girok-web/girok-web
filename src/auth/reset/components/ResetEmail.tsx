@@ -4,8 +4,7 @@ import { css } from '@emotion/react';
 import envelopeWhiteIcon from '../../../assets/icons/envelope-white.svg';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import InputField from '../../../shared/InputField';
-import { AxiosError } from 'axios';
-import { postResetVerification } from '../remotes/query';
+import { usePostResetVerification } from '../remotes/query';
 import { ResetFields } from '../../../pages/ResetPage';
 import { useEffect } from 'react';
 
@@ -21,14 +20,16 @@ export default function ResetEmail({ nextStep }: ResetEmailProps) {
     formState: { errors },
   } = useFormContext<ResetFields>();
 
+  const { mutate: postResetVerification } = usePostResetVerification();
+
   const submitEmail: SubmitHandler<ResetFields> = ({ email }) => {
-    postResetVerification({ email })
-      .then(() => {
-        nextStep();
-      })
-      .catch((error: AxiosError<{ errorCode: string; detail: string }>) => {
-        alert(`${error}, ${error.response?.data.errorCode}`);
-      });
+    postResetVerification(
+      { email },
+      {
+        onSuccess: () => nextStep(),
+        onError: (error) => alert(error),
+      },
+    );
   };
 
   useEffect(() => {
