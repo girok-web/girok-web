@@ -7,7 +7,7 @@ export interface ResetPasswordRequest {
   verificationCode: string;
 }
 
-export const postResetVerification = ({ email }: Pick<ResetPasswordRequest, 'email'>) => {
+const postResetVerification = ({ email }: Pick<ResetPasswordRequest, 'email'>) => {
   return http.post('/auth/password-reset/code', { email });
 };
 
@@ -18,7 +18,7 @@ export const usePostResetVerification = () => {
   });
 };
 
-export const postResetVerificationCheck = ({
+const postResetVerificationCheck = ({
   email,
   verificationCode,
 }: Pick<ResetPasswordRequest, 'email' | 'verificationCode'>) => {
@@ -32,7 +32,7 @@ export const usePostResetVerificationCheck = () => {
   });
 };
 
-export const patchResetPassword = ({ email, newPassword, verificationCode }: ResetPasswordRequest) => {
+const patchResetPassword = ({ email, newPassword, verificationCode }: ResetPasswordRequest) => {
   return http.patch('/auth/reset-password', { email, newPassword, verificationCode });
 };
 
