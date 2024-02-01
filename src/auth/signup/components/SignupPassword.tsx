@@ -1,11 +1,10 @@
-import { Link } from 'react-router-dom';
 import SignForm from '../../SignForm';
 import { Spacing } from '../../../shared/Spacing';
-import Addition from '../../Addition';
 import InputField from '../../../shared/InputField';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { SignupRequest } from '../remotes/query';
 import { SignupFields } from '../../../pages/SignupPage';
+import AuthPromptLink from '../../AuthPromptLink';
 
 interface SignupPasswordProps {
   signup: (data: SignupRequest) => Promise<unknown>;
@@ -64,9 +63,7 @@ export default function SignupPassword({ signup, nextStep }: SignupPasswordProps
 
       <Spacing size={24} />
 
-      <Addition>
-        Already have an account? <Link to="/login">Sign in</Link>
-      </Addition>
+      <AuthPromptLink message="Already have an account?" linkText="Sign in" to="/login" />
     </>
   );
 }
