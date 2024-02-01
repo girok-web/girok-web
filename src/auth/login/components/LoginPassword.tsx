@@ -58,7 +58,7 @@ export default function LoginPassword({ login }: LoginPasswordProps) {
               required: true,
             })}
             placeholder="Password"
-            hasError={Boolean(errors.password?.message)}
+            hasError={!!errors.password?.message}
           />
         </InputField>
         <Spacing size={56} />

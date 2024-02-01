@@ -62,7 +62,7 @@ export default function LoginEmail({ nextStep }: LoginEmailProps) {
               },
             })}
             placeholder="Email"
-            hasError={Boolean(errors.email?.message)}
+            hasError={!!errors.email?.message}
           />
         </InputField>
         <Spacing size={56} />
