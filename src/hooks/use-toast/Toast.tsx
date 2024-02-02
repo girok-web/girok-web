@@ -62,10 +62,10 @@ const fadeUp = keyframes`
   70% {
     transform: translate(50%, 0);
   }
-  85%{
+  85% {
     transform: translate(50%, 6px);
   }
-  100%{
+  100% {
     transform: translate(50%, 0);
   }
 `;
@@ -75,7 +75,6 @@ const fadeOut = keyframes`
     transform: translate(50%, 0);
     opacity: 1;
   }
-
   to {
     transform: translate(50%, 0);
     opacity: 0;
