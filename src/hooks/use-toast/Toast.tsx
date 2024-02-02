@@ -58,12 +58,20 @@ const ToastContainer = styled.div<{ width: string; isClosing: boolean; isOpening
 const fadeUp = keyframes`
   0% {
     transform: translate(50%, 48px);
+    opacity: 0;
   }
-  70% {
-    transform: translate(50%, 0);
+  20% {
+    transform: translate(50%, -10px);
+    opacity: 1;
   }
-  85% {
-    transform: translate(50%, 6px);
+  40% {
+    transform: translate(50%, 5px);
+  }
+  60% {
+    transform: translate(50%, -5px);
+  }
+  80% {
+    transform: translate(50%, 2px);
   }
   100% {
     transform: translate(50%, 0);
@@ -71,12 +79,16 @@ const fadeUp = keyframes`
 `;
 
 const fadeOut = keyframes`
-  from {
-    transform: translate(50%, 0);
+  0% {
+    transform: translate(50%, 0) scale(1);
     opacity: 1;
   }
-  to {
-    transform: translate(50%, 0);
+  50% {
+    transform: translate(50%, -10px) scale(1.05);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate(50%, 0) scale(0.95);
     opacity: 0;
   }
 `;
