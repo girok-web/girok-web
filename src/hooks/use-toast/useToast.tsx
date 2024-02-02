@@ -13,8 +13,8 @@ function useToast() {
     exitOnUnmount: false,
   });
 
-  const exitTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const exitAnimationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const exitTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const exitAnimationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const openToast = ({ message, width = 'short' }: OpenToastOptions) => {
     return overlay.open(({ isOpen, close, exit }) => {
