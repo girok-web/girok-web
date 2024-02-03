@@ -1,0 +1,46 @@
+name: Deploy Development (CD)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Deloly Development Project
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: ${{ github.workflow }}
+      cancel-in-progress: true
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.11.0
+          cache: pnpm
+
+      - name: Setup pnpm and Install Dependencies
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.1
+          run_install: |
+            - args: [--frozen-lockfile]
+
+      - name: Lint Source Files
+        run: pnpm lint
+
+      - name: Build Project
+        run: pnpm build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist

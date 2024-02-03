@@ -1,5 +1,6 @@
 {
   "name": "girok-web",
+  "homepage": "https://girok-web.github.io/girok-web/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
