@@ -4,18 +4,26 @@ import { colorPalette } from '../../styles/colorPalette';
 import { ANIMATION_DURATION } from './constants';
 import Text from '../../shared/Text';
 import closeIcon from '../../assets/icons/close.svg';
+import { useEffect, useState } from 'react';
 
 interface ToastProps {
   message: string;
   width: 'long' | 'short';
-  isOpening: boolean;
-  isClosing: boolean;
+  isOpen: boolean;
   close: () => void;
 }
 
-function Toast({ message, width, isOpening, isClosing, close }: ToastProps) {
-  return (
-    <ToastContainer width={width} isOpening={isOpening} isClosing={isClosing}>
+function Toast({ message, width, isOpen, close }: ToastProps) {
+  const [isFirstRender, setIsFirstRender] = useState(true);
+
+  useEffect(() => {
+    setIsFirstRender(false);
+  }, []);
+
+  // MEMO: isOpen의 Default 값은 false이기 때문에 fadeUp 애니메이션 실행 전 깜빡임이 발생한다
+  // 따라서 첫 렌더링 시에는 null을 반환하여 Toast 컴포넌트를 그리지 않는다
+  return isFirstRender ? null : (
+    <ToastContainer width={width} isOpening={isOpen} isClosing={!isOpen}>
       <Text typography="smallBody" color="white">
         {message}
       </Text>
