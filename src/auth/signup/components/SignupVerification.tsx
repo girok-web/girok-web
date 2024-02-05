@@ -3,11 +3,13 @@ import SignForm from '../../SignForm';
 import { typographyMap } from '../../../styles/typography';
 import { colorPalette } from '../../../styles/colorPalette';
 import { Spacing } from '../../../shared/Spacing';
-import { postEmailVerification, postEmailVerificationCheck } from '../remotes/query';
 import envelopeBlackIcon from '../../../assets/icons/envelope-black.svg';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import InputField from '../../../shared/InputField';
 import { SignupFields } from '../../../pages/SignupPage';
+import usePostEmailVerification from '../remotes/hooks/usePostEmailVerification';
+import usePostEmailVerificationCheck from '../remotes/hooks/usePostEmailVerificationCheck';
+import { useEffect } from 'react';
 import AuthPromptLink from '../../AuthPromptLink';
 
 interface SignupVerificationProps {
@@ -19,16 +21,31 @@ export default function SignupVerification({ nextStep }: SignupVerificationProps
     register,
     watch,
     handleSubmit,
+    setFocus,
+    setError,
     formState: { errors },
   } = useFormContext<SignupFields>();
+
+  const { mutate: postEmailVerification } = usePostEmailVerification();
+  const { mutate: postEmailVerificationCheck } = usePostEmailVerificationCheck();
 
   const email = watch('email');
 
   const onSubmit: SubmitHandler<SignupFields> = ({ email, verificationCode }) => {
-    postEmailVerificationCheck({ email, verificationCode }).then(() => {
-      nextStep();
-    });
+    postEmailVerificationCheck(
+      { email, verificationCode },
+      {
+        onSuccess: () => nextStep(),
+        onError: () => {
+          setError('verificationCode', { message: 'Verification code does not match. Please check again.' });
+        },
+      },
+    );
   };
+
+  useEffect(() => {
+    setFocus('verificationCode');
+  }, [setFocus]);
 
   return (
     <>
@@ -40,7 +57,10 @@ export default function SignupVerification({ nextStep }: SignupVerificationProps
         <InputField type="text" bottomText={errors.verificationCode?.message}>
           <SignForm.Input
             {...register('verificationCode', {
-              required: true,
+              required: {
+                value: true,
+                message: 'Enter certification code.',
+              },
             })}
             placeholder="Verification code"
             hasError={!!errors.verificationCode}

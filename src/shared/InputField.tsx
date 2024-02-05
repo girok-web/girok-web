@@ -70,7 +70,7 @@ export default function InputField({ type, label, children, bottomText, ...props
         <p
           css={css`
             color: ${isError ? colorPalette.red : colorPalette.gray3};
-            margin-top: 4px;
+            margin-top: 8px;
             display: inline-block;
           `}
         >
