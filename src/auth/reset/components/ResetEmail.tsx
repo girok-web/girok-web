@@ -32,10 +32,13 @@ export default function ResetEmail({ nextStep }: ResetEmailProps) {
         onError: (error) => {
           if (isAxiosError(error)) {
             if (error.response?.data.errorCode === 'MEMBER_NOT_FOUND') {
-              setError('email', {
-                type: '400',
-                message: 'Member with the given email does not exist.',
-              });
+              setError(
+                'email',
+                {
+                  message: 'Member with the given email does not exist.',
+                },
+                { shouldFocus: true },
+              );
             }
           }
         },
