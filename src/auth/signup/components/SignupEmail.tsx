@@ -17,6 +17,7 @@ export default function SignupEmail({ nextStep }: SignupEmailProps) {
     register,
     handleSubmit,
     setFocus,
+    setError,
     formState: { errors },
   } = useFormContext<SignupFields>();
 
@@ -27,7 +28,7 @@ export default function SignupEmail({ nextStep }: SignupEmailProps) {
       { email },
       {
         onSuccess: () => nextStep(),
-        onError: (error) => alert(error),
+        onError: () => setError('email', { message: 'This email is already signed up. Please enter another email.' }),
       },
     );
   };
@@ -45,10 +46,7 @@ export default function SignupEmail({ nextStep }: SignupEmailProps) {
       <InputField type="text" bottomText={errors.email?.message}>
         <SignForm.Input
           {...register('email', {
-            required: {
-              value: true,
-              message: 'Enter an email.',
-            },
+            required: 'Enter an email.',
             pattern: {
               value: /\S+@\S+\.\S+/,
               message: 'Not a valid email format. Please check again.',
