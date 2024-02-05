@@ -21,7 +21,9 @@ export default function ResetPage() {
     stepQueryKey: 'step',
   });
 
-  const methods = useForm<ResetFields>();
+  const methods = useForm<ResetFields>({
+    reValidateMode: 'onSubmit',
+  });
 
   const { mutate: resetPassword } = usePatchResetPassword();
 
