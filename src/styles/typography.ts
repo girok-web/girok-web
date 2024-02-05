@@ -24,6 +24,8 @@ export const typographyMap = {
     font-size: 14px;
     font-weight: 400;
     letter-spacing: -0.01em;
+    // FIXME: line-height 추후 Figma에 반영되면 수정
+    line-height: 17px;
   `,
 };
 
