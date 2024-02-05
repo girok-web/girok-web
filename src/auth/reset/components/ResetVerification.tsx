@@ -9,6 +9,7 @@ import InputField from '../../../shared/InputField';
 import { usePostResetVerification, usePostResetVerificationCheck } from '../remotes/query';
 import { ResetFields } from '../../../pages/ResetPage';
 import { useEffect } from 'react';
+import { isAxiosError } from 'axios';
 
 interface ResetVerificationProps {
   nextStep: () => void;
@@ -20,6 +21,7 @@ export default function ResetVerification({ nextStep }: ResetVerificationProps) 
     watch,
     handleSubmit,
     setFocus,
+    setError,
     formState: { errors },
   } = useFormContext<ResetFields>();
 
@@ -33,7 +35,16 @@ export default function ResetVerification({ nextStep }: ResetVerificationProps) 
       { email, verificationCode },
       {
         onSuccess: () => nextStep(),
-        onError: (error) => alert(error),
+        onError: (error) => {
+          if (isAxiosError(error)) {
+            if (error.response?.data.errorCode === 'INVALID_VERIFICATION_CODE') {
+              setError('verificationCode', {
+                type: '400',
+                message: 'Verification code does not match. Please check again.',
+              });
+            }
+          }
+        },
       },
     );
   };
@@ -51,7 +62,7 @@ export default function ResetVerification({ nextStep }: ResetVerificationProps) 
       <InputField type="text" bottomText={errors.verificationCode?.message}>
         <SignForm.Input
           {...register('verificationCode', {
-            required: true,
+            required: 'Enter certification code.',
           })}
           placeholder="Verification code"
           hasError={!!errors.verificationCode}
