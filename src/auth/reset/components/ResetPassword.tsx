@@ -42,30 +42,42 @@ export default function ResetPassword({ resetPassword, nextStep }: ResetPassword
     <SignForm onSubmit={handleSubmit(submitResetPassword)}>
       <SignForm.Title name="Reset password" />
       <Spacing size={8} />
-      <SignForm.Description content="Set your new password." />
+      <SignForm.Description content="The password must contain at least 7 characters including 1 upper case, 1 lower case, and 1 special character(@, #, $, %, *, !)." />
       <Spacing size={32} />
       <InputField type="password">
         <SignForm.Input
           {...register('password.newPassword', {
-            required: true,
+            required: 'The password must be at least 7 characters long.',
+            minLength: {
+              value: 7,
+              message: 'The password must be at least 7 characters long.',
+            },
+            pattern: {
+              value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$%*!]).+$/,
+              message: 'The password must contain a mix of letters and at least one symbol.',
+            },
           })}
           placeholder="Password"
           hasError={!!errors.password?.newPassword}
         />
       </InputField>
       <Spacing size={12} />
-      <InputField type="password" bottomText={errors.password?.confirmPassword?.message}>
+      <InputField
+        type="password"
+        bottomText={errors.password?.newPassword?.message || errors.password?.confirmPassword?.message}
+      >
         <SignForm.Input
           {...register('password.confirmPassword', {
-            validate: (confirmPassword, formValues) => {
-              if (confirmPassword !== formValues.password.newPassword) {
-                return 'The password does not match. Please check again.';
-              }
-              return true;
+            validate: {
+              matchConfirmPassword: (confirmPassword, formValues) => {
+                if (confirmPassword !== formValues.password.newPassword) {
+                  return 'The password does not match. Please check again.';
+                }
+              },
             },
           })}
           placeholder="Confirm password"
-          hasError={!!errors.password?.confirmPassword}
+          hasError={!errors.password?.newPassword && !!errors.password?.confirmPassword}
         />
       </InputField>
       <Spacing size={56} />
