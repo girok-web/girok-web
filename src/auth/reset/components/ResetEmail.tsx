@@ -7,6 +7,7 @@ import InputField from '../../../shared/InputField';
 import { usePostResetVerification } from '../remotes/query';
 import { ResetFields } from '../../../pages/ResetPage';
 import { useEffect } from 'react';
+import { isAxiosError } from 'axios';
 
 interface ResetEmailProps {
   nextStep: () => void;
@@ -17,6 +18,7 @@ export default function ResetEmail({ nextStep }: ResetEmailProps) {
     register,
     handleSubmit,
     setFocus,
+    setError,
     formState: { errors },
   } = useFormContext<ResetFields>();
 
@@ -27,7 +29,16 @@ export default function ResetEmail({ nextStep }: ResetEmailProps) {
       { email },
       {
         onSuccess: () => nextStep(),
-        onError: (error) => alert(error),
+        onError: (error) => {
+          if (isAxiosError(error)) {
+            if (error.response?.data.errorCode === 'MEMBER_NOT_FOUND') {
+              setError('email', {
+                type: '400',
+                message: 'Member with the given email does not exist.',
+              });
+            }
+          }
+        },
       },
     );
   };
@@ -42,10 +53,14 @@ export default function ResetEmail({ nextStep }: ResetEmailProps) {
       <Spacing size={8} />
       <SignForm.Description content="Enter your Email. We will send you verification code." />
       <Spacing size={32} />
-      <InputField type="text">
+      <InputField type="text" bottomText={errors.email?.message}>
         <SignForm.Input
           {...register('email', {
-            required: true,
+            required: 'Enter an email.',
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: 'Not a valid email format. Please check again.',
+            },
           })}
           placeholder="Email"
           hasError={!!errors.email}
