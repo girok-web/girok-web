@@ -29,7 +29,6 @@ export default function ResetPassword({ resetPassword, nextStep }: ResetPassword
       { email, newPassword, verificationCode },
       {
         onSuccess: () => nextStep(),
-        onError: (error) => alert(error),
       },
     );
   };
