@@ -1,17 +1,16 @@
-import { Link } from 'react-router-dom';
 import { css } from '@emotion/react';
 import SignForm from '../../SignForm';
 import { typographyMap } from '../../../styles/typography';
 import { colorPalette } from '../../../styles/colorPalette';
 import { Spacing } from '../../../shared/Spacing';
 import envelopeBlackIcon from '../../../assets/icons/envelope-black.svg';
-import Addition from '../../Addition';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import InputField from '../../../shared/InputField';
 import { SignupFields } from '../../../pages/SignupPage';
 import usePostEmailVerification from '../remotes/hooks/usePostEmailVerification';
 import usePostEmailVerificationCheck from '../remotes/hooks/usePostEmailVerificationCheck';
 import { useEffect } from 'react';
+import AuthPromptLink from '../../AuthPromptLink';
 
 interface SignupVerificationProps {
   nextStep: () => void;
@@ -94,9 +93,7 @@ export default function SignupVerification({ nextStep }: SignupVerificationProps
 
       <Spacing size={24} />
 
-      <Addition>
-        Already have an account? <Link to="/login/email">Sign in</Link>
-      </Addition>
+      <AuthPromptLink message="Already have an account?" linkText="Sign in" to="/login" />
     </>
   );
 }

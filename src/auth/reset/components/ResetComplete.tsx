@@ -9,7 +9,7 @@ export default function ResetComplete() {
     <SignForm>
       <SignForm.Title name="Your password has been successfully reset!" />
       <Spacing size={197} />
-      <SignForm.Button role="link" type="button" onClick={() => navigate('/login/email')}>
+      <SignForm.Button role="link" type="button" onClick={() => navigate('/login')}>
         Go to Sign in page
       </SignForm.Button>
     </SignForm>

@@ -13,6 +13,7 @@ export const Spacing = memo(function Spacing({ direction = 'vertical', size, ...
         flex: 'none',
         width: direction === 'horizontal' ? `${size}px` : undefined,
         height: direction === 'vertical' ? `${size}px` : undefined,
+        display: direction === 'horizontal' ? 'inline-block' : undefined,
       }}
       {...props}
     />

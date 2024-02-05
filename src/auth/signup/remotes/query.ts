@@ -7,13 +7,13 @@ export interface SignupRequest {
 }
 
 export const postEmailVerification = (requestBody: Pick<SignupRequest, 'email'>) => {
-  return http.post('/auth/verification-code', requestBody);
+  return http.post<Pick<SignupRequest, 'email'>>('/auth/verification-code', requestBody);
 };
 
 export const postEmailVerificationCheck = (requestBody: Pick<SignupRequest, 'email' | 'verificationCode'>) => {
-  return http.post('/auth/verification-code/check', requestBody);
+  return http.post<Pick<SignupRequest, 'email' | 'verificationCode'>>('/auth/verification-code/check', requestBody);
 };
 
 export const postSignup = (requestBody: SignupRequest) => {
-  return http.post('/sign-up', requestBody);
+  return http.post<SignupRequest>('/sign-up', requestBody);
 };
