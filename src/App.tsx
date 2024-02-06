@@ -5,35 +5,40 @@ import LoginPage from './pages/LoginPage';
 import ResetPage from './pages/ResetPage';
 import AuthLayout from './auth/AuthLayout';
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      id: 'root',
+      path: '/',
+      children: [
+        {
+          index: true,
+          element: <MainPage />,
+        },
+        {
+          element: <AuthLayout />,
+          children: [
+            {
+              path: 'login',
+              element: <LoginPage />,
+            },
+            {
+              path: 'signup',
+              element: <SignupPage />,
+            },
+            {
+              path: 'reset',
+              element: <ResetPage />,
+            },
+          ],
+        },
+      ],
+    },
+  ],
   {
-    id: 'root',
-    path: '/',
-    children: [
-      {
-        index: true,
-        element: <MainPage />,
-      },
-      {
-        element: <AuthLayout />,
-        children: [
-          {
-            path: 'login',
-            element: <LoginPage />,
-          },
-          {
-            path: 'signup',
-            element: <SignupPage />,
-          },
-          {
-            path: 'reset',
-            element: <ResetPage />,
-          },
-        ],
-      },
-    ],
+    basename: '/girok-web',
   },
-]);
+);
 
 function App() {
   return <RouterProvider router={router} />;

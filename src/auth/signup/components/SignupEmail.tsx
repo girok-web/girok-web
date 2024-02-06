@@ -1,12 +1,12 @@
 import SignForm from '../../SignForm';
 import { SignupFields } from '../../../pages/SignupPage';
 import { Spacing } from '../../../shared/Spacing';
-import { postEmailVerification } from '../remotes/query';
 import envelopeWhiteIcon from '../../../assets/icons/envelope-white.svg';
 import { css } from '@emotion/react';
 import InputField from '../../../shared/InputField';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
-import { AxiosError } from 'axios';
+import usePostEmailVerification from '../remotes/hooks/usePostEmailVerification';
+import { useEffect } from 'react';
 
 interface SignupEmailProps {
   nextStep: () => void;
@@ -16,18 +16,26 @@ export default function SignupEmail({ nextStep }: SignupEmailProps) {
   const {
     register,
     handleSubmit,
+    setFocus,
+    setError,
     formState: { errors },
   } = useFormContext<SignupFields>();
 
+  const { mutate: postEmailVerification } = usePostEmailVerification();
+
   const onSubmit: SubmitHandler<SignupFields> = ({ email }) => {
-    postEmailVerification({ email })
-      .then(() => {
-        nextStep();
-      })
-      .catch((error: AxiosError<{ error_code: string; detail: string }>) => {
-        alert(error);
-      });
+    postEmailVerification(
+      { email },
+      {
+        onSuccess: () => nextStep(),
+        onError: () => setError('email', { message: 'This email is already signed up. Please enter another email.' }),
+      },
+    );
   };
+
+  useEffect(() => {
+    setFocus('email');
+  }, [setFocus]);
 
   return (
     <SignForm onSubmit={handleSubmit(onSubmit)}>
@@ -38,9 +46,10 @@ export default function SignupEmail({ nextStep }: SignupEmailProps) {
       <InputField type="text" bottomText={errors.email?.message}>
         <SignForm.Input
           {...register('email', {
-            required: {
-              value: true,
-              message: 'Please enter your email.',
+            required: 'Enter an email.',
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: 'Not a valid email format. Please check again.',
             },
           })}
           placeholder="Email"
