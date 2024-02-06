@@ -3,7 +3,7 @@ import MainPage from './pages/MainPage';
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
 import ResetPage from './pages/ResetPage';
-import AuthLayout from './feature/auth/AuthLayout';
+import AuthLayout from './features/auth/AuthLayout';
 
 const router = createBrowserRouter(
   [

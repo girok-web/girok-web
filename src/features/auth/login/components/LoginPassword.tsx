@@ -1,18 +1,20 @@
-import SignForm from '../../SignForm';
 import { useEffect } from 'react';
+import SignForm from '../../SignForm';
 import AuthPromptLink from '../../AuthPromptLink';
-import useEmailVerified from '../hooks/useEmailVerified';
+import MoveToReset from './MoveToReset';
+import { UseMutateFunction } from '@tanstack/react-query';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import KeepLoginCheckBox from './KeepLoginCheckBox';
 import { LoginFields } from '../../../../pages/LoginPage';
 import { Spacing } from '../../../../shared/Spacing';
 import InputField from '../../../../shared/InputField';
+import { PostLoginRequest } from '../remotes/postLogin';
 
-interface LoginEmailProps {
-  nextStep: () => void;
+interface LoginPasswordProps {
+  login: UseMutateFunction<{ accessToken: string; refreshToken: string }, Error, PostLoginRequest, unknown>;
 }
 
-export default function LoginEmail({ nextStep }: LoginEmailProps) {
+export default function LoginPassword({ login }: LoginPasswordProps) {
   const {
     register,
     handleSubmit,
@@ -20,25 +22,23 @@ export default function LoginEmail({ nextStep }: LoginEmailProps) {
     setFocus,
     formState: { errors },
   } = useFormContext<LoginFields>();
-  const { mutate: verifyEmail } = useEmailVerified();
 
-  const onSubmit: SubmitHandler<LoginFields> = ({ email }) => {
-    verifyEmail(
-      { email },
+  const onSubmit: SubmitHandler<LoginFields> = ({ email, password }) => {
+    login(
+      { email, password },
       {
-        onSettled: (data) => {
-          if (data?.isRegistered) {
-            nextStep();
-          } else {
-            setError('email', { message: 'No matching emails found. Please check again.' });
-          }
+        onSuccess: () => {
+          alert('성공');
+        },
+        onError: () => {
+          setError('password', { message: 'The password is invalid. Please check again.' });
         },
       },
     );
   };
 
   useEffect(() => {
-    setFocus('email');
+    setFocus('password');
   }, [setFocus]);
 
   return (
@@ -46,24 +46,22 @@ export default function LoginEmail({ nextStep }: LoginEmailProps) {
       <SignForm onSubmit={handleSubmit(onSubmit)}>
         <SignForm.Title name="Sign in" />
         <Spacing size={8} />
-        <SignForm.Description content="Enter your email." />
+        <SignForm.Description content="Enter your password." />
         <Spacing size={32} />
-        <InputField type="text" bottomText={errors.email?.message}>
+        <InputField type="password" bottomText={errors.password?.message}>
           <SignForm.Input
-            {...register('email', {
+            {...register('password', {
               required: true,
-              pattern: {
-                value: /\S+@\S+\.\S+/,
-                message: 'Not a valid email format. Please check again.',
-              },
             })}
-            placeholder="Email"
-            hasError={!!errors.email?.message}
+            placeholder="Password"
+            hasError={!!errors.password?.message}
           />
         </InputField>
         <Spacing size={56} />
         <SignForm.Button type="submit">Next</SignForm.Button>
-        <Spacing size={102} />
+        <Spacing size={24} />
+        <MoveToReset linkText="Did you forget your password?" />
+        <Spacing size={61} />
         <KeepLoginCheckBox />
       </SignForm>
 
