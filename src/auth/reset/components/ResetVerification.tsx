@@ -6,8 +6,10 @@ import { Spacing } from '../../../shared/Spacing';
 import envelopeBlackIcon from '../../../assets/icons/envelope-black.svg';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import InputField from '../../../shared/InputField';
-import { postResetVerification, postResetVerificationCheck } from '../remotes/query';
+import { usePostResetVerification, usePostResetVerificationCheck } from '../remotes/query';
 import { ResetFields } from '../../../pages/ResetPage';
+import { useEffect } from 'react';
+import { isAxiosError } from 'axios';
 
 interface ResetVerificationProps {
   nextStep: () => void;
@@ -16,18 +18,40 @@ interface ResetVerificationProps {
 export default function ResetVerification({ nextStep }: ResetVerificationProps) {
   const {
     register,
-    handleSubmit,
     watch,
+    handleSubmit,
+    setFocus,
+    setError,
     formState: { errors },
   } = useFormContext<ResetFields>();
 
   const email = watch('email');
 
+  const { mutate: postResetVerification } = usePostResetVerification();
+  const { mutate: postResetVerificationCheck } = usePostResetVerificationCheck();
+
   const submitVerificationCode: SubmitHandler<ResetFields> = ({ email, verificationCode }) => {
-    postResetVerificationCheck({ email, verificationCode }).then(() => {
-      nextStep();
-    });
+    postResetVerificationCheck(
+      { email, verificationCode },
+      {
+        onSuccess: () => nextStep(),
+        onError: (error) => {
+          if (isAxiosError(error)) {
+            if (error.response?.data.errorCode === 'INVALID_VERIFICATION_CODE') {
+              setError('verificationCode', {
+                type: '400',
+                message: 'Verification code does not match. Please check again.',
+              });
+            }
+          }
+        },
+      },
+    );
   };
+
+  useEffect(() => {
+    setFocus('verificationCode');
+  }, [setFocus]);
 
   return (
     <SignForm onSubmit={handleSubmit(submitVerificationCode)}>
@@ -38,7 +62,7 @@ export default function ResetVerification({ nextStep }: ResetVerificationProps) 
       <InputField type="text" bottomText={errors.verificationCode?.message}>
         <SignForm.Input
           {...register('verificationCode', {
-            required: true,
+            required: 'Enter certification code.',
           })}
           placeholder="Verification code"
           hasError={!!errors.verificationCode}

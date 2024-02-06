@@ -4,9 +4,10 @@ import { css } from '@emotion/react';
 import envelopeWhiteIcon from '../../../assets/icons/envelope-white.svg';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import InputField from '../../../shared/InputField';
-import { AxiosError } from 'axios';
-import { postResetVerification } from '../remotes/query';
+import { usePostResetVerification } from '../remotes/query';
 import { ResetFields } from '../../../pages/ResetPage';
+import { useEffect } from 'react';
+import { isAxiosError } from 'axios';
 
 interface ResetEmailProps {
   nextStep: () => void;
@@ -16,18 +17,38 @@ export default function ResetEmail({ nextStep }: ResetEmailProps) {
   const {
     register,
     handleSubmit,
+    setFocus,
+    setError,
     formState: { errors },
   } = useFormContext<ResetFields>();
 
+  const { mutate: postResetVerification } = usePostResetVerification();
+
   const submitEmail: SubmitHandler<ResetFields> = ({ email }) => {
-    postResetVerification({ email })
-      .then(() => {
-        nextStep();
-      })
-      .catch((error: AxiosError<{ errorCode: string; detail: string }>) => {
-        alert(`${error}, ${error.response?.data.errorCode}`);
-      });
+    postResetVerification(
+      { email },
+      {
+        onSuccess: () => nextStep(),
+        onError: (error) => {
+          if (isAxiosError(error)) {
+            if (error.response?.data.errorCode === 'MEMBER_NOT_FOUND') {
+              setError(
+                'email',
+                {
+                  message: 'Member with the given email does not exist.',
+                },
+                { shouldFocus: true },
+              );
+            }
+          }
+        },
+      },
+    );
   };
+
+  useEffect(() => {
+    setFocus('email');
+  }, [setFocus]);
 
   return (
     <SignForm onSubmit={handleSubmit(submitEmail)}>
@@ -35,10 +56,14 @@ export default function ResetEmail({ nextStep }: ResetEmailProps) {
       <Spacing size={8} />
       <SignForm.Description content="Enter your Email. We will send you verification code." />
       <Spacing size={32} />
-      <InputField type="text">
+      <InputField type="text" bottomText={errors.email?.message}>
         <SignForm.Input
           {...register('email', {
-            required: true,
+            required: 'Enter an email.',
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: 'Not a valid email format. Please check again.',
+            },
           })}
           placeholder="Email"
           hasError={!!errors.email}
