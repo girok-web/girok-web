@@ -149,3 +149,19 @@ export function CheckedRadio({ ...props }) {
     </svg>
   );
 }
+
+export function UpArrow({ ...props }) {
+  return (
+    <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path d="M3.5 7.5L6.5 3.5L9.5 7.5" stroke="#959595" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function DownArrow({ ...props }) {
+  return (
+    <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path d="M9.5 4.5L6.5 8.5L3.5 4.5" stroke="#959595" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
