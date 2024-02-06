@@ -4,8 +4,8 @@ import { UseMutateFunction } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import AuthPromptLink from '../../AuthPromptLink';
 import { SignupFields } from '../../../../pages/SignupPage';
-import { Spacing } from '../../../../shared/Spacing';
-import InputField from '../../../../shared/InputField';
+import { Spacing } from '../../../../components/Spacing';
+import InputField from '../../../../components/InputField';
 import { SignupRequest } from '../remotes/postSignup';
 
 interface SignupPasswordProps {

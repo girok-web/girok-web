@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import SignForm from '../../SignForm';
-import { Spacing } from '../../../../shared/Spacing';
+import { Spacing } from '../../../../components/Spacing';
 
 export default function ResetComplete() {
   const navigate = useNavigate();

@@ -4,8 +4,8 @@ import { css } from '@emotion/react';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { useEffect } from 'react';
 import { SignupFields } from '../../../../pages/SignupPage';
-import { Spacing } from '../../../../shared/Spacing';
-import InputField from '../../../../shared/InputField';
+import { Spacing } from '../../../../components/Spacing';
+import InputField from '../../../../components/InputField';
 import usePostEmailVerification from '../remotes/postEmailVerification';
 
 interface SignupEmailProps {

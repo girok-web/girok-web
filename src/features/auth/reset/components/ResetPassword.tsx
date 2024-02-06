@@ -3,8 +3,8 @@ import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { useEffect } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 import { ResetFields } from '../../../../pages/ResetPage';
-import { Spacing } from '../../../../shared/Spacing';
-import InputField from '../../../../shared/InputField';
+import { Spacing } from '../../../../components/Spacing';
+import InputField from '../../../../components/InputField';
 import { ResetPasswordRequest } from '../remotes/patchResetPassword';
 
 interface ResetPasswordProps {

@@ -6,8 +6,8 @@ import { UseMutateFunction } from '@tanstack/react-query';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import KeepLoginCheckBox from './KeepLoginCheckBox';
 import { LoginFields } from '../../../../pages/LoginPage';
-import { Spacing } from '../../../../shared/Spacing';
-import InputField from '../../../../shared/InputField';
+import { Spacing } from '../../../../components/Spacing';
+import InputField from '../../../../components/InputField';
 import { PostLoginRequest } from '../remotes/postLogin';
 
 interface LoginPasswordProps {
