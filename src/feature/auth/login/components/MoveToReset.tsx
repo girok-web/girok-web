@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import Text from '../../../shared/Text';
+import Text from '../../../../shared/Text';
 
 interface MoveToResetProps {
   linkText: string;

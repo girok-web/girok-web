@@ -1,13 +1,13 @@
 import SignForm from '../../SignForm';
-import { Spacing } from '../../../shared/Spacing';
 import { css } from '@emotion/react';
-import envelopeWhiteIcon from '../../../assets/icons/envelope-white.svg';
+import envelopeWhiteIcon from '../../../../assets/icons/envelope-white.svg';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
-import InputField from '../../../shared/InputField';
 import { usePostResetVerification } from '../remotes/query';
-import { ResetFields } from '../../../pages/ResetPage';
 import { useEffect } from 'react';
 import { isAxiosError } from 'axios';
+import { ResetFields } from '../../../../pages/ResetPage';
+import { Spacing } from '../../../../shared/Spacing';
+import InputField from '../../../../shared/InputField';
 
 interface ResetEmailProps {
   nextStep: () => void;

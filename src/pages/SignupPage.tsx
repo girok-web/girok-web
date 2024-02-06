@@ -1,10 +1,10 @@
+import SignupComplete from '../feature/auth/signup/components/SignupComplete';
+import SignupEmail from '../feature/auth/signup/components/SignupEmail';
+import SignupPassword from '../feature/auth/signup/components/SignupPassword';
+import SignupVerification from '../feature/auth/signup/components/SignupVerification';
+import useSignup from '../feature/auth/signup/remotes/hooks/useSignup';
 import { useFunnel } from '../hooks/use-funnel/useFunnel';
-import SignupEmail from '../auth/signup/components/SignupEmail';
-import SignupVerification from '../auth/signup/components/SignupVerification';
-import SignupPassword from '../auth/signup/components/SignupPassword';
-import SignupComplete from '../auth/signup/components/SignupComplete';
 import { FormProvider, useForm } from 'react-hook-form';
-import useSignup from '../auth/signup/remotes/hooks/useSignup';
 
 export interface SignupFields {
   email: string;

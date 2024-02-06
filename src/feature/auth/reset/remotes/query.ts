@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { http } from '../../../utils/http';
+import { http } from '../../../../utils/http';
 
 export interface ResetPasswordRequest {
   email: string;

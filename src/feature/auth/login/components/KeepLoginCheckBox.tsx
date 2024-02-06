@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
-import checkboxOnIcon from '../../../assets/icons/checkbox-on.svg';
-import checkboxOffIcon from '../../../assets/icons/checkbox-off.svg';
+import checkboxOnIcon from '../../../../assets/icons/checkbox-on.svg';
+import checkboxOffIcon from '../../../../assets/icons/checkbox-off.svg';
 import { useFormContext } from 'react-hook-form';
-import { LoginFields } from '../../../pages/LoginPage';
+import { LoginFields } from '../../../../pages/LoginPage';
 
 export default function KeepLoginCheckBox() {
   const { register, watch } = useFormContext<LoginFields>();

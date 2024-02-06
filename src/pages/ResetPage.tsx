@@ -1,10 +1,10 @@
+import ResetComplete from '../feature/auth/reset/components/ResetComplete';
+import ResetEmail from '../feature/auth/reset/components/ResetEmail';
+import ResetPassword from '../feature/auth/reset/components/ResetPassword';
+import ResetVerification from '../feature/auth/reset/components/ResetVerification';
+import { usePatchResetPassword } from '../feature/auth/reset/remotes/query';
 import { useFunnel } from '../hooks/use-funnel/useFunnel';
-import ResetEmail from '../auth/reset/components/ResetEmail';
-import ResetVerification from '../auth/reset/components/ResetVerification';
-import ResetPassword from '../auth/reset/components/ResetPassword';
-import ResetComplete from '../auth/reset/components/ResetComplete';
 import { FormProvider, useForm } from 'react-hook-form';
-import { usePatchResetPassword } from '../auth/reset/remotes/query';
 
 export interface ResetFields {
   email: string;

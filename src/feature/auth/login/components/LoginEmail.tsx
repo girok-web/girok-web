@@ -1,12 +1,12 @@
 import SignForm from '../../SignForm';
 import { useEffect } from 'react';
-import { Spacing } from '../../../shared/Spacing';
 import AuthPromptLink from '../../AuthPromptLink';
-import InputField from '../../../shared/InputField';
 import useEmailVerified from '../hooks/useEmailVerified';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
-import { LoginFields } from '../../../pages/LoginPage';
 import KeepLoginCheckBox from './KeepLoginCheckBox';
+import { LoginFields } from '../../../../pages/LoginPage';
+import { Spacing } from '../../../../shared/Spacing';
+import InputField from '../../../../shared/InputField';
 
 interface LoginEmailProps {
   nextStep: () => void;

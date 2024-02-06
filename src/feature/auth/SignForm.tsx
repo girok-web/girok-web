@@ -1,9 +1,9 @@
 import { css } from '@emotion/react';
 import { ButtonHTMLAttributes, FormHTMLAttributes, PropsWithChildren } from 'react';
-import { colorPalette } from '../styles/colorPalette';
-import { typographyMap } from '../styles/typography';
-import Text from '../shared/Text';
 import styled from '@emotion/styled';
+import { colorPalette } from '../../styles/colorPalette';
+import Text from '../../shared/Text';
+import { typographyMap } from '../../styles/typography';
 
 export default function SignForm({ children, ...props }: PropsWithChildren<FormHTMLAttributes<HTMLFormElement>>) {
   return (

@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
-import { colorPalette } from '../styles/colorPalette';
 import { Link } from 'react-router-dom';
-import { RouterPath } from '../hooks/useRouter';
+import { RouterPath } from '../../hooks/useRouter';
+import { colorPalette } from '../../styles/colorPalette';
 
 interface AuthPromptLinkProps {
   message: string;

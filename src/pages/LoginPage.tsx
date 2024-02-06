@@ -1,7 +1,7 @@
-import LoginEmail from '../auth/login/components/LoginEmail';
-import LoginPassword from '../auth/login/components/LoginPassword';
+import LoginEmail from '../feature/auth/login/components/LoginEmail';
+import LoginPassword from '../feature/auth/login/components/LoginPassword';
+import useLogin from '../feature/auth/login/hooks/useLogin';
 import { useFunnel } from '../hooks/use-funnel/useFunnel';
-import useLogin from '../auth/login/hooks/useLogin';
 import { FormProvider, useForm } from 'react-hook-form';
 
 export interface LoginFields {

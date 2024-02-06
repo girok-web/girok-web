@@ -1,12 +1,12 @@
 import SignForm from '../../SignForm';
-import { SignupFields } from '../../../pages/SignupPage';
-import { Spacing } from '../../../shared/Spacing';
-import envelopeWhiteIcon from '../../../assets/icons/envelope-white.svg';
+import envelopeWhiteIcon from '../../../../assets/icons/envelope-white.svg';
 import { css } from '@emotion/react';
-import InputField from '../../../shared/InputField';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import usePostEmailVerification from '../remotes/hooks/usePostEmailVerification';
 import { useEffect } from 'react';
+import { SignupFields } from '../../../../pages/SignupPage';
+import { Spacing } from '../../../../shared/Spacing';
+import InputField from '../../../../shared/InputField';
 
 interface SignupEmailProps {
   nextStep: () => void;

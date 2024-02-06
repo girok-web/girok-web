@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
 import SignForm from '../../SignForm';
-import { Spacing } from '../../../shared/Spacing';
 import AuthPromptLink from '../../AuthPromptLink';
 import MoveToReset from './MoveToReset';
 import { PostLoginRequest } from '../remotes/query';
 import { UseMutateFunction } from '@tanstack/react-query';
-import InputField from '../../../shared/InputField';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
-import { LoginFields } from '../../../pages/LoginPage';
 import KeepLoginCheckBox from './KeepLoginCheckBox';
+import { LoginFields } from '../../../../pages/LoginPage';
+import { Spacing } from '../../../../shared/Spacing';
+import InputField from '../../../../shared/InputField';
 
 interface LoginPasswordProps {
   login: UseMutateFunction<{ accessToken: string; refreshToken: string }, Error, PostLoginRequest, unknown>;
