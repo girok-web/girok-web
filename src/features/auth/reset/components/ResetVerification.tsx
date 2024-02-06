@@ -2,7 +2,6 @@ import { css } from '@emotion/react';
 import SignForm from '../../SignForm';
 import envelopeBlackIcon from '../../../../assets/icons/envelope-black.svg';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
-import { usePostResetVerification, usePostResetVerificationCheck } from '../remotes/query';
 import { useEffect } from 'react';
 import { isAxiosError } from 'axios';
 import { ResetFields } from '../../../../pages/ResetPage';
@@ -10,6 +9,8 @@ import { Spacing } from '../../../../shared/Spacing';
 import InputField from '../../../../shared/InputField';
 import { typographyMap } from '../../../../styles/typography';
 import { colorPalette } from '../../../../styles/colorPalette';
+import usePostResetVerificationCheck from '../remotes/postResetVerificationCheck';
+import usePostResetVerification from '../remotes/postResetVerification';
 
 interface ResetVerificationProps {
   nextStep: () => void;

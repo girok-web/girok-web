@@ -1,11 +1,11 @@
 import SignForm from '../../SignForm';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
-import { ResetPasswordRequest } from '../remotes/query';
 import { useEffect } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 import { ResetFields } from '../../../../pages/ResetPage';
 import { Spacing } from '../../../../shared/Spacing';
 import InputField from '../../../../shared/InputField';
+import { ResetPasswordRequest } from '../remotes/patchResetPassword';
 
 interface ResetPasswordProps {
   resetPassword: UseMutateFunction<unknown, Error, ResetPasswordRequest, unknown>;
