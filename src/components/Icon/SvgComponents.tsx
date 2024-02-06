@@ -96,3 +96,21 @@ export function EyeOff({ ...props }) {
     </svg>
   );
 }
+
+export function SidebarLeft({ ...props }) {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path d="M18 18L14 14L18 10" stroke="#686868" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M12 18L8 14L12 10" stroke="#686868" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  );
+}
+
+export function SidebarRight({ ...props }) {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path d="M10 18L14 14L10 10" stroke="#686868" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M16 18L20 14L16 10" stroke="#686868" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  );
+}
