@@ -2,7 +2,7 @@ import ResetComplete from '../features/auth/reset/components/ResetComplete';
 import ResetEmail from '../features/auth/reset/components/ResetEmail';
 import ResetPassword from '../features/auth/reset/components/ResetPassword';
 import ResetVerification from '../features/auth/reset/components/ResetVerification';
-import { usePatchResetPassword } from '../features/auth/reset/remotes/query';
+import usePatchResetPassword from '../features/auth/reset/remotes/patchResetPassword';
 import { useFunnel } from '../hooks/use-funnel/useFunnel';
 import { FormProvider, useForm } from 'react-hook-form';
 
