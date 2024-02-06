@@ -1,12 +1,12 @@
 import SignForm from '../../SignForm';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
-import { SignupRequest } from '../remotes/query';
 import { UseMutateFunction } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import AuthPromptLink from '../../AuthPromptLink';
 import { SignupFields } from '../../../../pages/SignupPage';
 import { Spacing } from '../../../../shared/Spacing';
 import InputField from '../../../../shared/InputField';
+import { SignupRequest } from '../remotes/postSignup';
 
 interface SignupPasswordProps {
   signup: UseMutateFunction<unknown, Error, SignupRequest, unknown>;

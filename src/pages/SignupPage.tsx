@@ -2,7 +2,7 @@ import SignupComplete from '../features/auth/signup/components/SignupComplete';
 import SignupEmail from '../features/auth/signup/components/SignupEmail';
 import SignupPassword from '../features/auth/signup/components/SignupPassword';
 import SignupVerification from '../features/auth/signup/components/SignupVerification';
-import useSignup from '../features/auth/signup/remotes/hooks/useSignup';
+import useSignup from '../features/auth/signup/remotes/postSignup';
 import { useFunnel } from '../hooks/use-funnel/useFunnel';
 import { FormProvider, useForm } from 'react-hook-form';
 

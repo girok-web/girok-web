@@ -2,8 +2,6 @@ import { css } from '@emotion/react';
 import SignForm from '../../SignForm';
 import envelopeBlackIcon from '../../../../assets/icons/envelope-black.svg';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
-import usePostEmailVerification from '../remotes/hooks/usePostEmailVerification';
-import usePostEmailVerificationCheck from '../remotes/hooks/usePostEmailVerificationCheck';
 import { useEffect } from 'react';
 import AuthPromptLink from '../../AuthPromptLink';
 import { SignupFields } from '../../../../pages/SignupPage';
@@ -11,6 +9,8 @@ import { Spacing } from '../../../../shared/Spacing';
 import InputField from '../../../../shared/InputField';
 import { typographyMap } from '../../../../styles/typography';
 import { colorPalette } from '../../../../styles/colorPalette';
+import usePostEmailVerification from '../remotes/postEmailVerification';
+import usePostEmailVerificationCheck from '../remotes/postEmailVerificationCheck';
 
 interface SignupVerificationProps {
   nextStep: () => void;
