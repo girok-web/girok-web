@@ -1,18 +1,23 @@
-import { PropsWithChildren, ReactNode } from 'react';
+import React, { PropsWithChildren, ReactNode } from 'react';
 import Text from '../../../components/Text';
 import { css } from '@emotion/react';
 import { colorPalette } from '../../../styles/colorPalette';
 import { Spacing } from '../../../components/Spacing';
 import Icon from '../../../components/Icon';
 import Flex from '../../../components/Flex';
+import assert from '../../../utils/assert';
 
 interface CardProps extends PropsWithChildren {
   header: ReactNode;
   description?: string;
-  addContent: () => void;
 }
 
-function Card({ header, description, addContent, children }: CardProps) {
+function Card({ header, description, children }: CardProps) {
+  assert(
+    React.isValidElement(children) && children.type === Card.Content,
+    'Card component should have only one Card.Content component as its child',
+  );
+
   return (
     <article
       css={css`
@@ -28,7 +33,7 @@ function Card({ header, description, addContent, children }: CardProps) {
         border: 1.5px solid ${colorPalette.gray1};
       `}
     >
-      <Header header={header} addContent={addContent} />
+      <Header header={header} />
       {description ? (
         <>
           <Spacing size={6} />
@@ -41,22 +46,23 @@ function Card({ header, description, addContent, children }: CardProps) {
   );
 }
 
-function Header({ header, addContent }: { header: ReactNode; addContent: () => void }) {
+function TopAddButton({ addContent }: { addContent: () => void }) {
   return (
-    <>
-      {typeof header === 'string' ? <Text typography="subString">{header}</Text> : header}
-      <button
-        onClick={addContent}
-        css={css`
-          position: absolute;
-          top: 12px;
-          right: 12px;
-        `}
-      >
-        <Icon name="plus" />
-      </button>
-    </>
+    <button
+      onClick={addContent}
+      css={css`
+        position: absolute;
+        top: 12px;
+        right: 12px;
+      `}
+    >
+      <Icon name="plus" />
+    </button>
   );
+}
+
+function Header({ header }: { header: ReactNode }) {
+  return <>{typeof header === 'string' ? <Text typography="subString">{header}</Text> : header}</>;
 }
 
 function Description({ description }: { description: string }) {
@@ -115,8 +121,48 @@ function NoContent({ type, addContent }: { type: 'event' | 'todo' | 'category' |
   );
 }
 
-function Content({ children }: PropsWithChildren) {
-  return children;
+interface ContentProps extends PropsWithChildren {
+  addContent: () => void;
+  contentLength: number;
+  확장표시기준개수: number;
+  isExpand: boolean;
+  onExpand: () => void;
+  onCollapse: () => void;
+}
+
+function Content({
+  addContent,
+  contentLength,
+  확장표시기준개수,
+  isExpand = false,
+  onExpand,
+  onCollapse,
+  children,
+}: ContentProps) {
+  if (contentLength === 0) {
+    return (
+      <>
+        <TopAddButton addContent={addContent} />
+        <NoContent type="event" addContent={addContent} />
+      </>
+    );
+  }
+
+  return (
+    <>
+      <TopAddButton addContent={addContent} />
+      {children}
+      {contentLength > 0 && contentLength <= 확장표시기준개수 && (
+        <AddContentButton label="Add event" addContent={addContent} />
+      )}
+      {contentLength > 확장표시기준개수 && (
+        <>
+          <Spacing size={9} />
+          <ExpandCollapseButton isExpand={isExpand} onExpand={onExpand} onCollapse={onCollapse} />
+        </>
+      )}
+    </>
+  );
 }
 
 function AddContentButton({ label, addContent }: { label: string; addContent: () => void }) {
@@ -175,8 +221,5 @@ function ExpandCollapseButton({
 }
 
 Card.Content = Content;
-Card.NoContent = NoContent;
-Card.AddContentButton = AddContentButton;
-Card.ExpandCollapseButton = ExpandCollapseButton;
 
 export default Card;

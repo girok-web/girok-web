@@ -1,21 +1,20 @@
 import styled from '@emotion/styled';
 import { colorPalette } from '../../styles/colorPalette';
-import Text from '../../components/Text';
-import Icon from '../../components/Icon';
 import { Spacing } from '../../components/Spacing';
+import Header from './components/Header';
+import TodayEventsCard from './components/TodayEventsCard';
+import TodoListCard from './components/TodoListCard';
+import CategoryCard from './components/CategoryCard';
 
 function SidebarCard() {
   return (
     <Container>
-      <Header>
-        <Text typography="body1">girok()</Text>
-        <Icon name="sidebar-left" />
-      </Header>
+      <Header />
       <Spacing size={18} />
       <Cards>
-        <Card />
-        <Card />
-        <Card />
+        <TodayEventsCard />
+        <TodoListCard />
+        <CategoryCard />
       </Cards>
     </Container>
   );
@@ -23,6 +22,7 @@ function SidebarCard() {
 
 const Container = styled.div`
   width: 344px;
+  min-width: 344px;
   min-height: 100vh;
 
   padding: 17px 20px;
@@ -35,29 +35,11 @@ const Container = styled.div`
     0px 4px 27px 0px #00000012;
 `;
 
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
 const Cards = styled.div`
   display: flex;
   flex-direction: column;
 
   gap: 24px;
-`;
-
-const Card = styled.div`
-  width: 100%;
-  min-height: 280px;
-
-  padding: 24px 20px;
-
-  background-color: ${colorPalette.white};
-
-  border-radius: 16px;
-  border: 1.5px solid ${colorPalette.gray1};
 `;
 
 export default SidebarCard;

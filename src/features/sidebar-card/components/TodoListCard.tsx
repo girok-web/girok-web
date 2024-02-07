@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import Card from './Card';
 import Checkbox from '../../../components/Checkbox';
-import { Spacing } from '../../../components/Spacing';
 
 const todoList = [
   { id: 1, content: 'go to market' },
@@ -13,28 +12,26 @@ const todoList = [
 ];
 
 function TodoListCard() {
+  const addTodo = () => {};
+
   return (
-    <Card header="Todolist" addContent={() => {}}>
-      <Card.Content>
-        {todoList.length !== 0 ? (
-          <TodoList>
-            {todoList.map((todo) => (
-              <TodoItem key={todo.id}>
-                <Checkbox name={String(todo.id)} content={todo.content} />
-              </TodoItem>
-            ))}
-          </TodoList>
-        ) : (
-          <Card.NoContent type="todo" addContent={() => {}} />
-        )}
+    <Card header="Todolist">
+      <Card.Content
+        addContent={addTodo}
+        contentLength={todoList.length}
+        확장표시기준개수={5}
+        isExpand={false}
+        onExpand={() => {}}
+        onCollapse={() => {}}
+      >
+        <TodoList>
+          {todoList.map((todo) => (
+            <TodoItem key={todo.id}>
+              <Checkbox name={String(todo.id)} content={todo.content} />
+            </TodoItem>
+          ))}
+        </TodoList>
       </Card.Content>
-      {todoList.length > 0 && todoList.length <= 5 && <Card.AddContentButton label="Add todo" addContent={() => {}} />}
-      {todoList.length > 5 && (
-        <>
-          <Spacing size={9} />
-          <Card.ExpandCollapseButton isExpand={true} onExpand={() => {}} onCollapse={() => {}} />
-        </>
-      )}
     </Card>
   );
 }
