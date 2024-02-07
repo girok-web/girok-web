@@ -46,21 +46,6 @@ function Card({ header, description, children }: CardProps) {
   );
 }
 
-function TopAddButton({ addContent }: { addContent: () => void }) {
-  return (
-    <button
-      onClick={addContent}
-      css={css`
-        position: absolute;
-        top: 12px;
-        right: 12px;
-      `}
-    >
-      <Icon name="plus" />
-    </button>
-  );
-}
-
 function Header({ header }: { header: ReactNode }) {
   return <>{typeof header === 'string' ? <Text typography="subString">{header}</Text> : header}</>;
 }
@@ -75,49 +60,6 @@ function Description({ description }: { description: string }) {
     >
       {description}
     </Text>
-  );
-}
-
-function NoContent({ type, addContent }: { type: 'event' | 'todo' | 'category' | 'tag'; addContent: () => void }) {
-  return (
-    <Flex
-      as="button"
-      direction="column"
-      justify="center"
-      align="center"
-      onClick={addContent}
-      css={css`
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-
-        gap: 8px;
-
-        width: 80%;
-        height: 50%;
-      `}
-    >
-      <Text typography="smallBody" color="gray3">
-        No {type}
-      </Text>
-      <Text
-        typography="smallBody"
-        color="gray3"
-        css={css`
-          display: flex;
-          align-items: center;
-        `}
-      >
-        <Icon
-          name="weak-plus"
-          css={css`
-            margin-right: 4px;
-          `}
-        />{' '}
-        Add new
-      </Text>
-    </Flex>
   );
 }
 
@@ -162,6 +104,64 @@ function Content({
         </>
       )}
     </>
+  );
+}
+
+function TopAddButton({ addContent }: { addContent: () => void }) {
+  return (
+    <button
+      onClick={addContent}
+      css={css`
+        position: absolute;
+        top: 12px;
+        right: 12px;
+      `}
+    >
+      <Icon name="plus" />
+    </button>
+  );
+}
+
+function NoContent({ type, addContent }: { type: 'event' | 'todo' | 'category' | 'tag'; addContent: () => void }) {
+  return (
+    <Flex
+      as="button"
+      direction="column"
+      justify="center"
+      align="center"
+      onClick={addContent}
+      css={css`
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        gap: 8px;
+
+        width: 80%;
+        height: 50%;
+      `}
+    >
+      <Text typography="smallBody" color="gray3">
+        No {type}
+      </Text>
+      <Text
+        typography="smallBody"
+        color="gray3"
+        css={css`
+          display: flex;
+          align-items: center;
+        `}
+      >
+        <Icon
+          name="weak-plus"
+          css={css`
+            margin-right: 4px;
+          `}
+        />{' '}
+        Add new
+      </Text>
+    </Flex>
   );
 }
 
