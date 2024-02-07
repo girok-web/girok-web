@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactNode } from 'react';
+import React, { PropsWithChildren, ReactNode, useState } from 'react';
 import Text from '../../../components/Text';
 import { css } from '@emotion/react';
 import { colorPalette } from '../../../styles/colorPalette';
@@ -67,20 +67,23 @@ interface ContentProps extends PropsWithChildren {
   addContent: () => void;
   contentLength: number;
   확장표시기준개수: number;
-  isExpand: boolean;
   onExpand: () => void;
   onCollapse: () => void;
 }
 
-function Content({
-  addContent,
-  contentLength,
-  확장표시기준개수,
-  isExpand = false,
-  onExpand,
-  onCollapse,
-  children,
-}: ContentProps) {
+function Content({ addContent, contentLength, 확장표시기준개수, onExpand, onCollapse, children }: ContentProps) {
+  const [isExpand, setIsExpand] = useState(false);
+
+  const onExpandHandler = () => {
+    setIsExpand((prev) => !prev);
+
+    if (isExpand) {
+      onCollapse();
+    } else {
+      onExpand();
+    }
+  };
+
   if (contentLength === 0) {
     return (
       <>
@@ -100,7 +103,7 @@ function Content({
       {contentLength > 확장표시기준개수 && (
         <>
           <Spacing size={9} />
-          <ExpandCollapseButton isExpand={isExpand} onExpand={onExpand} onCollapse={onCollapse} />
+          <ExpandCollapseButton isExpand={isExpand} onClick={onExpandHandler} />
         </>
       )}
     </>
@@ -185,18 +188,10 @@ function AddContentButton({ label, addContent }: { label: string; addContent: ()
   );
 }
 
-function ExpandCollapseButton({
-  onExpand,
-  onCollapse,
-  isExpand = false,
-}: {
-  onExpand: () => void;
-  onCollapse: () => void;
-  isExpand: boolean;
-}) {
+function ExpandCollapseButton({ onClick, isExpand = false }: { onClick: () => void; isExpand: boolean }) {
   return (
     <button
-      onClick={isExpand ? onCollapse : onExpand}
+      onClick={onClick}
       css={css`
         width: 100%;
         height: 32px;

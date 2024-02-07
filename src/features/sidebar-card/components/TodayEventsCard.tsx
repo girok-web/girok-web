@@ -11,7 +11,6 @@ function TodayEventsCard() {
         addContent={addEvent}
         contentLength={todayEvents.length}
         확장표시기준개수={5}
-        isExpand={false}
         onExpand={() => {}}
         onCollapse={() => {}}
       >

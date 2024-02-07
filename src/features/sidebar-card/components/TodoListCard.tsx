@@ -20,7 +20,6 @@ function TodoListCard() {
         addContent={addTodo}
         contentLength={todoList.length}
         확장표시기준개수={5}
-        isExpand={false}
         onExpand={() => {}}
         onCollapse={() => {}}
       >

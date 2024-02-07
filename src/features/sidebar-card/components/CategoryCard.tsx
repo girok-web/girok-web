@@ -15,7 +15,6 @@ function CategoryCard() {
         addContent={() => {}}
         contentLength={0}
         확장표시기준개수={5}
-        isExpand={false}
         onExpand={() => {}}
         onCollapse={() => {}}
       ></Card.Content>
