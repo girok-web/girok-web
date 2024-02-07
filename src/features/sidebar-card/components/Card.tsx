@@ -9,9 +9,10 @@ import Flex from '../../../components/Flex';
 interface CardProps extends PropsWithChildren {
   header: ReactNode;
   description?: string;
+  addContent: () => void;
 }
 
-function Card({ header, description, children }: CardProps) {
+function Card({ header, description, addContent, children }: CardProps) {
   return (
     <article
       css={css`
@@ -27,7 +28,7 @@ function Card({ header, description, children }: CardProps) {
         border: 1.5px solid ${colorPalette.gray1};
       `}
     >
-      <Header header={header} />
+      <Header header={header} addContent={addContent} />
       {description ? (
         <>
           <Spacing size={6} />
@@ -40,11 +41,12 @@ function Card({ header, description, children }: CardProps) {
   );
 }
 
-function Header({ header }: { header: ReactNode }) {
+function Header({ header, addContent }: { header: ReactNode; addContent: () => void }) {
   return (
     <>
       {typeof header === 'string' ? <Text typography="subString">{header}</Text> : header}
       <button
+        onClick={addContent}
         css={css`
           position: absolute;
           top: 12px;
@@ -70,14 +72,14 @@ function Description({ description }: { description: string }) {
   );
 }
 
-function NoContent({ onClick }: { onClick: () => void }) {
+function NoContent({ type, addContent }: { type: 'event' | 'todo' | 'category' | 'tag'; addContent: () => void }) {
   return (
     <Flex
       as="button"
       direction="column"
       justify="center"
       align="center"
-      onClick={onClick}
+      onClick={addContent}
       css={css`
         position: absolute;
         top: 50%;
@@ -91,7 +93,7 @@ function NoContent({ onClick }: { onClick: () => void }) {
       `}
     >
       <Text typography="smallBody" color="gray3">
-        No event
+        No {type}
       </Text>
       <Text
         typography="smallBody"
@@ -114,9 +116,46 @@ function NoContent({ onClick }: { onClick: () => void }) {
 }
 
 function Content({ children }: PropsWithChildren) {
-  return <>{children != null ? children : <NoContent onClick={() => {}} />}</>;
+  return children;
+}
+
+function ExpandCollapseButton({
+  onExpand,
+  onCollapse,
+  isExpand = false,
+}: {
+  onExpand: () => void;
+  onCollapse: () => void;
+  isExpand: boolean;
+}) {
+  return (
+    <button
+      onClick={isExpand ? onCollapse : onExpand}
+      css={css`
+        width: 100%;
+        height: 32px;
+
+        border: 1.5px solid ${colorPalette.gray1};
+        border-radius: 8px;
+      `}
+    >
+      <Flex align="center" justify="center">
+        <Icon
+          name={isExpand ? 'up-arrow' : 'down-arrow'}
+          css={css`
+            margin-right: 4px;
+          `}
+        />
+        <Text typography="smallBody" color="gray3">
+          {isExpand ? 'Minimize' : 'See more'}
+        </Text>
+      </Flex>
+    </button>
+  );
 }
 
 Card.Content = Content;
+Card.NoContent = NoContent;
+Card.ExpandCollapseButton = ExpandCollapseButton;
 
 export default Card;
