@@ -119,6 +119,26 @@ function Content({ children }: PropsWithChildren) {
   return children;
 }
 
+function AddContentButton({ label, addContent }: { label: string; addContent: () => void }) {
+  return (
+    <button
+      css={css`
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 9.5px 0;
+      `}
+      onClick={addContent}
+    >
+      <Icon name="weak-plus" />
+      <Spacing direction="horizontal" size={4} />
+      <Text typography="smallBody" color="gray3">
+        {label}
+      </Text>
+    </button>
+  );
+}
+
 function ExpandCollapseButton({
   onExpand,
   onCollapse,
@@ -156,6 +176,7 @@ function ExpandCollapseButton({
 
 Card.Content = Content;
 Card.NoContent = NoContent;
+Card.AddContentButton = AddContentButton;
 Card.ExpandCollapseButton = ExpandCollapseButton;
 
 export default Card;
