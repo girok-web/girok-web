@@ -2,9 +2,9 @@ import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colorPalette } from '../../styles/colorPalette';
 import { ANIMATION_DURATION } from './constants';
-import Text from '../../shared/Text';
 import closeIcon from '../../assets/icons/close.svg';
 import { useEffect, useState } from 'react';
+import Text from '../../components/Text';
 
 interface ToastProps {
   message: string;
