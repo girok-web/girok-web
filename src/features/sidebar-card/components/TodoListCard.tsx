@@ -17,6 +17,7 @@ function TodoListCard() {
   return (
     <Card header="Todolist">
       <Card.Content
+        type="todo"
         addContent={addTodo}
         contentLength={todoList.length}
         확장표시기준개수={5}

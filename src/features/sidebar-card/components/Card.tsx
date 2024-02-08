@@ -7,6 +7,8 @@ import Icon from '../../../components/Icon';
 import Flex from '../../../components/Flex';
 import assert from '../../../utils/assert';
 
+type ContentType = 'category' | 'tag' | 'event' | 'todo';
+
 interface CardProps extends PropsWithChildren {
   header: ReactNode;
   description?: string;
@@ -64,6 +66,7 @@ function Description({ description }: { description: string }) {
 }
 
 interface ContentProps extends PropsWithChildren {
+  type: ContentType;
   addContent: () => void;
   contentLength: number;
   확장표시기준개수: number;
@@ -71,7 +74,7 @@ interface ContentProps extends PropsWithChildren {
   onCollapse: () => void;
 }
 
-function Content({ addContent, contentLength, 확장표시기준개수, onExpand, onCollapse, children }: ContentProps) {
+function Content({ type, addContent, contentLength, 확장표시기준개수, onExpand, onCollapse, children }: ContentProps) {
   const [isExpand, setIsExpand] = useState(false);
 
   const onExpandHandler = () => {
@@ -88,7 +91,7 @@ function Content({ addContent, contentLength, 확장표시기준개수, onExpand
     return (
       <>
         <TopAddButton addContent={addContent} />
-        <NoContent type="event" addContent={addContent} />
+        <NoContent type={type} addContent={addContent} />
       </>
     );
   }
@@ -98,7 +101,7 @@ function Content({ addContent, contentLength, 확장표시기준개수, onExpand
       <TopAddButton addContent={addContent} />
       {children}
       {contentLength > 0 && contentLength <= 확장표시기준개수 && (
-        <AddContentButton label="Add event" addContent={addContent} />
+        <AddContentButton type={type} addContent={addContent} />
       )}
       {contentLength > 확장표시기준개수 && (
         <>
@@ -125,7 +128,7 @@ function TopAddButton({ addContent }: { addContent: () => void }) {
   );
 }
 
-function NoContent({ type, addContent }: { type: 'event' | 'todo' | 'category' | 'tag'; addContent: () => void }) {
+function NoContent({ type, addContent }: { type: ContentType; addContent: () => void }) {
   return (
     <Flex
       as="button"
@@ -168,7 +171,7 @@ function NoContent({ type, addContent }: { type: 'event' | 'todo' | 'category' |
   );
 }
 
-function AddContentButton({ label, addContent }: { label: string; addContent: () => void }) {
+function AddContentButton({ type, addContent }: { type: ContentType; addContent: () => void }) {
   return (
     <button
       css={css`
@@ -182,7 +185,7 @@ function AddContentButton({ label, addContent }: { label: string; addContent: ()
       <Icon name="weak-plus" />
       <Spacing direction="horizontal" size={4} />
       <Text typography="smallBody" color="gray3">
-        {label}
+        Add {type}
       </Text>
     </button>
   );

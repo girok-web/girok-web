@@ -8,6 +8,7 @@ function TodayEventsCard() {
   return (
     <Card header="Today's events" description="12/15 Fri">
       <Card.Content
+        type="event"
         addContent={addEvent}
         contentLength={todayEvents.length}
         확장표시기준개수={5}
