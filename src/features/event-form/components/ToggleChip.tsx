@@ -56,9 +56,8 @@ const selectedTimeStyle = css`
 `;
 
 const disabledTimeStyle = css`
-  border: 1px solid ${colorPalette.gray0};
+  border: 1px solid ${colorPalette.gray2};
   color: ${colorPalette.gray2};
-  background-color: ${colorPalette.gray1};
 `;
 
 const fieldStyle = ({ selected }: Pick<ToggleChip, 'selected'>) => css`
