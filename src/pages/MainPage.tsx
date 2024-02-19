@@ -2,13 +2,13 @@ import { css } from '@emotion/react';
 import { Link } from 'react-router-dom';
 import { typographyMap } from '../styles/typography';
 import { colorPalette } from '../styles/colorPalette';
-import SidebarCard from '../features/sidebar-card/SidebarCard';
+import SidebarCards from '../features/sidebar-card/SidebarCards';
 import styled from '@emotion/styled';
 
 export default function MainPage() {
   return (
     <Layout>
-      <SidebarCard />
+      <SidebarCards />
       <div>
         <h2
           css={css([

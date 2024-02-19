@@ -6,7 +6,7 @@ import TodayEventsCard from './components/TodayEventsCard';
 import TodoListCard from './components/TodoListCard';
 import CategoryCard from './components/CategoryCard';
 
-function SidebarCard() {
+function SidebarCards() {
   return (
     <Container>
       <Header />
@@ -42,4 +42,4 @@ const Cards = styled.div`
   gap: 24px;
 `;
 
-export default SidebarCard;
+export default SidebarCards;
