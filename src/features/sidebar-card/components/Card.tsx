@@ -191,7 +191,7 @@ function AddContentButton({ type, addContent }: { type: ContentType; addContent:
   );
 }
 
-function ExpandCollapseButton({ onClick, isExpand = false }: { onClick: () => void; isExpand: boolean }) {
+function ExpandCollapseButton({ onClick, isExpand }: { onClick: () => void; isExpand: boolean }) {
   return (
     <button
       onClick={onClick}
