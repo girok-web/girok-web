@@ -100,9 +100,6 @@ function Content({ type, addContent, contentLength, 확장표시기준개수, on
     <>
       <TopAddButton addContent={addContent} />
       {children}
-      {contentLength > 0 && contentLength <= 확장표시기준개수 && (
-        <AddContentButton type={type} addContent={addContent} />
-      )}
       {contentLength > 확장표시기준개수 && (
         <>
           <Spacing size={9} />
@@ -168,26 +165,6 @@ function NoContent({ type, addContent }: { type: ContentType; addContent: () => 
         Add new
       </Text>
     </Flex>
-  );
-}
-
-function AddContentButton({ type, addContent }: { type: ContentType; addContent: () => void }) {
-  return (
-    <button
-      css={css`
-        display: flex;
-        align-items: center;
-        width: 100%;
-        padding: 9.5px 0;
-      `}
-      onClick={addContent}
-    >
-      <Icon name="weak-plus" />
-      <Spacing direction="horizontal" size={4} />
-      <Text typography="smallBody" color="gray3">
-        Add {type}
-      </Text>
-    </button>
   );
 }
 
