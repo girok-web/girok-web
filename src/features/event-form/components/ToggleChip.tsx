@@ -2,15 +2,25 @@ import { css } from '@emotion/react';
 import { colorPalette } from '../../../styles/colorPalette';
 import { ChipMinus, ChipPlus } from '../../../components/Icon/SvgComponents';
 
-interface ToggleChip {
-  disabled?: boolean;
-  type: 'time' | 'field';
+interface BaseProps {
   label: string;
   selected: boolean;
   onClick: () => void;
 }
 
-function ToggleChip({ disabled = false, type, label, selected, onClick }: ToggleChip) {
+type TimeChipProps = BaseProps & {
+  type: 'time';
+  disabled?: boolean;
+};
+
+type FieldChipProps = BaseProps & {
+  type: 'field';
+  disabled?: never;
+};
+
+type ToggleChipProps = TimeChipProps | FieldChipProps;
+
+function ToggleChip({ disabled = false, type, label, selected, onClick }: ToggleChipProps) {
   return (
     <button
       css={css([
@@ -37,7 +47,7 @@ const base = css`
   border-radius: 16px;
 `;
 
-const timeStyle = ({ selected, disabled }: Pick<ToggleChip, 'selected' | 'disabled'>) => css`
+const timeStyle = ({ selected, disabled }: Pick<ToggleChipProps, 'selected' | 'disabled'>) => css`
   ${defaultTimeStyle};
   ${selected ? selectedTimeStyle : undefined};
   ${disabled ? disabledTimeStyle : undefined};
@@ -60,7 +70,7 @@ const disabledTimeStyle = css`
   color: ${colorPalette.gray2};
 `;
 
-const fieldStyle = ({ selected }: Pick<ToggleChip, 'selected'>) => css`
+const fieldStyle = ({ selected }: Pick<ToggleChipProps, 'selected'>) => css`
   ${defaultFieldStyle};
   ${selected ? selectedFieldStyle : undefined}
 `;
