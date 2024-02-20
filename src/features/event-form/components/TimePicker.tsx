@@ -1,10 +1,7 @@
 import { css } from '@emotion/react';
 import { colorPalette } from '../../../styles/colorPalette';
 import styled from '@emotion/styled';
-
-const convertHourToMinute = (hour: number) => {
-  return (hour * 5) % 60;
-};
+import { convertHourToMinute } from '../utils/convertTime';
 
 type TimePickerMode = 'hour' | 'minute';
 
