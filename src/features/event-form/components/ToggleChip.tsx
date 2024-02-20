@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { colorPalette } from '../../../styles/colorPalette';
-import { ChipMinus, ChipPlus } from '../../../components/Icon/SvgComponents';
+import Icon from '../../../components/Icon';
 
 interface BaseProps {
   label: string;
@@ -31,7 +31,7 @@ function ToggleChip({ disabled = false, type, label, selected, onClick }: Toggle
       onClick={onClick}
       disabled={disabled}
     >
-      {selected ? <ChipMinus /> : <ChipPlus />}
+      {selected ? <Icon name="chip-minus" /> : <Icon name="chip-plus" />}
       {label}
     </button>
   );
