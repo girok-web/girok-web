@@ -5,7 +5,7 @@ interface FlexProps {
   align?: CSSProperties['alignItems'];
   justify?: CSSProperties['justifyContent'];
   direction?: CSSProperties['flexDirection'];
-  gap?: CSSProperties['gap'];
+  gap?: number;
 }
 
 const Flex = styled.div<FlexProps>`
@@ -13,7 +13,7 @@ const Flex = styled.div<FlexProps>`
   align-items: ${({ align }) => align};
   justify-content: ${({ justify }) => justify};
   flex-direction: ${({ direction }) => direction};
-  gap: ${({ gap }) => gap};
+  gap: ${({ gap }) => gap}px;
 `;
 
 export default Flex;
