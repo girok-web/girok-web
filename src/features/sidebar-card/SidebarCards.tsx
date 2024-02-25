@@ -5,17 +5,18 @@ import Header from './components/Header';
 import TodayEventsCard from './components/TodayEventsCard';
 import TodoListCard from './components/TodoListCard';
 import CategoryCard from './components/CategoryCard';
+import Flex from '../../components/Flex';
 
 function SidebarCards() {
   return (
     <Container>
       <Header />
       <Spacing size={18} />
-      <Cards>
+      <Flex direction="column" gap={24}>
         <TodayEventsCard />
         <TodoListCard />
         <CategoryCard />
-      </Cards>
+      </Flex>
     </Container>
   );
 }
@@ -33,13 +34,6 @@ const Container = styled.div`
   box-shadow:
     1px 1px 5px 0px #00000012,
     0px 4px 27px 0px #00000012;
-`;
-
-const Cards = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  gap: 24px;
 `;
 
 export default SidebarCards;
