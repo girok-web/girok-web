@@ -96,3 +96,20 @@ export function EyeOff({ ...props }) {
     </svg>
   );
 }
+
+export function ChipPlus({ ...props }) {
+  return (
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path d="M2 5.89941L10 5.89941" stroke="currentColor" stroke-linecap="round" />
+      <path d="M6 10L6 2" stroke="currentColor" stroke-linecap="round" />
+    </svg>
+  );
+}
+
+export function ChipMinus({ ...props }) {
+  return (
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path d="M2 6H10" stroke="currentColor" stroke-linecap="round" />
+    </svg>
+  );
+}
