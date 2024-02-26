@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { colorPalette } from '../../../styles/colorPalette';
 import styled from '@emotion/styled';
-import { convertHourToMinute } from '../utils/convertTime';
+import { convertHourHandToMinuteHand } from '../utils/convertTime';
 
 type TimePickerMode = 'hour' | 'minute';
 
@@ -9,23 +9,17 @@ interface TimePickerProps {
   mode: TimePickerMode;
   hour: number;
   minute: number;
-  onHourChange: (hour: TimePickerProps['hour']) => void;
-  onMinuteChange: (minute: TimePickerProps['minute']) => void;
+  onHourChange: (hourHand: TimePickerProps['hour']) => void;
+  onMinuteChange: (minuteHand: TimePickerProps['minute']) => void;
 }
 
-function TimePicker({
-  hour: selectedHour,
-  minute: selectedMinute,
-  mode,
-  onHourChange,
-  onMinuteChange,
-}: TimePickerProps) {
-  const handleClickHourPicker = (hour: number) => {
+function TimePicker({ hour: hourHand, minute: minuteHand, mode, onHourChange, onMinuteChange }: TimePickerProps) {
+  const handleClickHourPicker = (hourHand: number) => {
     if (mode === 'hour') {
-      onHourChange(hour);
+      onHourChange(hourHand);
     }
     if (mode === 'minute') {
-      onMinuteChange(convertHourToMinute(hour));
+      onMinuteChange(convertHourHandToMinuteHand(hourHand));
     }
   };
 
@@ -38,9 +32,10 @@ function TimePicker({
               hour={hour}
               onClick={() => handleClickHourPicker(hour)}
               css={css([
-                selectedHour === hour && (mode === 'hour' ? modeSelected : nonModeSelected),
-                selectedMinute === convertHourToMinute(hour) && (mode === 'minute' ? modeSelected : nonModeSelected),
-                selectedHour === hour && selectedMinute === convertHourToMinute(selectedHour) && modeSelected,
+                hourHand === hour && (mode === 'hour' ? modeSelected : nonModeSelected),
+                minuteHand === convertHourHandToMinuteHand(hour) &&
+                  (mode === 'minute' ? modeSelected : nonModeSelected),
+                hourHand === hour && minuteHand === convertHourHandToMinuteHand(hourHand) && modeSelected,
               ])}
             >
               {hour}
@@ -48,8 +43,8 @@ function TimePicker({
           </HourBox>
         ))}
       </Clock>
-      <MinuteIndicator mode={mode} selectedMinute={selectedMinute} />
-      <HourIndicator mode={mode} selectedHour={selectedHour} />
+      <MinuteIndicator mode={mode} minuteHand={minuteHand} />
+      <HourIndicator mode={mode} hourHand={hourHand} />
       <CenterDot />
     </Container>
   );
@@ -105,7 +100,7 @@ const CenterDot = styled.div`
   transform: translate(-50%, -50%);
 `;
 
-const HourIndicator = styled.div<{ mode: TimePickerMode; selectedHour: TimePickerProps['hour'] }>`
+const HourIndicator = styled.div<{ mode: TimePickerMode; hourHand: TimePickerProps['hour'] }>`
   position: absolute;
   top: 50%;
   transform-origin: left center;
@@ -113,11 +108,11 @@ const HourIndicator = styled.div<{ mode: TimePickerMode; selectedHour: TimePicke
   width: 36px;
   left: calc(50% + 18px);
 
-  transform: translate(-50%, -50%) ${({ selectedHour }) => `rotate(calc(${selectedHour - 3} * 30deg))`};
+  transform: translate(-50%, -50%) ${({ hourHand }) => `rotate(calc(${hourHand - 3} * 30deg))`};
   border: 1px solid ${({ mode }) => (mode === 'hour' ? colorPalette.black : colorPalette.gray2)};
 `;
 
-const MinuteIndicator = styled.div<{ mode: TimePickerMode; selectedMinute: TimePickerProps['minute'] }>`
+const MinuteIndicator = styled.div<{ mode: TimePickerMode; minuteHand: TimePickerProps['minute'] }>`
   position: absolute;
   top: 50%;
   transform-origin: left center;
@@ -125,7 +120,7 @@ const MinuteIndicator = styled.div<{ mode: TimePickerMode; selectedMinute: TimeP
   width: 48px;
   left: calc(50% + 24px);
 
-  transform: translate(-50%, -50%) ${({ selectedMinute }) => `rotate(calc(${selectedMinute + 45} * 6deg))`};
+  transform: translate(-50%, -50%) ${({ minuteHand }) => `rotate(calc(${minuteHand + 45} * 6deg))`};
   border: 1px solid ${({ mode }) => (mode === 'minute' ? colorPalette.black : colorPalette.gray2)};
 `;
 

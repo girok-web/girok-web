@@ -1,3 +1,3 @@
-export const convertHourToMinute = (hour: number) => {
-  return (hour * 5) % 60;
+export const convertHourHandToMinuteHand = (hourHand: number) => {
+  return (hourHand * 5) % 60;
 };
