@@ -8,6 +8,7 @@ interface TextProps {
   color?: Color;
   display?: CSSProperties['display'];
   textAlign?: CSSProperties['textAlign'];
+  strike?: boolean;
 }
 
 const Text = styled.span<TextProps>(
@@ -16,6 +17,11 @@ const Text = styled.span<TextProps>(
     color: colorPalette[color],
     display,
     textAlign,
+  }),
+  ({ strike }) => ({
+    textDecoration: strike ? 'line-through' : 'none',
+    textDecorationColor: 'inherit',
+    textDecorationThickness: '1px',
   }),
 );
 

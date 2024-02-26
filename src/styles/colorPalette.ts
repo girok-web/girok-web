@@ -13,6 +13,7 @@ export const colorPalette = {
   gray4: '#686868',
   gray5: '#595959',
   gray6: '#2F3135',
+  grayFC: '#FCFCFC',
 
   // white & black
   white: '#FFFFFF',

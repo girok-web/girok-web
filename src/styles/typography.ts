@@ -8,6 +8,13 @@ export const typographyMap = {
     line-height: 1.3em;
   `,
 
+  subString: css`
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.02rem;
+    line-height: 19.09px;
+  `,
+
   body1: css`
     font-size: 16px;
     font-weight: 500;
