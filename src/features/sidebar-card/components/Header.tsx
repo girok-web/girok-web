@@ -17,8 +17,7 @@ const Container = styled(Flex)`
   top: 0;
   background-color: inherit;
   z-index: 50;
-
-  padding: 17px 20px 0 20px;
+  padding: 17px 20px 0;
 `;
 
 export default Header;

@@ -26,11 +26,8 @@ function Card({ header, description, children }: CardProps) {
         position: relative;
         width: 100%;
         min-height: 280px;
-
         padding: 24px 20px;
-
         background-color: ${colorPalette.white};
-
         border-radius: 16px;
         border: 1.5px solid ${colorPalette.gray1};
       `}
@@ -129,9 +126,7 @@ function NoContent({ type, addContent }: { type: ContentType; addContent: () => 
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-
         gap: 8px;
-
         width: 80%;
         height: 50%;
       `}
@@ -166,7 +161,6 @@ function ExpandCollapseButton({ onClick, isExpand }: { onClick: () => void; isEx
       css={css`
         width: 100%;
         height: 32px;
-
         border: 1.5px solid ${colorPalette.gray1};
         border-radius: 8px;
       `}

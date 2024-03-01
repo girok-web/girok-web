@@ -39,16 +39,13 @@ const ToastContainer = styled.div<{ width: string; isClosing: boolean; isOpening
   bottom: 0;
   right: 50%;
   transform: translate(50%, 48px);
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   width: ${({ width }) => (width === 'long' ? '420px' : '344px')};
   height: 48px;
   border-radius: 4px;
   padding: 4px 8px 4px 16px;
-
   background-color: ${colorPalette.gray6};
 
   ${({ isOpening }) =>

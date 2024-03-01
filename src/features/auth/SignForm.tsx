@@ -48,7 +48,7 @@ function Description({ content }: { content: string }) {
 const Input = styled.input<{ hasError?: boolean }>`
   width: 100%;
   height: 56px;
-  padding: 0px 16px;
+  padding: 0 16px;
   border: ${({ hasError }) => (hasError ? `1px solid ${colorPalette.red}` : `1px solid ${colorPalette.gray2}`)};
   border-radius: 4px;
 

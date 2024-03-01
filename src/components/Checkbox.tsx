@@ -34,7 +34,6 @@ function Checkbox({ name, content }: CheckboxProps) {
 const Label = styled.label`
   display: flex;
   align-items: center;
-
   cursor: pointer;
 
   input[type='checkbox'] {

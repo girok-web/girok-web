@@ -39,7 +39,7 @@ function CategoryCard() {
 const Tabs = styled.div``;
 
 const Tab = styled.button<{ selected: boolean }>`
-  padding: 0 6px 10px 6px;
+  padding: 0 6px 10px;
   border-bottom: 1px solid ${({ selected }) => (selected ? colorPalette.black : 'transparent')};
 
   & > span {
