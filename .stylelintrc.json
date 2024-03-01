@@ -1,7 +1,4 @@
 {
   "extends": ["stylelint-config-rational-order"],
-  "customSyntax": "postcss-styled-syntax",
-  "rules": {
-    "no-empty-source": null
-  }
+  "customSyntax": "postcss-styled-syntax"
 }
