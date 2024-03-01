@@ -1,38 +1,92 @@
 import { css } from '@emotion/react';
 
-export const typographyMap = {
-  headline: css`
+const weight = {
+  regular: 400,
+  medium: 500,
+  semibold: 600,
+};
+
+export const baseTypography = {
+  headline1: css`
     font-size: 32px;
-    font-weight: 500;
     letter-spacing: -0.02em;
-    line-height: 1.3em;
+    line-height: 125%;
+    font-weight: ${weight.medium};
   `,
-
-  subString: css`
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: -0.02rem;
-    line-height: 19.09px;
+  headline2: css`
+    font-size: 24px;
+    letter-spacing: -0.03em;
+    line-height: 125%;
+    font-weight: ${weight.medium};
   `,
-
+  body0: css`
+    font-size: 20px;
+    letter-spacing: -0.01em;
+    font-weight: ${weight.regular};
+  `,
   body1: css`
     font-size: 16px;
-    font-weight: 500;
     letter-spacing: -0.01em;
+    line-height: 140%;
+    font-weight: ${weight.regular};
   `,
-
   body2: css`
-    font-size: 16px;
-    font-weight: 400;
+    font-size: 14px;
     letter-spacing: -0.01em;
+    line-height: 130%;
+    font-weight: ${weight.regular};
+  `,
+  body3: css`
+    font-size: 12px;
+    letter-spacing: -0.01em;
+    line-height: 130%;
+    font-weight: ${weight.regular};
+  `,
+};
+
+export const typographyMap = {
+  headline1: css`
+    ${baseTypography.headline1};
   `,
 
-  smallBody: css`
-    font-size: 14px;
-    font-weight: 400;
-    letter-spacing: -0.01em;
-    // FIXME: line-height 추후 Figma에 반영되면 수정
-    line-height: 17px;
+  headline2: css`
+    ${baseTypography.headline2};
+  `,
+
+  body0: css`
+    ${baseTypography.body0};
+  `,
+
+  body1_r: css`
+    ${baseTypography.body1};
+  `,
+  body1_m: css`
+    ${baseTypography.body1};
+    font-weight: ${weight.medium};
+  `,
+  body1_sb: css`
+    ${baseTypography.body1};
+    font-weight: ${weight.semibold};
+  `,
+
+  body2_r: css`
+    ${baseTypography.body1};
+  `,
+  body2_m: css`
+    ${baseTypography.body2};
+    font-weight: ${weight.medium};
+  `,
+  body2_sb: css`
+    ${baseTypography.body2};
+    font-weight: ${weight.semibold};
+  `,
+
+  body3_r: css`
+    ${baseTypography.body3};
+  `,
+  body3_m: css`
+    ${baseTypography.body3};
+    font-weight: ${weight.medium};
   `,
 };
 
