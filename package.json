@@ -38,6 +38,7 @@
     "postcss-styled-syntax": "^0.6.4",
     "prettier": "3.2.4",
     "stylelint": "^16.2.1",
+    "stylelint-config-rational-order": "^0.1.2",
     "stylelint-config-standard": "^36.0.0",
     "typescript": "^5.2.2",
     "vite": "^5.0.8"
