@@ -22,7 +22,7 @@ function Checkbox({ name, content }: CheckboxProps) {
       {content ? (
         <>
           <Spacing direction="horizontal" size={8} />
-          <Text typography="smallBody" strike={checked ? true : false}>
+          <Text typography="body2_r" strike={checked ? true : false}>
             {content}
           </Text>
         </>

@@ -49,20 +49,11 @@ function Card({ header, description, children }: CardProps) {
 }
 
 function Header({ header }: { header: ReactNode }) {
-  return <>{typeof header === 'string' ? <Text typography="subString">{header}</Text> : header}</>;
+  return <>{typeof header === 'string' ? <Text typography="body1_sb">{header}</Text> : header}</>;
 }
 
 function Description({ description }: { description: string }) {
-  return (
-    <Text
-      typography="smallBody"
-      css={css`
-        font-weight: 500;
-      `}
-    >
-      {description}
-    </Text>
-  );
+  return <Text typography="body2_m">{description}</Text>;
 }
 
 interface ContentProps extends PropsWithChildren {
@@ -145,11 +136,11 @@ function NoContent({ type, addContent }: { type: ContentType; addContent: () => 
         height: 50%;
       `}
     >
-      <Text typography="smallBody" color="gray3">
+      <Text typography="body2_r" color="gray3">
         No {type}
       </Text>
       <Text
-        typography="smallBody"
+        typography="body2_r"
         color="gray3"
         css={css`
           display: flex;
@@ -187,7 +178,7 @@ function ExpandCollapseButton({ onClick, isExpand }: { onClick: () => void; isEx
             margin-right: 4px;
           `}
         />
-        <Text typography="smallBody" color="gray3">
+        <Text typography="body2_r" color="gray3">
           {isExpand ? 'Minimize' : 'See more'}
         </Text>
       </Flex>

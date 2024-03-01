@@ -12,7 +12,7 @@ interface TextProps {
 }
 
 const Text = styled.span<TextProps>(
-  ({ typography = 'body2' }) => typographyMap[typography],
+  ({ typography = 'body1_r' }) => typographyMap[typography],
   ({ color = 'black', display, textAlign }) => ({
     color: colorPalette[color],
     display,

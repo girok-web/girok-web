@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 function Header() {
   return (
     <Container justify="space-between" align="center">
-      <Text typography="body1">girok()</Text>
+      <Text typography="body1_r">girok()</Text>
       <Icon name="sidebar-left" />
     </Container>
   );

@@ -24,7 +24,7 @@ function Toast({ message, width, isOpen, close }: ToastProps) {
   // 따라서 첫 렌더링 시에는 null을 반환하여 Toast 컴포넌트를 그리지 않는다
   return isFirstRender ? null : (
     <ToastContainer width={width} isOpening={isOpen} isClosing={!isOpen}>
-      <Text typography="smallBody" color="white">
+      <Text typography="body2_r" color="white">
         {message}
       </Text>
       <button onClick={close}>

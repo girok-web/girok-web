@@ -13,11 +13,11 @@ function CategoryCard() {
       header={
         <Tabs>
           <Tab onClick={() => setTab('category')} selected={tab === 'category'}>
-            <Text typography="subString">Category</Text>
+            <Text typography="body2_sb">Category</Text>
           </Tab>
           <Spacing direction="horizontal" size={8} />
           <Tab onClick={() => setTab('tag')} selected={tab === 'tag'}>
-            <Text typography="subString">Tag</Text>
+            <Text typography="body2_sb">Tag</Text>
           </Tab>
         </Tabs>
       }
