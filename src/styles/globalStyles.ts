@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-import { colorPalette } from './colorPalette';
 
 export default css`
   @font-face {
@@ -238,9 +237,5 @@ export default css`
     background-color: transparent;
     border: none;
     cursor: pointer;
-  }
-
-  body {
-    background-color: ${colorPalette.gray0};
   }
 `;
