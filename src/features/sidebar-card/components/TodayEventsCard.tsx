@@ -1,3 +1,4 @@
+import Text from '../../../components/Text';
 import Card from './Card';
 
 const todayEvents: string[] = [];
@@ -16,7 +17,9 @@ function TodayEventsCard() {
         onCollapse={() => {}}
       >
         {todayEvents.map((event, index) => (
-          <div key={index}>{event}</div>
+          <Text key={index} typography="body2_r">
+            {event}
+          </Text>
         ))}
       </Card.Content>
     </Card>

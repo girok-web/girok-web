@@ -26,11 +26,8 @@ function Card({ header, description, children }: CardProps) {
         position: relative;
         width: 100%;
         min-height: 280px;
-
         padding: 24px 20px;
-
         background-color: ${colorPalette.white};
-
         border-radius: 16px;
         border: 1.5px solid ${colorPalette.gray1};
       `}
@@ -49,20 +46,11 @@ function Card({ header, description, children }: CardProps) {
 }
 
 function Header({ header }: { header: ReactNode }) {
-  return <>{typeof header === 'string' ? <Text typography="subString">{header}</Text> : header}</>;
+  return <>{typeof header === 'string' ? <Text typography="body1_sb">{header}</Text> : header}</>;
 }
 
 function Description({ description }: { description: string }) {
-  return (
-    <Text
-      typography="smallBody"
-      css={css`
-        font-weight: 500;
-      `}
-    >
-      {description}
-    </Text>
-  );
+  return <Text typography="body2_m">{description}</Text>;
 }
 
 interface ContentProps extends PropsWithChildren {
@@ -138,18 +126,16 @@ function NoContent({ type, addContent }: { type: ContentType; addContent: () => 
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-
         gap: 8px;
-
         width: 80%;
         height: 50%;
       `}
     >
-      <Text typography="smallBody" color="gray3">
+      <Text typography="body2_r" color="gray3">
         No {type}
       </Text>
       <Text
-        typography="smallBody"
+        typography="body2_r"
         color="gray3"
         css={css`
           display: flex;
@@ -175,7 +161,6 @@ function ExpandCollapseButton({ onClick, isExpand }: { onClick: () => void; isEx
       css={css`
         width: 100%;
         height: 32px;
-
         border: 1.5px solid ${colorPalette.gray1};
         border-radius: 8px;
       `}
@@ -187,7 +172,7 @@ function ExpandCollapseButton({ onClick, isExpand }: { onClick: () => void; isEx
             margin-right: 4px;
           `}
         />
-        <Text typography="smallBody" color="gray3">
+        <Text typography="body2_r" color="gray3">
           {isExpand ? 'Minimize' : 'See more'}
         </Text>
       </Flex>

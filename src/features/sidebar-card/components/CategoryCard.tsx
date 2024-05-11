@@ -13,11 +13,11 @@ function CategoryCard() {
       header={
         <Tabs>
           <Tab onClick={() => setTab('category')} selected={tab === 'category'}>
-            <Text typography="subString">Category</Text>
+            <Text typography="body2_sb">Category</Text>
           </Tab>
           <Spacing direction="horizontal" size={8} />
           <Tab onClick={() => setTab('tag')} selected={tab === 'tag'}>
-            <Text typography="subString">Tag</Text>
+            <Text typography="body2_sb">Tag</Text>
           </Tab>
         </Tabs>
       }
@@ -39,7 +39,7 @@ function CategoryCard() {
 const Tabs = styled.div``;
 
 const Tab = styled.button<{ selected: boolean }>`
-  padding: 0 6px 10px 6px;
+  padding: 0 6px 10px;
   border-bottom: 1px solid ${({ selected }) => (selected ? colorPalette.black : 'transparent')};
 
   & > span {

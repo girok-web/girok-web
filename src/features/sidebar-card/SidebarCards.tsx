@@ -17,7 +17,7 @@ function SidebarCards() {
         direction="column"
         gap={24}
         css={css`
-          padding: 0 20px 17px 20px;
+          padding: 0 20px 17px;
         `}
       >
         <TodayEventsCard />
@@ -33,16 +33,15 @@ const Container = styled.div`
   min-width: 344px;
   max-height: 100vh;
   overflow-y: scroll;
-
   background-color: ${colorPalette.grayFC};
   border-radius: 0 36px 0 0;
-
   box-shadow:
-    1px 1px 5px 0px #00000012,
-    0px 4px 27px 0px #00000012;
+    1px 1px 5px 0 #00000012,
+    0 4px 27px 0 #00000012;
 
-  // remove scroll bar style
+  /* remove scroll bar style */
   -ms-overflow-style: none;
+
   ::-webkit-scrollbar {
     display: none;
   }

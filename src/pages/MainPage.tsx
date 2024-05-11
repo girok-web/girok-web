@@ -12,7 +12,7 @@ export default function MainPage() {
       <div>
         <h2
           css={css([
-            typographyMap.headline,
+            typographyMap.headline1,
             {
               color: colorPalette.darkGray,
             },
@@ -28,7 +28,7 @@ export default function MainPage() {
         >
           <Link
             css={css([
-              typographyMap.body2,
+              typographyMap.body2_m,
               {
                 color: colorPalette.red,
               },
@@ -39,7 +39,7 @@ export default function MainPage() {
           </Link>
           <Link
             css={css([
-              typographyMap.body2,
+              typographyMap.body2_m,
               {
                 color: colorPalette.red,
               },
@@ -50,7 +50,7 @@ export default function MainPage() {
           </Link>
           <Link
             css={css([
-              typographyMap.body2,
+              typographyMap.body2_m,
               {
                 color: colorPalette.red,
               },

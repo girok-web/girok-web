@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 function Header() {
   return (
     <Container justify="space-between" align="center">
-      <Text typography="body1">girok()</Text>
+      <Text typography="body1_r">girok()</Text>
       <Icon name="sidebar-left" />
     </Container>
   );
@@ -17,8 +17,7 @@ const Container = styled(Flex)`
   top: 0;
   background-color: inherit;
   z-index: 50;
-
-  padding: 17px 20px 0 20px;
+  padding: 17px 20px 0;
 `;
 
 export default Header;

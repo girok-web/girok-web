@@ -31,7 +31,7 @@ export default function SignForm({ children, ...props }: PropsWithChildren<FormH
 
 function Title({ name }: { name: string }) {
   return (
-    <Text as="h2" typography="headline" textAlign="center">
+    <Text as="h2" typography="headline1" textAlign="center">
       {name}
     </Text>
   );
@@ -39,7 +39,7 @@ function Title({ name }: { name: string }) {
 
 function Description({ content }: { content: string }) {
   return (
-    <Text as="p" typography="body2" color="gray3">
+    <Text as="p" typography="body1_r" color="gray3">
       {content}
     </Text>
   );
@@ -48,7 +48,7 @@ function Description({ content }: { content: string }) {
 const Input = styled.input<{ hasError?: boolean }>`
   width: 100%;
   height: 56px;
-  padding: 0px 16px;
+  padding: 0 16px;
   border: ${({ hasError }) => (hasError ? `1px solid ${colorPalette.red}` : `1px solid ${colorPalette.gray2}`)};
   border-radius: 4px;
 
@@ -65,7 +65,7 @@ function Button({ children, ...props }: ButtonHTMLAttributes<HTMLButtonElement>)
   return (
     <button
       css={css([
-        typographyMap.body2,
+        typographyMap.body1_m,
         {
           width: '100%',
           height: 56,

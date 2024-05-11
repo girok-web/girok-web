@@ -8,7 +8,7 @@ interface MoveToResetProps {
 function MoveToReset({ linkText }: MoveToResetProps) {
   return (
     <Link to="/reset/email">
-      <Text typography="smallBody">{linkText}</Text>
+      <Text typography="body2_r">{linkText}</Text>
     </Link>
   );
 }
