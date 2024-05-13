@@ -77,7 +77,7 @@ export default function ResetVerification({ nextStep }: ResetVerificationProps) 
         onClick={() => {
           postResetVerification({ email });
         }}
-        css={css([typographyMap.smallBody, { color: colorPalette.darkGray }])}
+        css={css([typographyMap.body1_m, { color: colorPalette.darkGray }])}
       >
         <img
           src={envelopeBlackIcon}

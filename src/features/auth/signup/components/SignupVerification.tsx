@@ -75,7 +75,7 @@ export default function SignupVerification({ nextStep }: SignupVerificationProps
             postEmailVerification({ email });
           }}
           css={css([
-            typographyMap.smallBody,
+            typographyMap.body1_m,
             {
               color: colorPalette.darkGray,
             },
